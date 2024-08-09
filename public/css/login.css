@@ -1,0 +1,64 @@
+body {
+    /* background: rgb(220, 194, 252);
+    background: linear-gradient(190deg, rgba(220, 194, 252, 1) 0%, rgba(148, 198, 252, 1) 100%); */
+
+
+    /* background: rgb(169,13,19);
+    background: linear-gradient(45deg, rgba(169,13,19,1) 0%, rgba(61,61,62,1) 100%); */
+
+    background: rgb(217,24,31);
+    background: linear-gradient(45deg, rgba(217,24,31,1) 0%, rgba(106,106,109,1) 100%);
+}
+
+.error-msg {
+    color: rgb(203 0 19) !important;
+}
+
+canvas {
+    position: absolute;
+    z-index: 1;
+}
+
+.container {
+    min-height: 100vh;
+}
+
+.login-box, .signup-box {
+    transition: .5s;
+    z-index: 2;
+    box-shadow: 0 8px 22px -8px #000;
+    background: rgb(255 255 255 / 73%) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(1px) !important;
+    -webkit-backdrop-filter: blur(58px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.43) !important;
+}
+
+.login-box {
+    width: 500px;
+}
+
+.signup-box .logo {
+    width: 240px;
+}
+
+.login-box .switch .background {
+    transition: .5s;
+    /* background: rgb(9, 109, 217);
+    background: linear-gradient(90deg, rgba(9, 109, 217, 1) 0%, rgba(4, 58, 116, 1) 100%); */
+
+    background: rgb(217,24,31);
+    background: linear-gradient(45deg, rgba(217,24,31,1) 0%, rgba(106,106,109,1) 100%);
+}
+
+/* .login-box #admin-form {
+    display: none;
+} */
+
+
+button[type=submit] {
+    background: rgb(217,24,31);
+    background: linear-gradient(225deg, rgba(217,24,31,1) 0%, rgba(106,106,109,1) 100%);
+    border-color: #fff;
+    font-size: 18px;
+}

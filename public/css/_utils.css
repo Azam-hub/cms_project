@@ -1,0 +1,160 @@
+/* @font-face {
+    font-family: 'Poppins';
+    src: url(../fonts/Poppins/Poppins-Regular.ttf);
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --red-colour: rgb(217,24,31);
+    --grey-colour: rgb(119, 119, 122);
+}
+
+/* Universal class */
+
+.hide {
+    display: none ;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ---------------------- Table styling START ---------------------- */
+
+table th {
+    border: 2px solid #000 !important;
+}
+
+td, th {
+    vertical-align: middle;
+}
+
+.action-btns {
+    min-width: 120px;
+}
+
+/* button.primary-btn {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+button.primary-btn:hover {
+    background-color: #005dc0;
+}
+
+button.danger-btn {
+    background-color: #e22639;
+    border-color: #bd2130;
+}
+button.danger-btn:hover {
+    background-color: #b81526;
+} */
+
+/* ---------------------- Table styling END ---------------------- */
+
+
+/* ---------------------- Removing Spinner START ------------------------- */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* ---------------------- Removing Spinner END ------------------------- */
+
+
+
+/* ------- data table css corrector START ---------- */
+
+/* .dataTables_wrapper .dataTables_length {
+    
+} */
+
+div.dataTables_length {
+    margin-top: 15px;
+}
+
+div.dt-buttons {
+    position: relative;
+    left: 30px; 
+    /* top: 25px; */
+    margin-top: 15px;
+}
+
+div.dt-buttons button {
+    color: #fff !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    border-radius: 6px !important;
+}
+
+.dataTables_filter {
+    text-align: unset !important;
+}
+
+.dataTables_filter label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    /* margin-top: 10px; */
+}
+
+.dataTables_filter input {
+    border: 1px solid #000 !important;
+    border-radius: 5px !important;
+    padding: 6px 10px !important;
+    display: block;
+    width: 300px;
+    
+}
+
+table.dataTable {
+    border-collapse: collapse;
+}
+
+table.dataTable thead tr:nth-child(2) td {
+    padding: 2px !important;
+}
+
+table.dataTable thead tr:nth-child(2) td input {
+    width: 100%;
+    padding: 5px;
+}
+table.dataTable thead tr:nth-child(2) td input::before, table.dataTable thead tr:nth-child(2) td input::after {
+    content: '';
+    display: none;
+}
+
+@media screen and (max-width: 640px) {
+    div.dataTables_length {
+        margin-top: 15px;
+    }
+    div.dt-buttons {
+        top: 10px;
+        left: 0;
+        /* margin-bottom: 10px; */
+        margin-top: 0;
+    }
+    .dataTables_filter {
+        margin-top: 22px !important;
+    }
+}
+
+/* ------- data table css corrector END ---------- */

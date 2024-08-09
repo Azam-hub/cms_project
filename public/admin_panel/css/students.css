@@ -1,0 +1,39 @@
+.action-btns {
+    min-width: 140px !important;
+}
+.before-action-btns {
+    min-width: 145px;
+}
+
+#preview_image {
+    width: 180px;
+}
+
+
+.collapse-head {
+    background-color: rgb(234 234 234);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px 8px;
+    border: 1px solid rgb(208 208 208);
+}
+
+.collapse-head h5 {
+    font-size: 20px;
+}
+
+.left {
+    flex-shrink: 0;
+}
+.middle {
+    flex-grow: 1;
+    border-bottom: 1px solid black;
+    margin: 0 18px 11px;
+}
+.right {
+    flex-shrink: 0;
+}
+
+.right i {
+    font-size: 22px;
+}
