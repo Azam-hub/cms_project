@@ -8,6 +8,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    
 }
 
 :root {
@@ -114,7 +115,7 @@ div.dt-buttons button {
     font-weight: 600;
     margin-bottom: 20px;
     /* margin-top: 10px; */
-    
+
 }
 
 .dataTables_filter input {
