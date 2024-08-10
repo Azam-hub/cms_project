@@ -130,15 +130,20 @@ table.dataTable {
     border-collapse: collapse;
 }
 
-table.dataTable thead tr:nth-child(2) td {
+table.dataTable thead tr:nth-child(1) td {
     padding: 2px !important;
 }
 
-table.dataTable thead tr:nth-child(2) td input {
+table.dataTable thead tr:nth-child(1) td input {
     width: 100%;
-    padding: 5px;
+    padding: 4px 8px;
+    font-size: 14px;
+    min-width: 100px;
 }
-table.dataTable thead tr:nth-child(2) td input::before, table.dataTable thead tr:nth-child(2) td input::after {
+table.dataTable thead tr:nth-child(1) td input::placeholder {
+    font-size: 14px;
+}
+table.dataTable thead tr:nth-child(1) td input::before, table.dataTable thead tr:nth-child(1) td input::after {
     content: '';
     display: none;
 }

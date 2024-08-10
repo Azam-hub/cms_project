@@ -21,10 +21,10 @@ class AttendanceController extends Controller
         $number_of_day = Carbon::now()->format('N');
         // return $number_of_day;
         
-        $hour = (int) date('h');
+        $hour = (int) date('G');
         $timing = $hour . "-" . ($hour + 1);
 
-        $roster = Roster::where("timing", $timing)->where("admin_id", $admin_id)->first();
+        $roster = Roster::where("timing", $timing)->where("admin_id", $admin_id)->where('is_deleted', "0")->first();
 
         $students = [];
         $count = '';
@@ -42,11 +42,9 @@ class AttendanceController extends Controller
             ->where('status', "running")
             ->when($number_of_day > 5, 
             function ($query) {
-                // This is the 'if true' part
                 $query->where('shift', 'weekend');
             }, 
             function ($query) {
-                // This is the 'else' part
                 $query->where('shift', 'regular');
             })
             ->orderBy('id', "desc")
@@ -64,10 +62,6 @@ class AttendanceController extends Controller
 
     }
 
-    // function fetch_room_today() {
-    //     $rooms = Room::where("is_deleted", '0')->orderBy('id', "desc")->get();
-    //     return view("admin_panel.attendance.attendanceToday", compact('rooms'));
-    // }
     function fetch_room_record() {
         $rooms = Room::where("is_deleted", '0')->orderBy('id', "desc")->get();
         return view("admin_panel.attendance.attendanceRecord", compact('rooms'));

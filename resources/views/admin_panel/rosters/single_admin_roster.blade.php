@@ -40,16 +40,16 @@
                             <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('timing') ? 'is-invalid' : 'border-dark-subtle' }}">
                                 <option value="">-- Select Timing --</option>
                                 <option value="11-12">11:00 am to 12:00 am</option>
-                                <option value="12-1">12:00 am to 01:00 pm</option>
-                                <option value="1-2">01:00 pm to 02:00 pm</option>
-                                <option value="2-3">02:00 pm to 03:00 pm</option>
-                                <option value="3-4">03:00 pm to 04:00 pm</option>
-                                <option value="4-5">04:00 pm to 05:00 pm</option>
-                                <option value="5-6">05:00 pm to 06:00 pm</option>
-                                <option value="6-7">06:00 pm to 07:00 pm</option>
-                                <option value="7-8">07:00 pm to 08:00 pm</option>
-                                <option value="8-9">08:00 pm to 09:00 pm</option>
-                                <option value="9-10">09:00 pm to 10:00 pm</option>
+                                <option value="12-13">12:00 am to 01:00 pm</option>
+                                <option value="13-14">01:00 pm to 02:00 pm</option>
+                                <option value="14-15">02:00 pm to 03:00 pm</option>
+                                <option value="15-16">03:00 pm to 04:00 pm</option>
+                                <option value="16-17">04:00 pm to 05:00 pm</option>
+                                <option value="17-18">05:00 pm to 06:00 pm</option>
+                                <option value="18-19">06:00 pm to 07:00 pm</option>
+                                <option value="19-20">07:00 pm to 08:00 pm</option>
+                                <option value="20-21">08:00 pm to 09:00 pm</option>
+                                <option value="21-22">09:00 pm to 10:00 pm</option>
                                 
                             </select>
                             <div class="text-danger">@error('timing') {{ $message }} @enderror</div>
@@ -96,48 +96,6 @@
             <button class="btn btn-secondary" id="add-roster-btn" data-bs-toggle="modal" data-bs-target="#roster-modal">Add</button>
         </div>
     </div>
-    {{-- <div class="row mb-4">
-        <form method="POST">
-            <div class="row">
-                <div class="col-lg mb-3">
-                    <label for="select-room" class="form-label mb-1">Select Room</label>
-                    <select name="room" id="select-room" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('room') ? 'is-invalid' : 'border-dark-subtle' }}">
-                        <option value="">-- Select Room --</option>
-                        @forelse ($rooms as $room)
-                            <option value="{{ $room->id }}">{{ $room->name }}</option>
-                        @empty
-                            <option value="">No room added</option>
-                        @endforelse
-                    </select>
-                    <div class="text-danger">@error('room') {{ $message }} @enderror</div>
-                </div>
-                <div class="col-lg mb-3">
-                    <label for="select-timing" class="form-label mb-1">Select Timing</label>
-                    <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('timing') ? 'is-invalid' : 'border-dark-subtle' }}">
-                        <option value="">-- Select Timing --</option>
-                        <option value="11-12">11:00 am to 12:00 am</option>
-                        <option value="12-1">12:00 am to 01:00 pm</option>
-                        <option value="1-2">01:00 pm to 02:00 pm</option>
-                        <option value="2-3">02:00 pm to 03:00 pm</option>
-                        <option value="3-4">03:00 pm to 04:00 pm</option>
-                        <option value="4-5">04:00 pm to 05:00 pm</option>
-                        <option value="5-6">05:00 pm to 06:00 pm</option>
-                        <option value="6-7">06:00 pm to 07:00 pm</option>
-                        <option value="7-8">07:00 pm to 08:00 pm</option>
-                        <option value="8-9">08:00 pm to 09:00 pm</option>
-                        <option value="9-10">09:00 pm to 10:00 pm</option>
-            
-                    </select>
-                    <div class="text-danger">@error('timing') {{ $message }} @enderror</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-primary">Add Roster</button>
-                </div>
-            </div>
-        </form>
-    </div> --}}
     <div class="row flex-column ">
         <div class="col">
             <h5 class="fw-semibold">Rosters</h5>

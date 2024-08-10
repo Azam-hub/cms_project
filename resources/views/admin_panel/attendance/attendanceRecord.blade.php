@@ -2,8 +2,8 @@
 
 
 @section('stylesheet')
-    <!-- Light box link -->
-    <link rel="stylesheet" href="{{ asset('lightbox2-2.11.4/src/css/lightbox.css') }}">
+<!-- Light box link -->
+<link rel="stylesheet" href="{{ asset('lightbox2-2.11.4/src/css/lightbox.css') }}">
 @endsection
 
 
@@ -16,9 +16,9 @@
             <select id="room" class="form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="">-- Select Room --</option>
                 @forelse ($rooms as $room)
-                    <option value="{{ $room->id }}">{{ $room->name }}</option>
+                <option value="{{ $room->id }}">{{ $room->name }}</option>
                 @empty
-                    No rooms added.
+                No rooms added.
                 @endforelse
             </select>
         </div>
@@ -27,23 +27,23 @@
             <select id="timing" class="form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="" selected>-- Select Timing --</option>
                 <option value="11-12">11:00 am to 12:00 am</option>
-                <option value="12-1">12:00 am to 01:00 pm</option>
-                <option value="1-2">01:00 pm to 02:00 pm</option>
-                <option value="2-3">02:00 pm to 03:00 pm</option>
-                <option value="3-4">03:00 pm to 04:00 pm</option>
-                <option value="4-5">04:00 pm to 05:00 pm</option>
-                <option value="5-6">05:00 pm to 06:00 pm</option>
-                <option value="6-7">06:00 pm to 07:00 pm</option>
-                <option value="7-8">07:00 pm to 08:00 pm</option>
-                <option value="8-9">08:00 pm to 09:00 pm</option>
-                <option value="9-10">09:00 pm to 10:00 pm</option>
+                <option value="12-13">12:00 am to 01:00 pm</option>
+                <option value="13-14">01:00 pm to 02:00 pm</option>
+                <option value="14-15">02:00 pm to 03:00 pm</option>
+                <option value="15-16">03:00 pm to 04:00 pm</option>
+                <option value="16-17">04:00 pm to 05:00 pm</option>
+                <option value="17-18">05:00 pm to 06:00 pm</option>
+                <option value="18-19">06:00 pm to 07:00 pm</option>
+                <option value="19-20">07:00 pm to 08:00 pm</option>
+                <option value="20-21">08:00 pm to 09:00 pm</option>
+                <option value="21-22">09:00 pm to 10:00 pm</option>
             </select>
         </div>
         <div class="col-3">
             <label class="form-label mb-1">Select Room</label>
             <input type="date" id="date" class="form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
         </div>
-        
+
     </div>
 
     <div class="row flex-column ">
@@ -54,6 +54,18 @@
             <div class="table-responsive">
                 <table id="attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                     <thead>
+                        <tr class="search-row">
+                            <td class="search-row-1">S. No.</td>
+                            <td class="search-row-2">G.R. No.</td>
+                            <td class="search-row-3">Profile Picture</td>
+                            <td class="search-row-4">Name</td>
+                            <td class="search-row-5">Fatder's Name</td>
+                            <td class="search-row-6">Course</td>
+                            <td class="search-row-7">Shift</td>
+                            <td class="search-row-8">Status</td>
+                            <td class="search-row-9" class="action-btns">Action</td>
+                            <td class="search-row-10">Added On</td>
+                        </tr>
                         <tr>
                             <th>S. No.</th>
                             <th>G.R. No.</th>
@@ -61,6 +73,7 @@
                             <th>Name</th>
                             <th>Father's Name</th>
                             <th>Course</th>
+                            <th>Shift</th>
                             <th>Status</th>
                             <th class="action-btns">Action</th>
                             <th>Added On</th>
@@ -68,46 +81,7 @@
                     </thead>
                     <tbody>
 
-                        {{-- @forelse ($students as $student)
-                            <tr>
-                                <td>{{ $count }}.</td>
-                                <td>{{ $student->studentData->gr_no }}</td>
-                                <td class="profile-pic-td">
-                                    <a href="{{ asset('storage/'.$student->profile_pic) }}" data-lightbox="profile-pic-{{ $count }}">
-                                        <img src="{{ asset('storage/'.$student->profile_pic) }}" width="100px" alt="Profile Pic">
-                                    </a>
-                                </td>
-                                <td>{{ $student->name }}</td>
-                                <td>{{ $student->father_name }}</td>
-                                <td class="status-td text-center" style="font-size: 14px;">
-                                    <span class="px-2 py-1 rounded-2 text-light bg-danger">Absent</span>
-                                </td>
-                                <td class="action-btns text-center">
-                                    <button class="btn btn-primary " data-course-id="{{ $student->id }}">Present</button>
-                                </td>
-                                <td class="w-25">{!! date('h:i a <b>||</b> d M, Y', strtotime($student->created_at)) !!}</td>
-                            </tr>
-
-                            @php $count-- @endphp
-                        @empty
-                            No courses added
-                        @endforelse --}}
-                        
-
                     </tbody>
-                    <!-- <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                            <th>Salary</th>
-                        </tr>
-                    </tfoot> -->
                 </table>
                 <div class="msg"></div>
             </div>
@@ -119,14 +93,12 @@
 
 
 @section('script')
-    <!-- Light box link -->
-    <script src="{{ asset('lightbox2-2.11.4/src/js/lightbox.js') }}"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
-    <!-- <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script> -->
+<!-- Light box link -->
+<script src="{{ asset('lightbox2-2.11.4/src/js/lightbox.js') }}"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+<!-- <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script> -->
 
 <script>
-
-
     function formatDateTime(dateString) {
         // Create a new Date object from the dateString
         const date = new Date(dateString);
@@ -148,9 +120,112 @@
         return formattedDate;
     }
 
+    function fetch_students(room, timing, date) {
+
+        fetch('/admin/attendance/fetch_students/'+room+'/'+timing+'/'+date).then(function (response) {
+            return response.json()
+        }).then(function (data) {
+            // console.log(data);
+            
+            if ( $.fn.DataTable.isDataTable('#attendance-table') ) {
+                $('#attendance-table').DataTable().destroy();
+            }
+
+            let rows = "";
+            let count = data.length;
+
+            if (count == 0) {
+                let html = `<h5 class="text-center my-4">No students found of this room and time.</h5>`
+                $(".msg").html(html)
+                $("tbody").html("")
+                
+            } else {
+                $(".msg").html("")
+
+                // Retrieving all students
+                data.forEach(student => {
+
+                    let attendance = false;
+                    if (student.attendance != null) {
+                        attendance = student.attendance.status
+                    }
+                    
+                    rows += `<tr data-user-id="${student.user.id}">
+                                <td>${count}.</td>
+                                <td>${student.gr_no}</td>
+                                <td class="profile-pic-td">
+                                    <a href="${window.location.origin}/storage/${student.user.profile_pic}" data-lightbox="profile-pic-${count}">
+                                        <img src="${window.location.origin}/storage/${student.user.profile_pic}" width="100px" alt="Profile Pic">
+                                    </a>
+                                </td>
+                                <td>${student.user.name}</td>
+                                <td>${student.user.father_name}</td>
+                                <td>${student.course.name}</td>
+                                <td>${(student.shift == "regular" ? "Regular" : "Weekend")}</td>
+                                <td class="status-td text-center" style="font-size: 14px; width: 120px;">`
+                                    if (attendance == "present") {
+                                        rows += `<span class="px-2 py-1 rounded-2 text-light bg-success">Present</span>`
+                                    } else if (attendance == "absent") {
+                                        rows += `<span class="px-2 py-1 rounded-2 text-light bg-danger">Absent</span>`
+                                    } else {
+                                        rows += `<span class="px-2 py-1 rounded-2 text-light bg-warning">Not Marked</span>`                                        
+                                    }
+                                rows += `</td>
+                                <td class="action-btns text-center" style="width: 200px;">`
+                                    if (attendance == 'present') {
+                                        rows += `<button class="btn btn-danger attendance-btn" data-student-id="${student.id}">Absent</button>`
+                                    } else if (attendance == "absent") {
+                                        rows += `<button class="btn btn-primary attendance-btn" data-student-id="${student.id}">Present</button>`
+                                    } else {
+                                        rows += `
+                                            <button class="btn btn-primary attendance-btn" data-student-id="${student.id}">Present</button>
+                                            <button class="btn btn-danger attendance-btn" data-student-id="${student.id}">Absent</button>`
+                                    }
+                                rows += `</td>
+                                <td>${formatDateTime(student.created_at)}</td>
+                            </tr>`
+                    count--
+                });
+                $("tbody").html(rows)
+
+                $('#attendance-table').DataTable({
+                    initComplete: function () {
+                        let i = 1;
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                var column = this;
+                                var title = column.header().textContent;
+                
+                                // Create input element and add event listener
+                                $('<input type="text" placeholder="Search ' + title + '" />')
+                                    .appendTo($(`.search-row-${i}`).empty())
+                                    .on('keyup change clear', function () {
+                                        if (column.search() !== this.value) {
+                                            column.search(this.value).draw();
+                                        }
+                                    });
+
+                                i++;
+                            });
+                    },
+                    dom: 'lBfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
+                    "aaSorting": [], 
+
+                });
+
+            }
+        })
+    }
+
     
 
     $("#room, #timing, #date").change(function () {
+        $("tbody").html("")
+
         let room = $("#room").val()
         let timing = $("#timing").val()
         let inputDate = $("#date").val()
@@ -167,111 +242,10 @@
 
         if (room == "" || timing == "" || inputDate == "") {
             $(".msg").html(`<p class="text-center my-4">Please select all fields.</p>`)
-            $("tbody").html("")
         } else if (date > currentDate) {
             $(".msg").html(`<p class="text-center my-4">Please select date before <b>${currentDate.getDate()}-${currentDate.getMonth()}-${currentDate.getYear()}</b></p>`)
-            $("tbody").html("")
         } else {
-            
-            fetch('/admin/attendance/fetch_students/'+room+'/'+timing+'/'+inputDate).then(function (response) {
-                return response.json()
-            }).then(function (data) {
-                // console.log(data);
-
-                let rows = "";
-                let count = data.length;
-
-                if (count == 0) {
-                    let html = `<h5 class="text-center my-4">No students found of room <b><q>${room}</q></b> of this time.</h5>`
-                    $(".msg").html(html)
-                    $("tbody").html("")
-                    
-                } else {
-                    $(".msg").html("")
-
-                    // Retrieving all students
-                    data.forEach(student => {
-
-                        let attendance = false;
-                        // console.log(student.attendance);
-                        
-                        if (student.attendance != null) {
-                            attendance = student.attendance.status
-                        }
-
-                        // console.log(student);
-                        
-                        rows += `<tr data-user-id="${student.user.id}">
-                                    <td>${count}.</td>
-                                    <td>${student.gr_no}</td>
-                                    <td class="profile-pic-td">
-                                        <a href="${window.location.origin}/storage/${student.user.profile_pic}" data-lightbox="profile-pic-${count}">
-                                            <img src="${window.location.origin}/storage/${student.user.profile_pic}" width="100px" alt="Profile Pic">
-                                        </a>
-                                    </td>
-                                    <td>${student.user.name}</td>
-                                    <td>${student.user.father_name}</td>
-                                    <td>${student.course.name}</td>
-                                    <td class="status-td text-center" style="font-size: 14px; width: 120px;">`
-                                        if (attendance == "present") {
-                                            rows += `<span class="px-2 py-1 rounded-2 text-light bg-success">Present</span>`
-                                        } else if (attendance == "absent") {
-                                            rows += `<span class="px-2 py-1 rounded-2 text-light bg-danger">Absent</span>`
-                                        } else {
-                                            rows += `<span class="px-2 py-1 rounded-2 text-light bg-warning">Not Marked</span>`                                        
-                                        }
-                                    rows += `</td>
-                                    <td class="action-btns text-center" style="width: 200px;">`
-                                        if (attendance == 'present') {
-                                            rows += `<button class="btn btn-danger attendance-btn" data-student-id="${student.id}">Absent</button>`
-                                        } else if (attendance == "absent") {
-                                            rows += `<button class="btn btn-primary attendance-btn" data-student-id="${student.id}">Present</button>`
-                                        } else {
-                                            rows += `
-                                                <button class="btn btn-primary attendance-btn" data-student-id="${student.id}">Present</button>
-                                                <button class="btn btn-danger attendance-btn" data-student-id="${student.id}">Absent</button>`
-                                        }
-                                    rows += `</td>
-                                    <td class="w-25">${formatDateTime(student.created_at)}</td>
-                                </tr>`
-                        count--
-                    });
-                    $("tbody").html(rows)
-
-                    $('#attendance-table').DataTable({
-                        
-                        dom: 'lBfrtip',
-                        buttons: [
-                            'copy', 'csv', 'excel', 'pdf', 'print'
-                        ],
-                        "aaSorting": [], 
-
-                    });
-                    // new DataTable('#attendance-table', {
-                    //     initComplete: function () {
-                    //         this.api()
-                    //             .columns()
-                    //             .every(function () {
-                    //                 let column = this;
-                    //                 let title = column.footer().textContent;
-                    
-                    //                 // Create input element
-                    //                 let input = document.createElement('input');
-                    //                 input.placeholder = title;
-                    //                 column.footer().replaceChildren(input);
-                    
-                    //                 // Event listener for user input
-                    //                 input.addEventListener('keyup', () => {
-                    //                     if (column.search() !== this.value) {
-                    //                         column.search(input.value).draw();
-                    //                     }
-                    //                 });
-                    //             });
-                    //     }
-                    // });
-                }
-
-            })
+            fetch_students(room, timing, inputDate);            
         }
     })
 
@@ -323,5 +297,3 @@
 
 </script>
 @endsection
-
-

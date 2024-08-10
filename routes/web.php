@@ -54,7 +54,8 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
         Route::get('/admins/process_destroyAdmin/{id}', [AdminController::class, "process_destroyAdmin"])->name("admin_panel.process_destroyAdmin");
         
 
-        Route::get('/rosters/{id}', [RosterController::class, "index"])->name("admin_panel.rosters");
+        Route::get('/rosters', [RosterController::class, "rosters"])->name("admin_panel.rosters");
+        Route::get('/rosters/{id}', [RosterController::class, "single_admin_roster"])->name("admin_panel.single_admin_roster");
         Route::post('/rosters/process_addRoster', [RosterController::class, 'process_addRoster'])->name("admin_panel.process_addRoster");
         Route::post('/rosters/process_editRoster', [RosterController::class, 'process_editRoster'])->name("admin_panel.process_editRoster");
         Route::get('/rosters/process_destroyRoster/{id}', [RosterController::class, 'process_destroyRoster'])->name("admin_panel.process_destroyRoster");

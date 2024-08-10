@@ -100,6 +100,16 @@
                     </div>
                     <div class="link-section mb-1">
                         <div class="head row justify-content-between cursor-pointer">
+                            <a href="{{ route("admin_panel.rosters") }}" class="col row py-2 bg-transparent text-decoration-none">
+                                <div class="col-auto px-0">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                </div>
+                                <div class="col-auto">Rosters</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="link-section mb-1">
+                        <div class="head row justify-content-between cursor-pointer">
                             <a href="{{ route('admin_panel.rooms') }}" class="col row py-2 bg-transparent text-decoration-none">
                                 <div class="col-auto px-0">
                                     <i class="fa-solid fa-house"></i>

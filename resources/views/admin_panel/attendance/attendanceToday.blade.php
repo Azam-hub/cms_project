@@ -25,17 +25,6 @@
             <div class="table-responsive">
                 <table id="attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                     <thead>
-                        <tr>
-                            <th>S. No.</th>
-                            <th>G.R. No.</th>
-                            <th>Profile Picture</th>
-                            <th>Name</th>
-                            <th>Father's Name</th>
-                            <th>Course</th>
-                            <th>Status</th>
-                            <th class="action-btns">Action</th>
-                            <th>Added On</th>
-                        </tr>
                         <tr class="search-row">
                             <td class="search-row-1">S. No.</td>
                             <td class="search-row-2">G.R. No.</td>
@@ -43,9 +32,22 @@
                             <td class="search-row-4">Name</td>
                             <td class="search-row-5">Fatder's Name</td>
                             <td class="search-row-6">Course</td>
-                            <td class="search-row-7">Status</td>
-                            <td class="search-row-8" class="action-btns">Action</td>
-                            <td class="search-row-9">Added On</td>
+                            <td class="search-row-7">Shift</td>
+                            <td class="search-row-8">Status</td>
+                            <td class="search-row-9" class="action-btns">Action</td>
+                            <td class="search-row-10">Added On</td>
+                        </tr>
+                        <tr>
+                            <th>S. No.</th>
+                            <th>G.R. No.</th>
+                            <th>Profile Picture</th>
+                            <th>Name</th>
+                            <th>Father's Name</th>
+                            <th>Course</th>
+                            <th>Shift</th>
+                            <th>Status</th>
+                            <th class="action-btns">Action</th>
+                            <th>Added On</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +64,7 @@
                                 <td>{{ $student->user->name }}</td>
                                 <td>{{ $student->user->father_name }}</td>
                                 <td>{{ $student->course->name }}</td>
+                                <td>{{ $student->shift }}</td>
                                 <td class="status-td text-center" style="font-size: 14px; width: 120px;">
                                     @if ($student->attendance)
                                         @if ($student->attendance->status == "present")
@@ -99,7 +102,7 @@
                         
 
                     </tbody>
-                    <tfoot>
+                    <!-- <tfoot>
                         <tr>
                             <td>Name</td>
                             <td>Position</td>
@@ -111,7 +114,7 @@
                             <td>Salary</td>
                             <td>Salary</td>
                         </tr>
-                    </tfoot>
+                    </tfoot> -->
                 </table>
                 <div class="msg"></div>
             </div>
@@ -151,48 +154,8 @@
         return formattedDate;
     }
 
-    // $('#attendance-table').DataTable({
-    //     dom: 'lBfrtip',
-    //     buttons: [
-    //         'copy', 'csv', 'excel', 'pdf', 'print'
-    //     ],
-    //     "aaSorting": [],
-    //     columnDefs: [
-    //     {
-    //         dtOpts: {
-    //             searching: false,
-    //             info: true
-    //         },
-    //         targets: [2]
-    //     }
-    // ]
-
-    // });
-
-
     new DataTable('#attendance-table', {
-        // initComplete: function () {
-        //     this.api()
-        //         .columns()
-        //         .every(function () {
-        //             let column = this;
-        //             console.log(column);
-                    
-        //             let title = column.header().textContent;
-    
-        //             // Create input element
-        //             let input = document.createElement('input');
-        //             input.placeholder = title;
-        //             column.header().replaceChildren(input);
-    
-        //             // Event listener for user input
-        //             input.addEventListener('keyup', () => {
-        //                 if (column.search() !== this.value) {
-        //                     column.search(input.value).draw();
-        //                 }
-        //             });
-        //         });
-        // },
+        
         initComplete: function () {
             let i = 1;
             this.api()
@@ -209,15 +172,22 @@
                                 column.search(this.value).draw();
                             }
                         });
+
                     i++;
                 });
+            // console.log(this.api().column("#shift"))
         },
+
         dom: 'lBfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
         "aaSorting": [],
     });
+
+    // var table = new DataTable('#attendance-table');
+    // console.log(table.columns(".text-input"))
+
 
     $(document).on('click', '.attendance-btn', function () {
         let status_td = $(this).parent().prev()

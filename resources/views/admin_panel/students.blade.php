@@ -74,13 +74,6 @@
                                 <div class="text-danger">@error('mobile_no') {{ $message }} @enderror</div>
                             </div>
                             <div class="col-lg mb-3">
-                                <label for="discount" class="form-label mb-1">Enter Discount(%) <span class="text-danger">(IF)</span></label>
-                                <input type="number" name="discount" id="discount" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('discount') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Discount" value="{{ old('discount') }}">
-                                <div class="text-danger">@error('discount') {{ $message }} @enderror</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg mb-3">
                                 <label for="select-shift" class="form-label mb-1">Select Shift</label>
                                 <select name="shift" id="select-shift" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('shift') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     <option value="">-- Select shift --</option>
@@ -89,7 +82,18 @@
                                 </select>
                                 <div class="text-danger">@error('room') {{ $message }} @enderror</div>
                             </div>
-                            <div class="col-lg mb-3"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg mb-3">
+                                <label for="registration-fees" class="form-label mb-1">Enter Registration Fees</label>
+                                <input type="number" name="registration_fees" id="registration-fees" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('registration_fees') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Registration Fees" value="{{ old('registration_fees') }}">
+                                <div class="text-danger">@error('registration_fees') {{ $message }} @enderror</div>
+                            </div>
+                            <div class="col-lg mb-3">
+                                <label for="discount" class="form-label mb-1">Enter Discount(%) <span class="text-danger">(IF)</span></label>
+                                <input type="number" name="discount" id="discount" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('discount') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Discount" value="{{ old('discount') }}">
+                                <div class="text-danger">@error('discount') {{ $message }} @enderror</div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg mb-3">
@@ -116,7 +120,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-lg mb-3">
                                 <label for="select-room" class="form-label mb-1">Select Room</label>
@@ -135,16 +138,16 @@
                                 <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('timing') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     <option value="">-- Select Timing --</option>
                                     <option value="11-12">11:00 am to 12:00 am</option>
-                                    <option value="12-1">12:00 am to 01:00 pm</option>
-                                    <option value="1-2">01:00 pm to 02:00 pm</option>
-                                    <option value="2-3">02:00 pm to 03:00 pm</option>
-                                    <option value="3-4">03:00 pm to 04:00 pm</option>
-                                    <option value="4-5">04:00 pm to 05:00 pm</option>
-                                    <option value="5-6">05:00 pm to 06:00 pm</option>
-                                    <option value="6-7">06:00 pm to 07:00 pm</option>
-                                    <option value="7-8">07:00 pm to 08:00 pm</option>
-                                    <option value="8-9">08:00 pm to 09:00 pm</option>
-                                    <option value="9-10">09:00 pm to 10:00 pm</option>
+                                    <option value="12-13">12:00 am to 01:00 pm</option>
+                                    <option value="13-14">01:00 pm to 02:00 pm</option>
+                                    <option value="14-15">02:00 pm to 03:00 pm</option>
+                                    <option value="15-16">03:00 pm to 04:00 pm</option>
+                                    <option value="16-17">04:00 pm to 05:00 pm</option>
+                                    <option value="17-18">05:00 pm to 06:00 pm</option>
+                                    <option value="18-19">06:00 pm to 07:00 pm</option>
+                                    <option value="19-20">07:00 pm to 08:00 pm</option>
+                                    <option value="20-21">08:00 pm to 09:00 pm</option>
+                                    <option value="21-22">09:00 pm to 10:00 pm</option>
                                     
                                 </select>
                                 <div class="text-danger">@error('timing') {{ $message }} @enderror</div>
@@ -591,7 +594,7 @@
     })
 
     // Show student data on index page
-    $("table tr").click(function(evt){
+    $("table tr").dblclick(function(evt){
         if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
             return;             
         }
