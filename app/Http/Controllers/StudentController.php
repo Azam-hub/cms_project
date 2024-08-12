@@ -23,6 +23,7 @@ class StudentController extends Controller
         $rooms = Room::where('is_deleted', '0')->orderBy('id', 'desc')->get();
 
         $studentsCount = $students->count();
+        // return dd($students);
         return view('admin_panel.students', compact("students", 'studentsCount', 'courses', 'rooms'));
     }
 
@@ -49,7 +50,7 @@ class StudentController extends Controller
             "cnic_bform_no" => "required|numeric|digits:13|unique:users,cnic_bform_no",
             "dob" => "required",
             "mobile_no" => "required|numeric|digits:11",
-            "discount" => "numeric",
+            "discount" => "required|numeric",
             "address" => "required",
             "password" => "required|confirmed",
             "password_confirmation" => "required",
@@ -144,6 +145,9 @@ class StudentController extends Controller
             $student->timing = $req->timing;
             $student->shift = $req->shift;
             $student->user_id = $user->id; // Assign the user's ID to the student
+            if (isset($req->exclude)) {
+                $student->exclude = '1';
+            }
 
             // Save the student
             if ($student->save()) {
@@ -205,6 +209,11 @@ class StudentController extends Controller
         $student->timing = $req->timing;
         $student->seat = $req->seat;
         $student->shift = $req->shift;
+        if (isset($req->exclude)) {
+            $student->exclude = '1';
+        } else {
+            $student->exclude = '0';
+        }
 
         if (isset($req->profile_pic)) {
             $image_path = storage_path('app/public/' . $user->profile_pic);

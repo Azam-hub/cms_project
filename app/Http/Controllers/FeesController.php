@@ -10,10 +10,106 @@ use Illuminate\Support\Carbon;
 
 class FeesController extends Controller
 {
+    
     function index() {
         $rooms = Room::where('is_deleted', '0')->orderBy('id', 'desc')->get();
+        $submitted_fees = Fee::orderBy('id', "desc")->get();
 
-        return view("admin_panel.fees", compact("rooms"));
+        // $pending_fees = Fee::orderBy('id', "desc")->get();
+
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        // Fetch rows older than a month where student_id hasn't been added in the current month
+        // $pending_fees = Fee::join("students", "students.id", "=", "fees.student_id")
+        // ->join("users", "users.id",  "=", "students.user_id")
+        // ->join("rooms", "rooms.id",  "=", "students.room")
+        // ->selectRaw('
+        // gr_no, 
+        // users.name AS user_name, 
+        // timing, 
+        // rooms.name AS room_name, 
+        // student_id, 
+        // MAX(fees.month) AS last_month, 
+        // MAX(fees.created_at) AS last_created_at, 
+        // MAX(fees.id) AS last_id'
+        // )
+        // ->where('students.status', "running")
+        // ->where('fees.created_at', '<', Carbon::now()->subMonth())
+        // ->whereNotIn('fees.student_id', function ($query) use ($startOfMonth, $endOfMonth) {
+        //     $query
+        //     ->select('fees.student_id')
+        //     ->from('fees')
+        //     ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+        // })
+        // ->groupBy("student_id")
+        // ->where('students.exclude', '0')
+        // ->get();
+
+        // $pending_fees = Student::join("fees", "fees.student_id", "=", "students.id")
+        // ->join("users", "users.id",  "=", "students.user_id")
+        // ->join("rooms", "rooms.id",  "=", "students.room")
+        // ->selectRaw('
+        // gr_no, 
+        // users.name AS user_name, 
+        // timing, 
+        // rooms.name AS room_name, 
+        // student_id AS fee_student_id'
+        // )
+        // ->where('students.status', "running")
+        // ->where(function ($query) use ($startOfMonth, $endOfMonth) {
+        //     // $query->where('fees.created_at', '<', Carbon::now()->subMonth())
+        //     // ->orWhere("");
+        //     $query->whereNotIn('fees.student_id', function ($query) use ($startOfMonth, $endOfMonth) {
+        //         $query
+        //         ->select('fees.student_id')
+        //         ->from('fees')
+        //         ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+        //     })
+            
+        //     ;
+        // })
+        // ->where('purpose', "=", "monthly")
+        // ->groupBy("fees.student_id")
+        // ->where('students.exclude', '0')
+        // ->get()
+        // ;
+        
+        $pending_fees = Student::leftJoin('fees', function ($join) use ($startOfMonth, $endOfMonth) {
+            $join->on('fees.student_id', '=', 'students.id')
+                 ->where('fees.purpose', '=', 'monthly')
+                 ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+        })
+        ->join("users", "users.id",  "=", "students.user_id")
+        ->join("rooms", "rooms.id",  "=", "students.room")
+        ->selectRaw('
+        students.gr_no, 
+        users.name AS user_name, 
+        students.timing, 
+        rooms.name AS room_name, 
+        fees.student_id AS fee_student_id,
+        students.id AS student_p_id
+        ')
+        ->whereNull('fees.id') // Check where no entry exists in fees for the current month with purpose 'monthly'
+        ->where('students.status', 'running')
+        ->where('students.exclude', '0')
+        // ->where('students.room', '3')
+        // ->where('students.timing', '17-18')
+        // ->orderBy("students.gr_no", "asc")
+        ->orderBy("users.name", "asc")
+        ->get();
+
+        // return dd($pending_fees);
+        foreach ($pending_fees as $pending_fee) {
+            echo $pending_fee->gr_no. " : " .$pending_fee->user_name;
+            echo "<br>";
+            echo $pending_fee->month. " : " .$pending_fee->created_at;
+            echo "<br>";
+            echo "<br>";
+        }
+
+        return view("admin_panel.fees", compact("rooms", "submitted_fees"));
+
     }
 
     function fetch_students($room, $timing) {
@@ -65,7 +161,7 @@ class FeesController extends Controller
         $status = $student_row->status;
 
         $duration = $student_row->course->duration;
-        $per_month_fees = $total_annual_fees / $duration;
+        $per_month_fees = ceil(($total_annual_fees / $duration) / 10) * 10;
 
         $arr = [
             "name" => $name, 
@@ -109,7 +205,42 @@ class FeesController extends Controller
         }
 
         if ($fee->save()) {
-            return redirect()->route('admin_panel.fees')->with('success', 'Fee Record has been added successfully.');
+
+            $fee_student = Fee::with(["student", "student.user", "student.course"])->where("id", $fee->id)->first();
+            $total_paid_fees = Fee::where("student_id", $req->student_id)->where("purpose", 'monthly')->sum("fees.amount");
+
+            list($startTime, $endTime) = explode('-', $fee_student->student->timing);
+            $formattedTimeRange = date('g A', strtotime($startTime . ':00')) . ' to ' . date('g A', strtotime($endTime . ':00'));
+
+            $formattedDate = "";
+            if ($fee_student->month == "-") {
+                $formattedDate = "-";
+            } else {
+                $date = Carbon::createFromFormat('n-Y', $fee_student->month);
+                $formattedDate = $date->format('M Y');
+            }
+
+            $duration = $fee_student->student->course->duration;
+            
+            $per_month_fees = ceil(($fee_student->student->annual_fees / $duration) / 10) * 10;
+
+            return redirect()->route('admin_panel.fees')->with([
+                'success' => 'Fee Record has been added successfully.',
+                'data' => [
+                    "slip_no" => $fee_student->id,
+                    "gr_no" => $fee_student->student->gr_no,
+                    "name" => $fee_student->student->user->name,
+                    "father_name" => $fee_student->student->user->father_name,
+                    "timing" => $formattedTimeRange,
+                    "course" => $fee_student->student->course->name,
+                    "purpose" => $fee_student->purpose,
+                    "fee_month" => $formattedDate,
+                    "monthly_fee" => $per_month_fees,
+                    "balance" => ($fee_student->student->annual_fees - $total_paid_fees),
+                    "amount" => $fee_student->amount,
+                    "date" => Carbon::now()->format('d M, Y'),
+                ],
+            ]);
         } else {
             return redirect()->route('admin_panel.fees')->with('error', 'Something went wrong!');
         }

@@ -77,24 +77,33 @@
                                 <label for="select-shift" class="form-label mb-1">Select Shift</label>
                                 <select name="shift" id="select-shift" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('shift') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     <option value="">-- Select shift --</option>
-                                    <option value="regular">Regular</option>
-                                    <option value="weekend">Weekend</option>
+                                    <option {{ (old('shift') == "regular") ? "selected" : "" }} value="regular">Regular</option>
+                                    <option {{ (old('shift') == "weekend") ? "selected" : "" }} value="weekend">Weekend</option>
                                 </select>
-                                <div class="text-danger">@error('room') {{ $message }} @enderror</div>
+                                <div class="text-danger">@error('shift') {{ $message }} @enderror</div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg mb-3">
-                                <label for="registration-fees" class="form-label mb-1">Enter Registration Fees</label>
-                                <input type="number" name="registration_fees" id="registration-fees" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('registration_fees') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Registration Fees" value="{{ old('registration_fees') }}">
-                                <div class="text-danger">@error('registration_fees') {{ $message }} @enderror</div>
-                            </div>
                             <div class="col-lg mb-3">
                                 <label for="discount" class="form-label mb-1">Enter Discount(%) <span class="text-danger">(IF)</span></label>
                                 <input type="number" name="discount" id="discount" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('discount') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Discount" value="{{ old('discount') }}">
                                 <div class="text-danger">@error('discount') {{ $message }} @enderror</div>
                             </div>
+                            <div class="col-lg mb-3"></div>
+                            {{-- <div class="col-lg mb-3">
+                                <label for="registration-fees" class="form-label mb-1">Enter Registration Fees</label>
+                                <input type="number" name="registration_fees" id="registration-fees" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('registration_fees') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Registration Fees" value="{{ old('registration_fees') }}">
+                                <div class="text-danger">@error('registration_fees') {{ $message }} @enderror</div>
+                            </div> --}}
                         </div>
+                        {{-- <div class="row">
+                            <div class="col-lg mb-3">
+                                <label for="description" class="form-label mb-1">Enter Fee Description</label>
+                                <textarea name="fee_description" id="description" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('fee_description') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Fee Description">{{ old('fee_description') }}</textarea>
+                                <div class="text-danger">@error('fee_description') {{ $message }} @enderror</div>
+                            </div>
+                        </div> --}}
+
                         <div class="row">
                             <div class="col-lg mb-3">
                                 <label for="address" class="form-label mb-1">Enter Address</label>
@@ -163,9 +172,17 @@
                         </div>
                         
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Student</button>
+                    <div class="modal-footer justify-content-between">
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input border-dark" type="checkbox" value="exclude" name="exclude" id="exclude">
+                                    <label class="form-check-label" for="exclude">Exclude from fees reminder</label>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add Student</button>
+                            </div>
                     </div>
                 </form>
             </div>
@@ -356,6 +373,7 @@
                                                 data-student-timing="{{ $student->studentData->timing }}" 
                                                 data-student-seat="{{ $student->studentData->seat }}" 
                                                 data-student-shift="{{ $student->studentData->shift }}" 
+                                                data-student-exclude="{{ $student->studentData->exclude }}" 
                                                 >Edit</button>
                                             </div>
                                             <div class="col-auto p-0">
@@ -509,6 +527,7 @@
         let timing = $(this).data('student-timing')
         let seat = $(this).data('student-seat')
         let shift = $(this).data('student-shift')
+        let exclude = $(this).data('student-exclude')
         // let img_src = $(img_td_tag[0].children[0].children[0]).attr("src");
 
         // Change modal for editting
@@ -543,6 +562,7 @@
         $("#select-room").val(room)
         $("#select-timing").val(timing)
         $("#select-shift").val(shift)
+        exclude == "1" ? $("#exclude").prop("checked", true) : "";
 
         $("#discount").prev().hide()
         $("#discount").hide()

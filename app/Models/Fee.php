@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Fee extends Model
 {
     use HasFactory;
+
+    function student() {
+        return $this->hasOne(Student::class, "id", "student_id");
+    }
 }

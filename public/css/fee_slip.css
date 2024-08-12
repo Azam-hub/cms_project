@@ -1,0 +1,62 @@
+
+@media print {
+
+    @page {
+        /* size: 400px 900px; */
+        margin: 2px;
+    }
+
+    .slip-container .slip {
+        border: 1px solid #000;
+        width: 330px;
+        background-color: #fff;
+        padding: 5px;
+    }
+
+    .slip-container .slip p {
+        width: fit-content;
+    }
+
+    .slip-container .slip .head h1 {
+        font-size: 44px;
+    }
+
+    .slip-container .slip .head img {
+        width: 95px;
+    }
+
+    .slip-container .slip .head .row:nth-child(2) p {
+        font-size: 13px;
+        font-weight: 600;
+    }
+    .slip-container .slip .head .row:nth-child(3) p {
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .slip-container .slip .details .personal-details *, .slip-container .slip .details .fee-details * {
+        font-size: 14px;
+    }
+
+    .slip-container .slip .details .fee-details .row:nth-child(1) p {
+        font-size: 17px;
+    }
+
+    .slip-container .slip .details .fee-details .row:nth-last-child(2) * {
+        font-size: 16px;
+    }
+
+    .slip-container .slip .border-dashed {
+        border-style: dashed !important;
+    }
+
+    .slip-container .slip .footer > .row:first-child,
+    .slip-container .slip .footer > .row:nth-child(3),
+    .slip-container .slip .footer > .row:nth-last-child(2) {
+        font-size: 12px;
+    }
+
+    /* .slip-container .slip .footer > .row:nth-last-child(1) {
+        font-size: 12px;
+    } */
+}

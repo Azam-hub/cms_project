@@ -2,7 +2,9 @@
 
 
 @section('stylesheet')
-    
+    <link rel="stylesheet" href="{{ asset("css/fee_slip.css") }}">
+    <script src="{{ asset("js/jquery.js") }}"></script>
+    <script src="{{ asset("js/print_slip.js") }}"></script>
 @endsection
 
 @section('content')
@@ -39,6 +41,7 @@
                                     
                                 </tbody>
                             </table>
+                            <div id="msg"></div>
                         </div>
 
                     </div>
@@ -133,17 +136,24 @@
     </div>
 </div>
 
-
-
 @if (session('success'))
     {!! success_msg(session('success')) !!}
+    
+    <script>
+        let data = @json(session("data"));
+        let img_url = '{{ asset("img/static/slip_logo.png") }}';
+        // alert(data.gr_no);
+        printSlip(img_url, data.slip_no, data.gr_no, data.name, data.father_name, data.timing, 
+        data.course, data.purpose, data.fee_month, data.monthly_fee, data.balance, data.amount, data.date);
+        
+    </script>
 @elseif (session('error'))
     {!! danger_msg(session('error')) !!}
 @endif
 
-{{-- @if ($errors->any())
+@if ($errors->any())
     @php
-        $msg = "{}{}{}{} can't be added. Try again!
+        $msg = "Fee record can't be added. Try again!
                 <ul class='m-0'>";
                     foreach ($errors->all() as $error) {
                         $msg .= "<li>$error</li>";
@@ -151,10 +161,138 @@
                 $msg .= "</ul>";
     @endphp
     {!! danger_msg($msg) !!}
-@endif --}}
+@endif
 
 
 <section class="py-3">
+    {{-- <div class="slip" style="width: 340px">
+        <div class="head">
+            <div class="row align-items-center justify-content-evenly">
+                <div class="col-auto">
+                    <img src="{{ asset("img/static/slip_logo.png") }}" alt="Slip Logo">
+                </div>
+                <div class="col-auto">
+                    <h1 class="m-0">SIMSAT</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center pt-2">
+                <p class="m-0">TECHNICAL COLLEGE & COMPUTER ACADEMY</p>
+            </div>
+            <div class="row justify-content-center">
+                <p class="m-0">Affiliated by: SBTE</p>
+            </div>
+        </div>
+        <div class="details mt-2">
+            <div class="row fw-bold">
+                <div class="col-6 row justify-content-center">Fee Slip</div>
+                <div class="col-6 row justify-content-center">#2</div>
+            </div>
+            <div class="personal-details my-2">
+                <div class="row my-1">
+                    <div class="col-5">GR#</div>
+                    <div class="col-7">1</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Student Name:</div>
+                    <div class="col-7">Azam</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Father's Name:</div>
+                    <div class="col-7">Ashraf</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Timing:</div>
+                    <div class="col-7">9-10</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Course:</div>
+                    <div class="col-7">web</div>
+                </div>
+            </div>
+            <div class="fee-details">
+                <div class="row">
+                    <div class="col row justify-content-center">
+                        <p class="fw-bold my-0">Details</p>
+                    </div>
+                </div>
+                <hr class="my-0 border border-dark  opacity-100">
+                <div class="row my-1">
+                    <div class="col-5">Fee Month:</div>
+                    <div class="col-7">Dec</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Monthly Fee:</div>
+                    <div class="col-7">3000</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Admission Fee:</div>
+                    <div class="col-7">500</div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5">Balance:</div>
+                    <div class="col-7">36000</div>
+                </div>
+                <hr class="my-0 border border-dashed border-dark  opacity-100">
+                <div class="row my-1 fw-bold">
+                    <div class="col-5">Total:</div>
+                    <div class="col-7">3000 </div>
+                </div>
+                <hr class="my-0 border border-dark  opacity-100">
+            </div>
+        </div>
+        <div class="footer">
+            <div class="row flex-column my-2">
+                <div class="col row">
+                    <div class="col-4">
+                        <b>Signature:</b>
+                    </div>
+                    <div class="col-8 p-5 border border-1 border-dark"></div>
+                </div>
+                <div class="col text-center"><b>NOTE: </b>Fees once deposited is not refundable or adjustable.</div>
+                <div class="col text-center">Without Signature this receipt is not valid.</div>
+            </div>
+            <hr class="my-0 border border-dashed border-dark  opacity-100">
+            <div class="row footer-details ">
+                <div class="col px-0">
+                    <div class="row">
+                        <div class="col">Recp#</div>
+                        <div class="col">2</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">GR#</div>
+                        <div class="col">1</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Timing:</div>
+                        <div class="col">9-10</div>
+                    </div>
+                </div>
+                <div class="col px-0">
+                    <div class="row">
+                        <div class="col">Date:</div>
+                        <div class="col">11-Aug-2024</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Name:</div>
+                        <div class="col">Aza</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Course:</div>
+                        <div class="col">Web</div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-0 border border-dark  opacity-100">
+            <div class="row">
+                <div class="col-7">Fee Month:</div>
+                <div class="col-5">Dec</div>
+            </div>
+            <div class="row fw-bold">
+                <div class="col-7">Total:</div>
+                <div class="col-5">3000</div>
+            </div>
+        </div>
+    </div> --}}
     <div class="row mb-4">
         <div class="col-lg mb-3">
             <label for="select-room" class="form-label mb-1">Select Room</label>
@@ -340,7 +478,7 @@ $("#select-student").on('change', function () {
     .then((res) => {return res.json()})
     .then(function (data) {
         
-        console.log(data);
+        // console.log(data);
 
         $(".modal-title").html(`Add record of <q>${data['name']}</q>`)
         $(".modal button[type=submit]").text("Add Record")
@@ -348,22 +486,30 @@ $("#select-student").on('change', function () {
 
         // Displaying last two old entries of student
         let entry_rows = ""
-        let i = 1;
-        (data["last_two_entries"].reverse()).forEach(record => {
-            entry_rows += `<tr>
-                        <td class="text-center">${(i == 1) ? "2nd Last Entry" : "Last Entry"}</td>
-                        <td class="text-center">${record.amount}</td>
-                        <td class="text-center">${record.purpose}</td>
-                        <td class="text-center">${(record.month == '-') ? "-" : convertMonthYear(record.month)}</td>
-                        <td class="text-center">${record.description}</td>
-                        <td>${formatDateTime(record.created_at)}</td>
-                    </tr>`
-            i++;
-        });
-        $(".modal .entries-table tbody").html(entry_rows)
+        if (data["last_two_entries"].length == 0) {
+            entry_rows = "<div class='text-center'>No fee record</div>";
+            $("#msg").html(entry_rows)
+        } else {
+            (data["last_two_entries"].reverse()).forEach((record, i) => {
+                entry_rows += `<tr>
+                            <td class="text-center">${
+                                data["last_two_entries"].length == 1 ? 
+                                "Last Entry" : 
+                                (i == 0) ? 
+                                "2nd Last Entry" : 
+                                "Last Entry"
+                                }</td>
+                            <td class="text-center">${record.amount}</td>
+                            <td class="text-center">${record.purpose}</td>
+                            <td class="text-center">${(record.month == '-') ? "-" : convertMonthYear(record.month)}</td>
+                            <td class="text-center">${record.description}</td>
+                            <td>${formatDateTime(record.created_at)}</td>
+                        </tr>`
+            });
+            $(".modal .entries-table tbody").html(entry_rows)
+        }
 
-
-        // Displaying fee record
+        // Displaying fee amount record
         let record_row = `<tr>
                             <td class="text-center">${data["total_annual_fees"]}</td>
                             <td class="text-center">
@@ -380,7 +526,9 @@ $("#select-student").on('change', function () {
 
         // Set purpose on condition
         let purpose = "<option value=''>-- Select Purpose --</option>";
-        if (data['status'] == "running") {
+        if (data["last_two_entries"].length == 0) {
+            purpose += `<option value='registration'>Registration</option>`;
+        } else if (data['status'] == "running" && data["last_two_entries"].length != 0) {
             purpose += `<option value='monthly'>Monthly</option>`;
         } else if (data['status'] == "completed") {
             purpose += `<option value='monthly'>Monthly</option>
@@ -427,51 +575,209 @@ $("#select-student").on('change', function () {
     
 })
 
+// function printSlip() {
+//     let html = `
+//     <div class="slip-container">
+//         <div class="slip">
+//             <div class="head">
+//                 <div class="row align-items-center justify-content-evenly">
+//                     <div class="col-auto">
+//                         <img src="{{ asset("img/static/slip_logo.png") }}" alt="Slip Logo">
+//                     </div>
+//                     <div class="col-auto">
+//                         <h1 class="m-0">SIMSAT</h1>
+//                     </div>
+//                 </div>
+//                 <div class="row justify-content-center pt-2">
+//                     <p class="m-0">TECHNICAL COLLEGE & COMPUTER ACADEMY</p>
+//                 </div>
+//                 <div class="row justify-content-center">
+//                     <p class="m-0">Affiliated by: SBTE</p>
+//                 </div>
+//             </div>
+//             <div class="details mt-2">
+//                 <div class="row fw-bold">
+//                     <div class="col-6 row justify-content-center">Fee Slip</div>
+//                     <div class="col-6 row justify-content-center">#2</div>
+//                 </div>
+//                 <div class="personal-details my-2">
+//                     <div class="row my-1">
+//                         <div class="col-5">GR#</div>
+//                         <div class="col-7">1</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Student Name:</div>
+//                         <div class="col-7">Azam</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Father's Name:</div>
+//                         <div class="col-7">Ashraf</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Timing:</div>
+//                         <div class="col-7">9-10</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Course:</div>
+//                         <div class="col-7">web</div>
+//                     </div>
+//                 </div>
+//                 <div class="fee-details">
+//                     <div class="row">
+//                         <div class="col row justify-content-center">
+//                             <p class="fw-bold my-0">Details</p>
+//                         </div>
+//                     </div>
+//                     <hr class="my-0 border border-dark  opacity-100">
+//                     <div class="row my-1">
+//                         <div class="col-5">Fee Month:</div>
+//                         <div class="col-7">Dec</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Monthly Fee:</div>
+//                         <div class="col-7">3000</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Admission Fee:</div>
+//                         <div class="col-7">500</div>
+//                     </div>
+//                     <div class="row my-1">
+//                         <div class="col-5">Balance:</div>
+//                         <div class="col-7">36000</div>
+//                     </div>
+//                     <hr class="my-0 border border-dashed border-dark  opacity-100">
+//                     <div class="row my-1 fw-bold">
+//                         <div class="col-5">Total:</div>
+//                         <div class="col-7">3000 </div>
+//                     </div>
+//                     <hr class="my-0 border border-dark  opacity-100">
+//                 </div>
+//             </div>
+//             <div class="footer">
+//                 <div class="row flex-column my-2">
+//                     <div class="col text-center"><b>NOTE: </b>Fees once deposited is not refundable or adjustable.</div>
+//                     <div class="col text-center">This is Computer Generated Slip not require Signature or Stamp.</div>
+//                 </div>
+//                 <hr class="my-0 border border-dashed border-dark  opacity-100">
+//                 <div class="row footer-details ">
+//                     <div class="col">
+//                         <div class="row">
+//                             <div class="col-4">Recp#</div>
+//                             <div class="col-8">2</div>
+//                         </div>
+//                         <div class="row">
+//                             <div class="col-4">GR#</div>
+//                             <div class="col-8">1</div>
+//                         </div>
+//                         <div class="row">
+//                             <div class="col-4">Timing:</div>
+//                             <div class="col-8">9-10</div>
+//                         </div>
+//                     </div>
+//                     <div class="col">
+//                         <div class="row">
+//                             <div class="col-4">Date:</div>
+//                             <div class="col-8">11-Aug-2024</div>
+//                         </div>
+//                         <div class="row">
+//                             <div class="col-4">Name:</div>
+//                             <div class="col-8">Aza</div>
+//                         </div>
+//                         <div class="row">
+//                             <div class="col-4">Course:</div>
+//                             <div class="col-8">Web</div>
+//                         </div>
+//                     </div>
+//                 </div>
+//                 <hr class="my-0 border border-dark  opacity-100">
+//                 <div class="row">
+//                     <div class="col-7">Fee Month:</div>
+//                     <div class="col-5">Dec</div>
+//                 </div>
+//                 <div class="row fw-bold">
+//                     <div class="col-7">Total:</div>
+//                     <div class="col-5">3000</div>
+//                 </div>
+//             </div>
+//         </div>
+//     </div>`;
+
+//     var contents = html;
+//     var frame1 = $('<iframe />');
+//     frame1[0].name = "frame1";
+//     frame1.css({ "position": "absolute", "top": "-1000000px" });
+//     $("body").append(frame1);
+//     var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+//     frameDoc.document.open();
+//     //Create a new HTML document.
+//     frameDoc.document.write('<html><head><title>Fee Slip</title>');
+//     //Append the external CSS file.
+//     frameDoc.document.write(`
+//     <link href="../css/fee_slip.css" rel="stylesheet" type="text/css" /> 
+//     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
+//     `);
+//     frameDoc.document.write('</head><body>');
+//     //Append the DIV contents.
+//     frameDoc.document.write(`<div class="slip">${contents}</div>`);
+//     frameDoc.document.write('</body></html>');
+//     frameDoc.document.close();
+//     setTimeout(function () {
+//         window.frames["frame1"].focus();
+//         window.frames["frame1"].print();
+//         frame1.remove();
+//     }, 500);
+
+    
+// }
+
+// printSlip()
+
 
 
 
 // Modifying Modal for editting admin
-$(document).on('click', ".edit-btn", function() {
-    // Fetching and assigning
-    let room_id = $(this).data("room-id")
-    let name = $(this).data("room-name")
-    let seats = $(this).data("room-seats")
+// $(document).on('click', ".edit-btn", function() {
+//     // Fetching and assigning
+//     let room_id = $(this).data("room-id")
+//     let name = $(this).data("room-name")
+//     let seats = $(this).data("room-seats")
 
-    // Change modal for editting
-    $(".modal-title").text("Edit Room")
-    $(".modal button[type=submit]").text("Edit Room")
-    $(".modal form").attr('action', `{{ route("admin_panel.process_editRoom") }}`)
+//     // Change modal for editting
+//     $(".modal-title").text("Edit Room")
+//     $(".modal button[type=submit]").text("Edit Room")
+//     $(".modal form").attr('action', `{{ route("admin_panel.process_editRoom") }}`)
 
     
 
-    $('.modal input#room-id').val(room_id)
-    $("#room-name").val(name)
-    $("#seats").val(seats)
+//     $('.modal input#room-id').val(room_id)
+//     $("#room-name").val(name)
+//     $("#seats").val(seats)
     
 
-})    
+// })    
 
-// Delete data method
-$(document).on("click", ".del-btn", function() {
-    let room_id = $(this).data("room-id")
+// // Delete data method
+// $(document).on("click", ".del-btn", function() {
+//     let room_id = $(this).data("room-id")
 
 
-    fetch('/admin/rooms/process_destroyRoom/'+room_id, {
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    }).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        if (data.success) {
-            $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
-        } else {
-            console.log(data);
-        }
-    })
+//     fetch('/admin/rooms/process_destroyRoom/'+room_id, {
+//         headers: {
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//         }
+//     }).then(function (response) {
+//         return response.json();
+//     }).then(function (data) {
+//         if (data.success) {
+//             $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
+//         } else {
+//             console.log(data);
+//         }
+//     })
 
-})
+// })
 </script>
+
 
 @endsection
 
