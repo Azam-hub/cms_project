@@ -74,11 +74,12 @@ class FeesController extends Controller
         // ->where('students.exclude', '0')
         // ->get()
         // ;
-        
+
         $pending_fees = Student::leftJoin('fees', function ($join) use ($startOfMonth, $endOfMonth) {
             $join->on('fees.student_id', '=', 'students.id')
                  ->where('fees.purpose', '=', 'monthly')
-                 ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+                //  ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+                ->where('fees.created_at', '>', Carbon::now()->subMonth());
         })
         ->join("users", "users.id",  "=", "students.user_id")
         ->join("rooms", "rooms.id",  "=", "students.room")
@@ -93,6 +94,7 @@ class FeesController extends Controller
         ->whereNull('fees.id') // Check where no entry exists in fees for the current month with purpose 'monthly'
         ->where('students.status', 'running')
         ->where('students.exclude', '0')
+        // ->groupBy("fees.student_id")
         // ->where('students.room', '3')
         // ->where('students.timing', '17-18')
         // ->orderBy("students.gr_no", "asc")
@@ -107,6 +109,7 @@ class FeesController extends Controller
             echo "<br>";
             echo "<br>";
         }
+        dd(Carbon::now()->subMonth());
 
         return view("admin_panel.fees", compact("rooms", "submitted_fees"));
 
