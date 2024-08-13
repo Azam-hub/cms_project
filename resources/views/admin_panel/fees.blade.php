@@ -23,7 +23,7 @@
                 <input type="hidden" name="fees_id" id="fees-id">
                 <input type="hidden" name="student_id" id="student-id">
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row last-entries-div">
                         <h6>Last Entries</h6>
                         <div class="table-responsive">
                             <table class="entries-table table table-striped table-hover table-bordered ">
@@ -46,7 +46,7 @@
 
                     </div>
                     <hr class="border border-dark-subtle border-1 opacity-75">
-                    <div class="row">
+                    <div class="row fee-record-div">
                         <h6>Fees Record</h6>
                         <div class="table-responsive">
                             <table class="record-table table table-striped table-hover table-bordered ">
@@ -353,6 +353,7 @@
                                 <th class="text-center">Timing</th>
                                 <th class="text-center">Amount</th>
                                 <th class="text-center">Purpose</th>
+                                <th class="text-center">Description</th>
                                 <th class="action-btns text-center">Action</th>
                                 <th class="text-center">Added On</th>
                             </tr>
@@ -371,15 +372,23 @@
                                     DateTime::createFromFormat('m-Y', $submitted_fee->month)->format('M Y') :
                                     $submitted_fee->purpose
                                     }}</td>
+                                    <td class="text-center">{{ $submitted_fee->description }}</td>
                                     <td class="action-btns">
-                                        {{-- <button class="btn btn-primary edit-btn"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#fees-modal"
-                                        data-submitted_fee-id="{{ $submitted_fee->id }}"
-                                        data-submitted_fee-amount="{{ $submitted_fee->amount }}"
-                                        data-submitted_fee-purpose="{{ $submitted_fee->purpose }}"
-                                        data-submitted_fee-month="{{ $submitted_fee->month }}"
-                                        >Edit</button> --}}
+                                        {{-- {{ $submitted_fee->purpose == "registration" }} --}}
+                                        @if ($submitted_fee->purpose != "registration")
+                                            
+                                            <button class="btn btn-primary edit-btn"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#fees-modal"
+                                            data-submitted_fee-id="{{ $submitted_fee->id }}"
+                                            data-submitted_fee-student_id="{{ $submitted_fee->student_id }}"
+                                            data-student-status="{{ $submitted_fee->student->status }}"
+                                            data-submitted_fee-amount="{{ $submitted_fee->amount }}"
+                                            data-submitted_fee-purpose="{{ $submitted_fee->purpose }}"
+                                            data-submitted_fee-monthyear="{{ $submitted_fee->month }}"
+                                            data-submitted_fee-description="{{ $submitted_fee->description }}"
+                                            >Edit</button>
+                                        @endif
                                         <button class="btn btn-danger del-btn" data-submitted_fee-id="{{ $submitted_fee->id }}">Delete</button>
                                     </td>
                                     <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($submitted_fee->created_at)) !!}</td>
@@ -489,6 +498,11 @@ function convertMonthYear(monthYear) {
 
 function fetch_student_fee_record(student_id) {
     $("#student-id").val(student_id)
+    $(".last-entries-div").show()
+    $(".fee-record-div").show()
+    $(".modal hr").show()
+
+    $(".month-year-select").hide()
 
     fetch("/admin/fees/fetch_student_fee_record/" + student_id)
     .then((res) => {return res.json()})
@@ -556,8 +570,7 @@ function fetch_student_fee_record(student_id) {
         }
         $("#purpose").html(purpose)
     
-        // Work to do before opening modal 
-        $(".month-year-select").hide()
+        // Work to do before opening modal
         $("#current-date").html(data['current_month_year'])
         // Opening Modal
         const myModal = new bootstrap.Modal('#fees-modal')
@@ -648,7 +661,6 @@ $("#select-student").on('change', function () {
     fetch_student_fee_record(student_id)    
 })
 
-
 $(".submit-fee-btn").click(function () {
     let student_id = $(this).data("student-id");
     fetch_student_fee_record(student_id)
@@ -678,25 +690,69 @@ $("table tr").dblclick(function(evt){
 
 
 // Modifying Modal for editting admin
-// $(document).on('click', ".edit-btn", function() {
-//     // Fetching and assigning
-//     let room_id = $(this).data("room-id")
-//     let name = $(this).data("room-name")
-//     let seats = $(this).data("room-seats")
+$(document).on('click', ".edit-btn", function() {
 
-//     // Change modal for editting
-//     $(".modal-title").text("Edit Room")
-//     $(".modal button[type=submit]").text("Edit Room")
-//     $(".modal form").attr('action', `{{ route("admin_panel.process_editRoom") }}`)
+    $(".last-entries-div").hide()
+    $(".fee-record-div").hide()
+    $(".modal hr").hide()
+    
+    $(".month-year-select").hide()
 
+    // Fetching and assigning
+    let submitted_fee_id = $(this).data("submitted_fee-id")
+    let student_status = $(this).data("student-status")
+    let submitted_fee_student_id = $(this).data("submitted_fee-student_id")
+    let submitted_fee_amount = $(this).data("submitted_fee-amount")
+    let submitted_fee_purpose = $(this).data("submitted_fee-purpose")
+    let submitted_fee_monthYear = $(this).data("submitted_fee-monthyear")
+    let submitted_fee_description = $(this).data("submitted_fee-description")
+
+    // Change modal for editting
+    $(".modal-title").text("Edit Fee Record")
+    $(".modal button[type=submit]").text("Edit Record")
+    $(".modal form").attr('action', `{{ route("admin_panel.process_editRecord") }}`)
+
+    // Set purpose on condition
+    let purpose = "<option value=''>-- Select Purpose --</option>";
+    if (student_status == "running") {
+        // purpose += `<option value='registration'>Registration</option>`;
+        purpose += `<option value='monthly'>Monthly</option>`;
+    } else if (student_status == "completed") {
+        purpose += `<option value='monthly'>Monthly</option>
+        <option value='examination'>Examination</option>`;
+    } else if (student_status == "done") {
+        purpose += `<option value='certificate'>Certificate</option>`;
+    }
+    $("#purpose").html(purpose)
+
+    if (submitted_fee_purpose == "monthly") {
+        $(".month-year-select").show()
+        // Set years in select input
+        current_year = submitted_fee_monthYear.split("-")[1]
+        let years = "<option value=''>-- Select Year --</option>"
+        for (let i = -5; i <= 5; i++) {
+            years += `<option 
+            value='${current_year - i}'>
+            ${current_year - i}</option>`
+        }
+        $("#year").html(years)
+
+        let month = submitted_fee_monthYear.split("-")[0]
+        let year = submitted_fee_monthYear.split("-")[1]
+        
+        $("#month").val(month)
+        $("#year").val(year)
+    }
+
+    $('.modal input#fees-id').val(submitted_fee_id)
+    $('.modal input#student-id').val(submitted_fee_student_id)
+    $("#amount").val(submitted_fee_amount)
+    $("#purpose").val(submitted_fee_purpose)
+    $("#description").val(submitted_fee_description)
+    
     
 
-//     $('.modal input#room-id').val(room_id)
-//     $("#room-name").val(name)
-//     $("#seats").val(seats)
-    
-
-// })    
+})
 
 // // Delete data method
 $(document).on("click", ".del-btn", function() {

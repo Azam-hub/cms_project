@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 12, 2024 at 03:30 PM
+-- Generation Time: Aug 13, 2024 at 03:51 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -89,6 +89,7 @@ CREATE TABLE `fees` (
   `month` varchar(200) NOT NULL,
   `description` text NOT NULL,
   `student_id` int NOT NULL,
+  `is_deleted` int NOT NULL DEFAULT '0',
   `created_at` varchar(100) NOT NULL,
   `updated_at` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -97,9 +98,13 @@ CREATE TABLE `fees` (
 -- Dumping data for table `fees`
 --
 
-INSERT INTO `fees` (`id`, `amount`, `purpose`, `month`, `description`, `student_id`, `created_at`, `updated_at`) VALUES
-(1, 3000, 'registration', '-', 'dd', 13, '2024-08-12 20:23:34', '2024-08-12 20:23:34'),
-(2, 3000, 'monthly', '8-2024', 'ss', 13, '2024-07-12 20:24:03', '2024-08-12 20:24:03');
+INSERT INTO `fees` (`id`, `amount`, `purpose`, `month`, `description`, `student_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 3000, 'registration', '-', 'dd', 13, 0, '2024-05-12 20:23:34', '2024-08-12 20:23:34'),
+(2, 3000, 'monthly', '11-2024', 'ss', 13, 0, '2024-06-11 20:24:03', '2024-08-13 20:50:06'),
+(3, 500, 'registration', '-', 'rvf', 13, 0, '2024-07-13 00:13:02', '2024-08-13 20:42:35'),
+(4, 300, 'registration', '-', 'ss', 9, 0, '2024-08-13 02:48:43', '2024-08-13 02:48:43'),
+(5, 4670, 'monthly', '10-2024', 'd', 13, 0, '2024-08-13 03:05:44', '2024-08-13 03:05:44'),
+(6, 3000, 'monthly', '8-2024', 'ss', 9, 1, '2024-08-13 06:02:11', '2024-08-13 06:19:50');
 
 -- --------------------------------------------------------
 
@@ -391,7 +396,7 @@ INSERT INTO `students` (`id`, `gr_no`, `course_id`, `discount`, `annual_fees`, `
 (4, 'SS-000004', 3, 0, 0, '[]', 3, '5', '11-12', 'weekend', 'running', 0, 10, '2024-07-31 06:09:46', '2024-07-31 06:09:46'),
 (5, 'SS-000005', 4, 0, 0, '[]', 3, '4', '11-12', 'weekend', 'running', 0, 11, '2024-07-31 06:12:02', '2024-07-31 06:12:02'),
 (6, 'SS-000006', 1, 0, 0, '[]', 4, '3', '16-17', 'regular', 'running', 0, 12, '2024-07-31 06:14:15', '2024-07-31 06:14:15'),
-(7, 'SS-000007', 3, 0, 0, '[]', 1, '5', '15-16', 'regular', 'running', 0, 13, '2024-07-31 06:15:41', '2024-07-31 06:15:41'),
+(7, 'SS-000007', 3, 0, 0, '[]', 1, '5', '15-16', 'regular', 'running', 0, 13, '2024-07-31 06:15:41', '2024-08-13 06:01:39'),
 (8, 'SS-000008', 2, 0, 0, '[]', 1, '7', '15-16', 'regular', 'running', 0, 14, '2024-07-31 06:17:46', '2024-07-31 06:17:46'),
 (9, 'SS-000009', 1, 0, 0, '[]', 3, '19', '18-19', 'regular', 'running', 0, 15, '2024-07-31 06:20:23', '2024-07-31 06:20:23'),
 (10, 'SS-000010', 2, 0, 0, '[]', 3, '8', '15-16', 'regular', 'running', 0, 16, '2024-07-31 06:22:49', '2024-07-31 06:22:49'),
@@ -448,7 +453,7 @@ INSERT INTO `users` (`id`, `name`, `father_name`, `cnic_bform_no`, `date_of_birt
 (10, 'Abdul Qadir', 'Irfan', '1111111111111', '1999-02-11', 'abdul.qadir@simsatedu.com', '12', '12121212121', 'student_profile_pics/fcIL2HSGg3ZiPQZ3wdNyEZ6n0AxbOx0T7Aezp6JK.jpg', 'Malir, karachi', 'student', '-1', '0', '2024-07-31 06:09:46', '2024-07-31 06:09:46'),
 (11, 'Mubashir Altaf', 'Anees', '1212121212121', '2009-09-01', 'mubashir.altaf@simsatedu.com', '12', '12121212121', 'student_profile_pics/OWXo2UIZ6e3O5RFWtW73LMDutRhhdHsrwnyJpc2H.jpg', 'Landhi#4, Karachi.', 'student', '-1', '0', '2024-07-31 06:12:02', '2024-07-31 06:12:02'),
 (12, 'Abid Qasim', 'Waqas', '1212121212121', '2001-04-20', 'abid.qasim@simsatedu.com', '12', '12111212121', 'student_profile_pics/SxpMhM31uyyynYzXIzeDw9B15koHqyRxmVkpG8wg.jpg', 'Lal qila\r\nNear Burj Khalifa', 'student', '-1', '0', '2024-07-31 06:14:15', '2024-07-31 06:14:15'),
-(13, 'Haris Ansari', 'Sohail', '1212121212121', '1999-03-20', 'haris.ansari@simsatedu.com', '12', '12121212121', 'student_profile_pics/7ubuaFcHpHPt466Cc16lSENhb25v0e1GiL0pkkqk.jpg', 'Zamanabad , Landhi, Karachi', 'student', '-1', '0', '2024-07-31 06:15:41', '2024-07-31 06:15:41'),
+(13, 'Haris Ansari', 'Sohail', '1212121212127', '1999-03-20', 'haris.ansari@simsatedu.com', '12', '12121212121', 'student_profile_pics/7ubuaFcHpHPt466Cc16lSENhb25v0e1GiL0pkkqk.jpg', 'Zamanabad , Landhi, Karachi', 'student', '-1', '0', '2024-07-31 06:15:41', '2024-08-13 06:01:39'),
 (14, 'Faizan Quresh', 'Raees', '1212121212121', '1992-09-20', 'faizan.quresh@simsatedu.com', '12', '12121212121', 'student_profile_pics/G7aX8WaDTvNsqCbuIN7tiojVqKPi34EDNfYxakDL.jpg', 'Shahrah-e-Faisal, Karachi.', 'student', '-1', '0', '2024-07-31 06:17:46', '2024-07-31 06:17:46'),
 (15, 'Abdullah Quresh', 'Aslam', '1212121212121', '3333-02-12', 'abdullah.quresh@simsatedu.com', '12', '12121212121', 'student_profile_pics/cA6VXOwOs8y2BZCPktoMUmHsMlJmQibBxF0YfO5n.jpg', 'Karachi', 'student', '-1', '0', '2024-07-31 06:20:23', '2024-07-31 06:20:23'),
 (16, 'Rafay Sheikh', 'Saleem', '1212121212121', '2222-02-22', 'rafay.sheikh@simsatedu.com', '12', '12121212121', 'student_profile_pics/or9xIdJlOtSq00JFG1As8jYhkHV6qrlWc30Oqcko.jpg', 'Lal qila\r\nNear Burj Khalifa', 'student', '-1', '0', '2024-07-31 06:22:49', '2024-07-31 06:22:49'),
@@ -567,7 +572,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `fees`
 --
 ALTER TABLE `fees`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `modules`

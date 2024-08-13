@@ -231,21 +231,89 @@ class FeesController extends Controller
         // return $req;
     }
 
+    function process_editRecord(Request $req) {
+        $req->validate([
+            "student_id" => "required",
+            "fees_id" => "required",
+            "amount" => "required|numeric",
+            "purpose" => "required",
+            "description" => "required",
+        ]);
+
+        $fee = Fee::find($req->fees_id);
+
+        $fee->amount = $req->amount;
+        $fee->purpose = $req->purpose;
+        $fee->description = $req->description;
+
+        if ($req->purpose == "monthly") {
+            $req->validate([
+                "month" => "required",
+                "year" => "required",
+            ]);
+
+            $fee->month = $req->month . "-" . $req->year;
+        } else {
+            $fee->month = "-";
+        }
+
+        if ($fee->save()) {
+
+            $fee_student = Fee::with(["student", "student.user", "student.course"])->where("id", $fee->id)->first();
+            $total_paid_fees = Fee::where("student_id", $req->student_id)->where("purpose", 'monthly')->sum("fees.amount");
+
+            list($startTime, $endTime) = explode('-', $fee_student->student->timing);
+            $formattedTimeRange = date('g A', strtotime($startTime . ':00')) . ' to ' . date('g A', strtotime($endTime . ':00'));
+
+            $formattedDate = "";
+            if ($fee_student->month == "-") {
+                $formattedDate = "-";
+            } else {
+                $date = Carbon::createFromFormat('n-Y', $fee_student->month);
+                $formattedDate = $date->format('M Y');
+            }
+
+            $duration = $fee_student->student->course->duration;
+            
+            $per_month_fees = ceil(($fee_student->student->annual_fees / $duration) / 10) * 10;
+
+            return redirect()->route('admin_panel.fees')->with([
+                'success' => 'Fee Record has been added successfully.',
+                'data' => [
+                    "slip_no" => $fee_student->id,
+                    "gr_no" => $fee_student->student->gr_no,
+                    "name" => $fee_student->student->user->name,
+                    "father_name" => $fee_student->student->user->father_name,
+                    "timing" => $formattedTimeRange,
+                    "course" => $fee_student->student->course->name,
+                    "purpose" => $fee_student->purpose,
+                    "fee_month" => $formattedDate,
+                    "monthly_fee" => $per_month_fees,
+                    "balance" => ($fee_student->student->annual_fees - $total_paid_fees),
+                    "amount" => $fee_student->amount,
+                    "date" => Carbon::now()->format('d M, Y'),
+                ],
+            ]);
+        } else {
+            return redirect()->route('admin_panel.fees')->with('error', 'Something went wrong!');
+        }
+    }
+    
+    function process_destroyRecord($id) {
+        // return $id;
+        $fee = Fee::find($id);
+        $fee->is_deleted = "1";
+        
+        if ($fee->save()) {
+            return 1;
+        }
+    }
+
     function process_excludeStudent($id) {
         // return $id;
         $student = Student::find($id);
         $student->exclude = "1";
         if ($student->save()) {
-            return 1;
-        }
-    }
-
-    function process_destroyRecord($id) {
-        // return $id;
-        $fee = Fee::find($id);
-        $fee->is_deleted = "1";
-
-        if ($fee->save()) {
             return 1;
         }
     }
