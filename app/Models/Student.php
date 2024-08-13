@@ -9,13 +9,17 @@ class Student extends Model
 {
     use HasFactory;
 
+    function user() {
+        return $this->hasOne(User::class, "id", "user_id");
+    }
+
+    function room_row() {
+        return $this->hasOne(Room::class, "id", "room");
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
-    }
-
-    function user() {
-        return $this->hasOne(User::class, "id", "user_id");
     }
 
     function attendance() {

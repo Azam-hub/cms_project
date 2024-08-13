@@ -13,106 +13,86 @@ class FeesController extends Controller
     
     function index() {
         $rooms = Room::where('is_deleted', '0')->orderBy('id', 'desc')->get();
-        $submitted_fees = Fee::orderBy('id', "desc")->get();
+        $submitted_fees = Fee::with(['student', 'student.room_row', 'student.user'])->where("is_deleted", "0")->orderBy('id', "desc")->get();
+        $submitted_fees_count = $submitted_fees->count();
 
         // $pending_fees = Fee::orderBy('id', "desc")->get();
 
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
-        // Fetch rows older than a month where student_id hasn't been added in the current month
-        // $pending_fees = Fee::join("students", "students.id", "=", "fees.student_id")
+        // $pending_fees = Student::leftJoin('fees', function ($join) use ($startOfMonth, $endOfMonth) {
+        //     $join->on('fees.student_id', '=', 'students.id')
+        //          ->where('fees.purpose', '=', 'monthly')
+        //         //  ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+        //         ->where('fees.created_at', '>', Carbon::now()->subMonth());
+        // })
         // ->join("users", "users.id",  "=", "students.user_id")
         // ->join("rooms", "rooms.id",  "=", "students.room")
         // ->selectRaw('
-        // gr_no, 
+        // students.gr_no, 
         // users.name AS user_name, 
-        // timing, 
+        // students.timing, 
         // rooms.name AS room_name, 
-        // student_id, 
-        // MAX(fees.month) AS last_month, 
-        // MAX(fees.created_at) AS last_created_at, 
-        // MAX(fees.id) AS last_id'
-        // )
-        // ->where('students.status', "running")
-        // ->where('fees.created_at', '<', Carbon::now()->subMonth())
-        // ->whereNotIn('fees.student_id', function ($query) use ($startOfMonth, $endOfMonth) {
-        //     $query
-        //     ->select('fees.student_id')
-        //     ->from('fees')
-        //     ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
-        // })
-        // ->groupBy("student_id")
-        // ->where('students.exclude', '0')
+        // fees.student_id AS fee_student_id,
+        // students.id AS student_p_id
+        // ')
+        // ->whereNull('fees.id') // Check where no entry exists in fees for the current month with purpose 'monthly'
+        // ->where('students.status', 'running')
+        // ->where('students.exclude', '0')    
+        // ->orderBy("users.name", "asc")
         // ->get();
 
-        // $pending_fees = Student::join("fees", "fees.student_id", "=", "students.id")
-        // ->join("users", "users.id",  "=", "students.user_id")
-        // ->join("rooms", "rooms.id",  "=", "students.room")
-        // ->selectRaw('
-        // gr_no, 
-        // users.name AS user_name, 
-        // timing, 
-        // rooms.name AS room_name, 
-        // student_id AS fee_student_id'
-        // )
-        // ->where('students.status', "running")
-        // ->where(function ($query) use ($startOfMonth, $endOfMonth) {
-        //     // $query->where('fees.created_at', '<', Carbon::now()->subMonth())
-        //     // ->orWhere("");
-        //     $query->whereNotIn('fees.student_id', function ($query) use ($startOfMonth, $endOfMonth) {
-        //         $query
-        //         ->select('fees.student_id')
-        //         ->from('fees')
-        //         ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
-        //     })
-            
-        //     ;
-        // })
-        // ->where('purpose', "=", "monthly")
-        // ->groupBy("fees.student_id")
-        // ->where('students.exclude', '0')
-        // ->get()
-        // ;
-
-        $pending_fees = Student::leftJoin('fees', function ($join) use ($startOfMonth, $endOfMonth) {
-            $join->on('fees.student_id', '=', 'students.id')
-                 ->where('fees.purpose', '=', 'monthly')
-                //  ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
-                ->where('fees.created_at', '>', Carbon::now()->subMonth());
-        })
-        ->join("users", "users.id",  "=", "students.user_id")
-        ->join("rooms", "rooms.id",  "=", "students.room")
+        $pending_fees = Student::leftJoin('fees', 'fees.student_id', '=', 'students.id')
+        ->join("users", "users.id", "=", "students.user_id")
+        ->join("rooms", "rooms.id", "=", "students.room")
         ->selectRaw('
-        students.gr_no, 
-        users.name AS user_name, 
-        students.timing, 
-        rooms.name AS room_name, 
-        fees.student_id AS fee_student_id,
-        students.id AS student_p_id
+            students.id AS student_id,
+            students.gr_no, 
+            users.id AS user_id, 
+            users.name AS user_name, 
+            users.father_name, 
+            students.timing, 
+            rooms.name AS room_name, 
+            (SELECT fees.purpose 
+                FROM fees 
+                WHERE fees.student_id = students.id 
+                AND fees.is_deleted = 0 
+                ORDER BY fees.created_at DESC 
+                LIMIT 1
+            ) AS last_fee_purpose,
+            MAX(CASE WHEN fees.is_deleted = 0 THEN fees.month ELSE NULL END) AS last_fee_month, 
+            MAX(CASE WHEN fees.is_deleted = 0 THEN fees.created_at ELSE NULL END) AS last_fee_date
         ')
-        ->whereNull('fees.id') // Check where no entry exists in fees for the current month with purpose 'monthly'
+        ->whereNotIn('students.id', function ($query) use ($startOfMonth, $endOfMonth) {
+            $query->select('fees.student_id')
+            ->from('fees')
+            ->where('fees.purpose', '=', 'monthly')
+            ->where('fees.is_deleted', '=', '0')
+            // ->whereBetween('fees.created_at', [$startOfMonth, $endOfMonth]);
+            ->where('fees.created_at', '>', Carbon::now()->subMonth());
+        })
         ->where('students.status', 'running')
         ->where('students.exclude', '0')
-        // ->groupBy("fees.student_id")
-        // ->where('students.room', '3')
-        // ->where('students.timing', '17-18')
-        // ->orderBy("students.gr_no", "asc")
-        ->orderBy("users.name", "asc")
+        // ->groupBy('students.id', 'students.gr_no', 'users.name', 'students.timing', 'rooms.name', 'fees.student_id')
+        ->groupBy('students.id')
+        ->orderBy('users.name', 'asc')
         ->get();
 
-        // return dd($pending_fees);
-        foreach ($pending_fees as $pending_fee) {
-            echo $pending_fee->gr_no. " : " .$pending_fee->user_name;
-            echo "<br>";
-            echo $pending_fee->month. " : " .$pending_fee->created_at;
-            echo "<br>";
-            echo "<br>";
-        }
-        dd(Carbon::now()->subMonth());
+        $pending_fees_count = $pending_fees->count();
 
-        return view("admin_panel.fees", compact("rooms", "submitted_fees"));
 
+        
+        // foreach ($pending_fees as $pending_fee) {
+        //     echo $pending_fee->gr_no. " : " .$pending_fee->user_name;
+        //     echo "<br>";
+        //     echo $pending_fee->last_fee_date. " : " .$pending_fee->last_fee_month. " : " .$pending_fee->last_fee_purpose;
+        //     echo "<br>";
+        //     echo "<br>";
+        // }
+        // dd($pending_fees);
+
+        return view("admin_panel.fees", compact("rooms", "submitted_fees", "submitted_fees_count", "pending_fees", "pending_fees_count"));
     }
 
     function fetch_students($room, $timing) {
@@ -134,9 +114,9 @@ class FeesController extends Controller
 
     function fetch_student_fee_record($id) {
         $student_row = Student::with(['user', 'course'])->where("id", $id)->first();
-        $total_paid_fees = Fee::where("student_id", $id)->where("purpose", 'monthly')->sum("fees.amount");
-        $last_two_entries = Fee::where("student_id", $id)->orderBy('id', 'desc')->take(2)->get();
-        $last_month_row = Fee::where("month", "!=", "-")->where("student_id", $id)->orderBy("id", 'desc')->first();
+        $total_paid_fees = Fee::where("student_id", $id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
+        $last_two_entries = Fee::where("student_id", $id)->where("is_deleted", '0')->orderBy('id', 'desc')->take(2)->get();
+        $last_month_row = Fee::where("month", "!=", "-")->where("student_id", $id)->where("is_deleted", '0')->orderBy("id", 'desc')->first();
 
         $current_month = Carbon::now();
 
@@ -249,5 +229,24 @@ class FeesController extends Controller
         }
 
         // return $req;
+    }
+
+    function process_excludeStudent($id) {
+        // return $id;
+        $student = Student::find($id);
+        $student->exclude = "1";
+        if ($student->save()) {
+            return 1;
+        }
+    }
+
+    function process_destroyRecord($id) {
+        // return $id;
+        $fee = Fee::find($id);
+        $fee->is_deleted = "1";
+
+        if ($fee->save()) {
+            return 1;
+        }
     }
 }

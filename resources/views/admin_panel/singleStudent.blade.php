@@ -330,10 +330,10 @@
                         <thead>
                             <tr>
                                 {{-- <th>S. no.</th> --}}
-                                <th>Amount</th>
                                 <th>Purpose</th>
                                 <th>Month</th>
                                 <th>Description</th>
+                                <th>Amount</th>
                                 <th>Added on</th>
                             </tr>
                         </thead>
@@ -341,15 +341,20 @@
     
                             @forelse ($fees as $fee)
                                 <tr>
-                                    <td class="text-center">{{ $fee->amount }}</td>
                                     <td class="text-center">{{ ucfirst($fee->purpose) }}</td>
                                     <td class="text-center">{{ ($fee->month == "-") ? "-" : DateTime::createFromFormat('m-Y', $fee->month)->format('M Y') }}</td>
                                     <td class="text-center">{{ $fee->description }}</td>
+                                    <td class="text-center">{{ $fee->amount }}</td>
                                     <td class="text-center w-25">{!! date('h:i a <b>||</b> d M, Y', strtotime($fee->created_at)) !!}</td>
                                 </tr>
                             @empty
                                 No attendance marked.
                             @endforelse
+                            <!-- <tr>
+                                <td colspan="3">Total:</td>
+                                <td>{{ $total_paid_fees }}</td>
+                                <td></td>
+                            </tr> -->
                             
     
                         </tbody>
@@ -382,6 +387,7 @@ $('#attendance-mode').click(function () {
     }
 })
 
+// $.fn.dataTable.ext.errMode = 'none';
 $('#full-attendance-table, #month-attendance-table, #fees-table').DataTable({
     dom: 'lBfrtip',
     buttons: [

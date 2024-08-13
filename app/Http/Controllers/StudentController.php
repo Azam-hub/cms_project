@@ -324,7 +324,8 @@ class StudentController extends Controller
     function fetch_single_student(int $id) {
         $user = User::with('studentData')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
         $attendance_rows = Attendance::where('student_id', $user->studentData->id)->orderBy('id', 'desc')->get();
-        $fees = Fee::where("student_id", $user->studentData->id)->get();
+        $fees = Fee::where("student_id", $user->studentData->id)->where("is_deleted", "0")->orderBy('id', 'desc')->get();
+        $total_paid_fees = Fee::where("student_id", $id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
 
         $month_attendances = [];
         foreach ($attendance_rows as $i => $attendance_row) {
@@ -351,7 +352,7 @@ class StudentController extends Controller
             }            
         }
         // dd($attendances);
-        return view('admin_panel.singleStudent', compact('user', 'attendance_rows', 'month_attendances', 'fees'));
+        return view('admin_panel.singleStudent', compact('user', 'attendance_rows', 'month_attendances', 'fees', "total_paid_fees"));
     }
 
     function module_handler(int $userId, string $action, int $moduleId) {

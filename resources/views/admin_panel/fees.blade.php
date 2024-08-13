@@ -334,50 +334,108 @@
         </div>
     </div>
     <div class="row flex-column ">
-        <div class="col">
-            <h5 class="fw-semibold">Fees Records</h5>
+        <div class="col row justify-content-end align-items-center">
+            <div class="col-auto">
+                <button class="btn btn-primary mode-switch">Submitted Fees</button>
+            </div>
         </div>
         <div class="col">
             <div class="table-responsive">
-                <table id="fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
-                    <thead>
-                        <tr>
-                            <th class="text-center">S. No.</th>
-                            <th class="text-center">Amount</th>
-                            <th class="text-center">Purpose</th>
-                            <th class="text-center">Student</th>
-                            <th class="action-btns text-center">Action</th>
-                            <th class="text-center">Added On</th>
-                        </tr>
-                    </thead>
-                    {{-- <tbody>
-                        @forelse ($rooms as $room)
+                <div id="submitted-fees" style="display: none;">
+                    <h5 class="fw-semibold">Submitted Fees Records</h5>
+                    <table id="submitted-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                        <thead>
                             <tr>
-                                <td class="text-center">{{ $count }}.</td>
-                                <td class="text-center">{{ $room->name }}</td>
-                                <td class="text-center">{{ $room->seats }}</td>
-                                <td class="action-btns">
-
-                                    <button class="btn btn-primary edit-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#fees-modal"
-                                    data-room-id="{{ $room->id }}" 
-                                    data-room-name="{{ $room->name }}" 
-                                    data-room-seats="{{ $room->seats }}" 
-                                    >Edit</button>
-
-                                    <button class="btn btn-danger del-btn" data-room-id="{{ $room->id }}">Delete</button>
-
-                                </td>
-                                <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($room->created_at)) !!}</td>
+                                <th class="text-center">Gr. No.</th>
+                                <th class="text-center">Student</th>
+                                <th class="text-center">Father</th>
+                                <th class="text-center">Room</th>
+                                <th class="text-center">Timing</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Purpose</th>
+                                <th class="action-btns text-center">Action</th>
+                                <th class="text-center">Added On</th>
                             </tr>
-
-                            @php $count--; @endphp
-                        @empty
-                            No rooms added.
-                        @endforelse
-                    </tbody> --}}
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse ($submitted_fees as $submitted_fee)
+                                <tr data-student-id="{{ $submitted_fee->student->user->id }}">
+                                    <td class="text-center">{{ $submitted_fee->student->gr_no }}.</td>
+                                    <td class="text-center">{{ $submitted_fee->student->user->name }}</td>
+                                    <td class="text-center">{{ $submitted_fee->student->user->father_name }}</td>
+                                    <td class="text-center">{{ $submitted_fee->student->room_row->name }}</td>
+                                    <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $submitted_fee->student->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $submitted_fee->student->timing)[1])->format('h:i a') }}</td>
+                                    <td class="text-center">{{ $submitted_fee->amount }}</td>
+                                    <td class="text-center">{{
+                                    ($submitted_fee->purpose == "monthly") ?
+                                    DateTime::createFromFormat('m-Y', $submitted_fee->month)->format('M Y') :
+                                    $submitted_fee->purpose
+                                    }}</td>
+                                    <td class="action-btns">
+                                        {{-- <button class="btn btn-primary edit-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#fees-modal"
+                                        data-submitted_fee-id="{{ $submitted_fee->id }}"
+                                        data-submitted_fee-amount="{{ $submitted_fee->amount }}"
+                                        data-submitted_fee-purpose="{{ $submitted_fee->purpose }}"
+                                        data-submitted_fee-month="{{ $submitted_fee->month }}"
+                                        >Edit</button> --}}
+                                        <button class="btn btn-danger del-btn" data-submitted_fee-id="{{ $submitted_fee->id }}">Delete</button>
+                                    </td>
+                                    <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($submitted_fee->created_at)) !!}</td>
+                                </tr>
+                                @php $submitted_fees_count--; @endphp
+                            @empty
+                                No submitted_fees added.
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pending-fees">
+                    <h5 class="fw-semibold">Pending Fees Records</h5>
+                    <table id="pending-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Gr. No.</th>
+                                <th class="text-center">Student</th>
+                                <th class="text-center">Father</th>
+                                <th class="text-center">Room</th>
+                                <th class="text-center">Timing</th>
+                                <th class="text-center">Last Purpose</th>
+                                <th class="action-btns text-center">Action</th>
+                                <th class="text-center">Last Added On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($pending_fees as $pending_fee)
+                                <tr data-student-id="{{ $pending_fee->user_id }}">
+                                    <td class="text-center">{{ $pending_fee->gr_no }}.</td>
+                                    <td class="text-center">{{ $pending_fee->user_name }}</td>
+                                    <td class="text-center">{{ $pending_fee->father_name }}</td>
+                                    <td class="text-center">{{ $pending_fee->room_name }}</td>
+                                    <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[1])->format('h:i a') }}</td>
+                                    <td class="text-center">{!!
+                                    ($pending_fee->last_fee_purpose == "monthly") ?
+                                    DateTime::createFromFormat('m-Y', $pending_fee->last_fee_month)->format('M Y') :
+                                    (($pending_fee->last_fee_purpose == "") ?
+                                    '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                    $pending_fee->last_fee_purpose)
+                                    !!}</td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
+                                        <button class="btn btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
+                                    </td>
+                                    <td>{!! ($pending_fee->last_fee_date == "") ? 
+                                    '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                    date('h:i a <b>||</b> d M, Y', strtotime($pending_fee->last_fee_date)) !!}</td>
+                                </tr>
+                                @php $pending_fees_count--; @endphp
+                            @empty
+                                No pending_fees added.
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -429,49 +487,7 @@ function convertMonthYear(monthYear) {
     return `${fullMonthName} ${year}`;
 }
 
-$('#fees-table').DataTable({
-    dom: 'lBfrtip',
-    buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-    ],
-    "aaSorting": []
-
-});
-
-// On hiding modal resetting form
-$('#fees-modal').on('hidden.bs.modal', function (e) {
-    $(".modal form").trigger("reset");
-});
-
-
-
-$('#select-room, #select-timing').on('change', function () {
-    if ($('#select-timing').val() == "" || $("#select-room").val() == "") {
-        $("#select-student").attr('disabled', 'disabled')
-    } else {
-        $("#select-student").removeAttr('disabled')
-        
-        fetch("/admin/fees/fetch_students/" + $("#select-room").val() + "/" + $('#select-timing').val())
-        .then((res) => {return res.json()})
-        .then(function (data) {
-            
-            // let options = '<option value="">{Gr No.} {Name} {Father}</option>';
-            let options = '<option value="">-- Select Student --</option>';
-            data.forEach(element => {
-                options += `<option class='font-monospace' 
-                value='${element.student_p_id}'>
-                ${element.gr_no}: ${element.name} <b>||</b> ${element.father_name}</option>`
-            });
-
-            $("#select-student").html(options)
-        })
-    }
-})
-
-$("#select-student").on('change', function () {
-    let student_id = JSON.parse($(this).val())
-    
-    // Change modal for editting
+function fetch_student_fee_record(student_id) {
     $("#student-id").val(student_id)
 
     fetch("/admin/fees/fetch_student_fee_record/" + student_id)
@@ -489,7 +505,9 @@ $("#select-student").on('change', function () {
         if (data["last_two_entries"].length == 0) {
             entry_rows = "<div class='text-center'>No fee record</div>";
             $("#msg").html(entry_rows)
+            $(".modal .entries-table tbody").html("")
         } else {
+            $("#msg").html("");
             (data["last_two_entries"].reverse()).forEach((record, i) => {
                 entry_rows += `<tr>
                             <td class="text-center">${
@@ -571,168 +589,92 @@ $("#select-student").on('change', function () {
 
 
     })
+}
 
-    
+$(".mode-switch").click(function () {
+    if ($(this).text() == "Submitted Fees") {
+        $(this).text("Pending Fees")
+        $("#pending-fees").hide()
+        $("#submitted-fees").show()
+    } else {
+        $(this).text("Submitted Fees")
+        $("#pending-fees").show()
+        $("#submitted-fees").hide()
+    }
 })
 
-// function printSlip() {
-//     let html = `
-//     <div class="slip-container">
-//         <div class="slip">
-//             <div class="head">
-//                 <div class="row align-items-center justify-content-evenly">
-//                     <div class="col-auto">
-//                         <img src="{{ asset("img/static/slip_logo.png") }}" alt="Slip Logo">
-//                     </div>
-//                     <div class="col-auto">
-//                         <h1 class="m-0">SIMSAT</h1>
-//                     </div>
-//                 </div>
-//                 <div class="row justify-content-center pt-2">
-//                     <p class="m-0">TECHNICAL COLLEGE & COMPUTER ACADEMY</p>
-//                 </div>
-//                 <div class="row justify-content-center">
-//                     <p class="m-0">Affiliated by: SBTE</p>
-//                 </div>
-//             </div>
-//             <div class="details mt-2">
-//                 <div class="row fw-bold">
-//                     <div class="col-6 row justify-content-center">Fee Slip</div>
-//                     <div class="col-6 row justify-content-center">#2</div>
-//                 </div>
-//                 <div class="personal-details my-2">
-//                     <div class="row my-1">
-//                         <div class="col-5">GR#</div>
-//                         <div class="col-7">1</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Student Name:</div>
-//                         <div class="col-7">Azam</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Father's Name:</div>
-//                         <div class="col-7">Ashraf</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Timing:</div>
-//                         <div class="col-7">9-10</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Course:</div>
-//                         <div class="col-7">web</div>
-//                     </div>
-//                 </div>
-//                 <div class="fee-details">
-//                     <div class="row">
-//                         <div class="col row justify-content-center">
-//                             <p class="fw-bold my-0">Details</p>
-//                         </div>
-//                     </div>
-//                     <hr class="my-0 border border-dark  opacity-100">
-//                     <div class="row my-1">
-//                         <div class="col-5">Fee Month:</div>
-//                         <div class="col-7">Dec</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Monthly Fee:</div>
-//                         <div class="col-7">3000</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Admission Fee:</div>
-//                         <div class="col-7">500</div>
-//                     </div>
-//                     <div class="row my-1">
-//                         <div class="col-5">Balance:</div>
-//                         <div class="col-7">36000</div>
-//                     </div>
-//                     <hr class="my-0 border border-dashed border-dark  opacity-100">
-//                     <div class="row my-1 fw-bold">
-//                         <div class="col-5">Total:</div>
-//                         <div class="col-7">3000 </div>
-//                     </div>
-//                     <hr class="my-0 border border-dark  opacity-100">
-//                 </div>
-//             </div>
-//             <div class="footer">
-//                 <div class="row flex-column my-2">
-//                     <div class="col text-center"><b>NOTE: </b>Fees once deposited is not refundable or adjustable.</div>
-//                     <div class="col text-center">This is Computer Generated Slip not require Signature or Stamp.</div>
-//                 </div>
-//                 <hr class="my-0 border border-dashed border-dark  opacity-100">
-//                 <div class="row footer-details ">
-//                     <div class="col">
-//                         <div class="row">
-//                             <div class="col-4">Recp#</div>
-//                             <div class="col-8">2</div>
-//                         </div>
-//                         <div class="row">
-//                             <div class="col-4">GR#</div>
-//                             <div class="col-8">1</div>
-//                         </div>
-//                         <div class="row">
-//                             <div class="col-4">Timing:</div>
-//                             <div class="col-8">9-10</div>
-//                         </div>
-//                     </div>
-//                     <div class="col">
-//                         <div class="row">
-//                             <div class="col-4">Date:</div>
-//                             <div class="col-8">11-Aug-2024</div>
-//                         </div>
-//                         <div class="row">
-//                             <div class="col-4">Name:</div>
-//                             <div class="col-8">Aza</div>
-//                         </div>
-//                         <div class="row">
-//                             <div class="col-4">Course:</div>
-//                             <div class="col-8">Web</div>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <hr class="my-0 border border-dark  opacity-100">
-//                 <div class="row">
-//                     <div class="col-7">Fee Month:</div>
-//                     <div class="col-5">Dec</div>
-//                 </div>
-//                 <div class="row fw-bold">
-//                     <div class="col-7">Total:</div>
-//                     <div class="col-5">3000</div>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>`;
+$('#submitted-fees-table, #pending-fees-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
+    "aaSorting": []
 
-//     var contents = html;
-//     var frame1 = $('<iframe />');
-//     frame1[0].name = "frame1";
-//     frame1.css({ "position": "absolute", "top": "-1000000px" });
-//     $("body").append(frame1);
-//     var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
-//     frameDoc.document.open();
-//     //Create a new HTML document.
-//     frameDoc.document.write('<html><head><title>Fee Slip</title>');
-//     //Append the external CSS file.
-//     frameDoc.document.write(`
-//     <link href="../css/fee_slip.css" rel="stylesheet" type="text/css" /> 
-//     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
-//     `);
-//     frameDoc.document.write('</head><body>');
-//     //Append the DIV contents.
-//     frameDoc.document.write(`<div class="slip">${contents}</div>`);
-//     frameDoc.document.write('</body></html>');
-//     frameDoc.document.close();
-//     setTimeout(function () {
-//         window.frames["frame1"].focus();
-//         window.frames["frame1"].print();
-//         frame1.remove();
-//     }, 500);
+});
 
+// On hiding modal resetting form
+$('#fees-modal').on('hidden.bs.modal', function (e) {
+    $(".modal form").trigger("reset");
+});
+
+
+
+$('#select-room, #select-timing').on('change', function () {
+    if ($('#select-timing').val() == "" || $("#select-room").val() == "") {
+        $("#select-student").attr('disabled', 'disabled')
+    } else {
+        $("#select-student").removeAttr('disabled')
+        
+        fetch("/admin/fees/fetch_students/" + $("#select-room").val() + "/" + $('#select-timing').val())
+        .then((res) => {return res.json()})
+        .then(function (data) {
+            
+            // let options = '<option value="">{Gr No.} {Name} {Father}</option>';
+            let options = '<option value="">-- Select Student --</option>';
+            data.forEach(element => {
+                options += `<option class='font-monospace' 
+                value='${element.student_p_id}'>
+                ${element.gr_no}: ${element.name} <b>||</b> ${element.father_name}</option>`
+            });
+
+            $("#select-student").html(options)
+        })
+    }
+})
+
+$("#select-student").on('change', function () {
+    let student_id = JSON.parse($(this).val())
     
-// }
+    fetch_student_fee_record(student_id)    
+})
 
-// printSlip()
 
+$(".submit-fee-btn").click(function () {
+    let student_id = $(this).data("student-id");
+    fetch_student_fee_record(student_id)
+})
 
+$(".exclude-btn").click(function () {
+    let student_id = $(this).data("student-id");    
+    fetch("/admin/fees/process_excludeStudent/" + student_id).then((res) => {return res.json()}).then(function (data) {
+        console.log(data);
+        if (data == 1) {
+            location.reload()
+        }
+        
+    })
+})
+
+// Show student data on index page
+$("table tr").dblclick(function(evt){
+    if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
+        return;             
+    }
+    let student_id = $(this).data("student-id");
+    if (student_id != undefined) {
+        window.open(`/admin/single_student/${student_id}`, '_blank');
+    }
+});
 
 
 // Modifying Modal for editting admin
@@ -757,25 +699,21 @@ $("#select-student").on('change', function () {
 // })    
 
 // // Delete data method
-// $(document).on("click", ".del-btn", function() {
-//     let room_id = $(this).data("room-id")
+$(document).on("click", ".del-btn", function() {
+    let submitted_fee_id = $(this).data("submitted_fee-id")
 
 
-//     fetch('/admin/rooms/process_destroyRoom/'+room_id, {
-//         headers: {
-//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//         }
-//     }).then(function (response) {
-//         return response.json();
-//     }).then(function (data) {
-//         if (data.success) {
-//             $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
-//         } else {
-//             console.log(data);
-//         }
-//     })
+    fetch('/admin/fees/process_destroyRecord/'+submitted_fee_id).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data.success) {
+            $('button[data-room-id="' + submitted_fee_id + '"]').closest('tr').remove();
+        } else {
+            console.log(data);
+        }
+    })
 
-// })
+})
 </script>
 
 
