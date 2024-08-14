@@ -261,7 +261,7 @@ $(document).on("click", ".del-btn", function() {
 
 
 // Show admin roster
-$("table tr").dblclick(function(evt){
+$(document).on("dblclick", "table tr", function(evt){
     if($(evt.target).closest('.action-btns').length) {
         return;             
     }

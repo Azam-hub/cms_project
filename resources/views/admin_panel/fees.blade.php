@@ -969,7 +969,7 @@ $(document).on("click", ".del-btn", function() {
 })
 
 // Show student data on single page
-$("table tr").dblclick(function(evt){
+$(document).on("dblclick", "table tr", function(evt){
     if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
         return;             
     }

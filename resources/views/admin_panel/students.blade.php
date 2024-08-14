@@ -648,7 +648,9 @@
     })
 
     // Show student data on index page
-    $("table tr").dblclick(function(evt){
+    $(document).on("dblclick", "table tr", function(evt){
+        console.log($(this).data("student-id"));
+        
         if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
             return;             
         }
