@@ -322,36 +322,45 @@ class StudentController extends Controller
 
 
     function fetch_single_student(int $id) {
-        $user = User::with('studentData')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
-        $attendance_rows = Attendance::where('student_id', $user->studentData->id)->orderBy('id', 'desc')->get();
+        $user = User::with('studentData')->with('studentData.room_row')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
+        $attendance_rows = Attendance::where('student_id', $user->studentData->id)->orderBy('date', 'desc')->get();
         $fees = Fee::where("student_id", $user->studentData->id)->where("is_deleted", "0")->orderBy('id', 'desc')->get();
-        $total_paid_fees = Fee::where("student_id", $id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
+        $total_paid_fees = Fee::where("student_id", $user->studentData->id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
 
-        $month_attendances = [];
-        foreach ($attendance_rows as $i => $attendance_row) {
-            $date = $attendance_row->date;
-            $date = substr($date, 0, 7);
-            $status = $attendance_row->status;
+        // $month_attendances = [];
+        // foreach ($attendance_rows as $i => $attendance_row) {
+        //     $date = $attendance_row->date;
+        //     $date = substr($date, 0, 7);
+        //     $status = $attendance_row->status;
             
-            if (array_key_exists($date, $month_attendances)) {
-                $presents = $month_attendances[$date]["present"];
-                $absents = $month_attendances[$date]["absent"];
+        //     if (array_key_exists($date, $month_attendances)) {
+        //         $presents = $month_attendances[$date]["present"];
+        //         $absents = $month_attendances[$date]["absent"];
 
-                if ($status == 'present') {
-                    $month_attendances[$date]["present"] = $presents + 1;
-                } elseif ($status == 'absent') {
-                    $month_attendances[$date]["absent"] = $absents + 1;
-                }
+        //         if ($status == 'present') {
+        //             $month_attendances[$date]["present"] = $presents + 1;
+        //         } elseif ($status == 'absent') {
+        //             $month_attendances[$date]["absent"] = $absents + 1;
+        //         }
 
-            } else {
-                if ($status == 'present') {
-                    $month_attendances[$date] = ["present" => 1, "absent" => 0];
-                } elseif ($status == 'absent') {
-                    $month_attendances[$date] = ["present" => 0, "absent" => 1];
-                }
-            }            
-        }
-        // dd($attendances);
+        //     } else {
+        //         if ($status == 'present') {
+        //             $month_attendances[$date] = ["present" => 1, "absent" => 0];
+        //         } elseif ($status == 'absent') {
+        //             $month_attendances[$date] = ["present" => 0, "absent" => 1];
+        //         }
+        //     }            
+        // }
+        $month_attendances = Attendance::selectRaw("
+            DATE_FORMAT(date, '%Y-%m') as month,
+            SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
+            SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent
+        ")
+        ->where('student_id', $user->studentData->id)
+        ->groupBy('month')
+        ->orderBy('month', 'desc')
+        ->get();
+
         return view('admin_panel.singleStudent', compact('user', 'attendance_rows', 'month_attendances', 'fees', "total_paid_fees"));
     }
 

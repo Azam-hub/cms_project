@@ -334,10 +334,28 @@
         </div>
     </div>
     <div class="row flex-column ">
-        <div class="col row justify-content-end align-items-center">
+        {{-- <div class="col row justify-content-end align-items-center">
             <div class="col-auto">
                 <button class="btn btn-primary mode-switch">Submitted Fees</button>
             </div>
+        </div> --}}
+        <div class="col row mb-4 border-1 border-dark-subtle py-1 px-2 border-bottom border-top">
+            {{-- <hr class="border border-dark-subtle border-1 opacity-50 my-1">     --}}
+            <ul class="nav nav-underline gap-5">
+                <li class="nav-item">
+                    <a class="nav-link mode-switch text-dark active" aria-current="page" href="#">Pending Fees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mode-switch text-dark" aria-current="page" href="#">Submitted Fees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mode-switch text-dark" aria-current="page" href="#">Not Started</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mode-switch text-dark" aria-current="page" href="#">Excluded</a>
+                </li>
+            </ul>
+            {{-- <hr class="border border-dark-subtle border-1 opacity-50 my-1"> --}}
         </div>
         <div class="col">
             <div class="table-responsive">
@@ -345,6 +363,18 @@
                     <h5 class="fw-semibold">Submitted Fees Records</h5>
                     <table id="submitted-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
+                            <tr class="search-row">
+                                <td class="search-row-1">Gr. No.</td>
+                                <td class="search-row-2">Student</td>
+                                <td class="search-row-3">Father</td>
+                                <td class="search-row-4">Room</td>
+                                <td class="search-row-5">Timing</td>
+                                <td class="search-row-6">Amount</td>
+                                <td class="search-row-7">Purpose</td>
+                                <td class="search-row-8">Description</td>
+                                <td class="search-row-9">Action</td>
+                                <td class="search-row-10">Added On</td>
+                            </tr>
                             <tr>
                                 <th class="text-center">Gr. No.</th>
                                 <th class="text-center">Student</th>
@@ -404,6 +434,16 @@
                     <h5 class="fw-semibold">Pending Fees Records</h5>
                     <table id="pending-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
+                            <tr class="search-row">
+                                <td class="search-row-1">Gr. No.</td>
+                                <td class="search-row-2">Student</td>
+                                <td class="search-row-3">Father</td>
+                                <td class="search-row-4">Room</td>
+                                <td class="search-row-5">Timing</td>
+                                <td class="search-row-6">Last Purpose</td>
+                                <td class="search-row-7">Action</td>
+                                <td class="search-row-8">Added On</td>
+                            </tr>
                             <tr>
                                 <th class="text-center">Gr. No.</th>
                                 <th class="text-center">Student</th>
@@ -417,30 +457,160 @@
                         </thead>
                         <tbody>
                             @forelse ($pending_fees as $pending_fee)
-                                <tr data-student-id="{{ $pending_fee->user_id }}">
-                                    <td class="text-center">{{ $pending_fee->gr_no }}.</td>
-                                    <td class="text-center">{{ $pending_fee->user_name }}</td>
-                                    <td class="text-center">{{ $pending_fee->father_name }}</td>
-                                    <td class="text-center">{{ $pending_fee->room_name }}</td>
-                                    <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[1])->format('h:i a') }}</td>
-                                    <td class="text-center">{!!
-                                    ($pending_fee->last_fee_purpose == "monthly") ?
-                                    DateTime::createFromFormat('m-Y', $pending_fee->last_fee_month)->format('M Y') :
-                                    (($pending_fee->last_fee_purpose == "") ?
-                                    '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
-                                    $pending_fee->last_fee_purpose)
-                                    !!}</td>
-                                    <td class="action-btns">
-                                        <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
-                                        <button class="btn btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
-                                    </td>
-                                    <td>{!! ($pending_fee->last_fee_date == "") ? 
-                                    '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
-                                    date('h:i a <b>||</b> d M, Y', strtotime($pending_fee->last_fee_date)) !!}</td>
-                                </tr>
-                                @php $pending_fees_count--; @endphp
+                                @if ($pending_fee->last_fee_purpose != "")
+                                    <tr data-student-id="{{ $pending_fee->user_id }}">
+                                        <td class="text-center">{{ $pending_fee->gr_no }}.</td>
+                                        <td class="text-center">{{ $pending_fee->user_name }}</td>
+                                        <td class="text-center">{{ $pending_fee->father_name }}</td>
+                                        <td class="text-center">{{ $pending_fee->room_name }}</td>
+                                        <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[1])->format('h:i a') }}</td>
+                                        <td class="text-center">{!!
+                                        ($pending_fee->last_fee_purpose == "monthly") ?
+                                        DateTime::createFromFormat('m-Y', $pending_fee->last_fee_month)->format('M Y') :
+                                        (($pending_fee->last_fee_purpose == "") ?
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                        $pending_fee->last_fee_purpose)
+                                        !!}</td>
+                                        <td class="action-btns">
+                                            <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
+                                            <button class="btn btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
+                                        </td>
+                                        <td>{!! ($pending_fee->last_fee_date == "") ? 
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        date('h:i a <b>||</b> d M, Y', strtotime($pending_fee->last_fee_date)) !!}</td>
+                                    </tr>
+                                    {{-- @php $pending_fees_count--; @endphp --}}
+                                @endif
                             @empty
                                 No pending_fees added.
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div id="not-started-fees" style="display: none;">
+                    <h5 class="fw-semibold">Not Started Fees Records</h5>
+                    <table id="not-started-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                        <thead>
+                            <tr class="search-row">
+                                <td class="search-row-1">Gr. No.</td>
+                                <td class="search-row-2">Student</td>
+                                <td class="search-row-3">Father</td>
+                                <td class="search-row-4">Room</td>
+                                <td class="search-row-5">Timing</td>
+                                <td class="search-row-6">Last Purpose</td>
+                                <td class="search-row-7">Action</td>
+                                <td class="search-row-8">Added On</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Gr. No.</th>
+                                <th class="text-center">Student</th>
+                                <th class="text-center">Father</th>
+                                <th class="text-center">Room</th>
+                                <th class="text-center">Timing</th>
+                                <th class="text-center">Last Purpose</th>
+                                <th class="action-btns text-center">Action</th>
+                                <th class="text-center">Last Added On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($pending_fees as $pending_fee)
+                                @if ($pending_fee->last_fee_purpose == "")
+                                    <tr data-student-id="{{ $pending_fee->user_id }}">
+                                        <td class="text-center">{{ $pending_fee->gr_no }}.</td>
+                                        <td class="text-center">{{ $pending_fee->user_name }}</td>
+                                        <td class="text-center">{{ $pending_fee->father_name }}</td>
+                                        <td class="text-center">{{ $pending_fee->room_name }}</td>
+                                        <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $pending_fee->timing)[1])->format('h:i a') }}</td>
+                                        <td class="text-center">{!!
+                                        ($pending_fee->last_fee_purpose == "monthly") ?
+                                        DateTime::createFromFormat('m-Y', $pending_fee->last_fee_month)->format('M Y') :
+                                        (($pending_fee->last_fee_purpose == "") ?
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                        $pending_fee->last_fee_purpose)
+                                        !!}</td>
+                                        <td class="action-btns">
+                                            <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
+                                            <button class="btn btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
+                                        </td>
+                                        <td>{!! ($pending_fee->last_fee_date == "") ? 
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        date('h:i a <b>||</b> d M, Y', strtotime($pending_fee->last_fee_date)) !!}</td>
+                                    </tr>
+                                    {{-- @php $pending_fees_count--; @endphp --}}
+                                @endif
+                            @empty
+                                No pending_fees added.
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div id="exclude-students" style="display: none;">
+                    <h5 class="fw-semibold">Exclude Students Fees Records</h5>
+                    <table id="exclude-students-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                        <thead>
+                            <tr class="search-row">
+                                <td class="search-row-1">Gr. No.</td>
+                                <td class="search-row-2">Student</td>
+                                <td class="search-row-3">Father</td>
+                                <td class="search-row-4">Room</td>
+                                <td class="search-row-5">Timing</td>
+                                <td class="search-row-6">Last Amount</td>
+                                <td class="search-row-7">Last Purpose</td>
+                                <td class="search-row-8">Action</td>
+                                <td class="search-row-9">Last Added On</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Gr. No.</th>
+                                <th class="text-center">Student</th>
+                                <th class="text-center">Father</th>
+                                <th class="text-center">Room</th>
+                                <th class="text-center">Timing</th>
+                                <th class="text-center">Last Amount</th>
+                                <th class="text-center">Last Purpose</th>
+                                <th class="action-btns text-center">Action</th>
+                                <th class="text-center">Last Added On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($exclude_students as $exclude_student)
+                                <tr data-student-id="{{ $exclude_student->user_p_id }}">
+                                    <td class="text-center">{{ $exclude_student->gr_no }}.</td>
+                                    <td class="text-center">{{ $exclude_student->user_name }}</td>
+                                    <td class="text-center">{{ $exclude_student->father_name }}</td>
+                                    <td class="text-center">{{ $exclude_student->room_name }}</td>
+                                    <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $exclude_student->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $exclude_student->timing)[1])->format('h:i a') }}</td>
+                                    <td class="text-center">
+                                        {!!
+                                        $exclude_student->last_fee_amount == "" ? 
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        $exclude_student->last_fee_amount 
+                                        !!}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {!!
+                                        ($exclude_student->last_fee_purpose == "monthly") ?
+                                        DateTime::createFromFormat('m-Y', $exclude_student->last_fee_month)->format('M Y') :
+                                        (($exclude_student->last_fee_purpose == "") ?
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                        $exclude_student->last_fee_purpose)
+                                        !!}
+                                    </td>
+
+                                    <td class="action-btns">
+                                        {{-- <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $exclude_student->student_id }}">Submit Fees</button> --}}
+                                        <button class="btn btn-primary include-btn" style="font-size: 14px; !important" data-student-id="{{ $exclude_student->student_p_id }}">Include</button>
+                                    </td>
+                                    <td>
+                                        {!! ($exclude_student->last_fee_date == "") ? 
+                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        date('h:i a <b>||</b> d M, Y', strtotime($exclude_student->last_fee_date)) 
+                                        !!}
+                                    </td>
+                                </tr>
+                                    {{-- @php $exclude_students_count--; @endphp --}}
+                            @empty
+                                No exclude_students added.
                             @endforelse
                         </tbody>
                     </table>
@@ -604,19 +774,56 @@ function fetch_student_fee_record(student_id) {
     })
 }
 
-$(".mode-switch").click(function () {
-    if ($(this).text() == "Submitted Fees") {
-        $(this).text("Pending Fees")
-        $("#pending-fees").hide()
-        $("#submitted-fees").show()
-    } else {
-        $(this).text("Submitted Fees")
+$(".mode-switch").click(function (e) {
+    // console.log($(this).text());
+    e.preventDefault()
+    $(".mode-switch").removeClass("active")
+    $(this).addClass("active")
+    
+    if ($(this).text() == "Pending Fees") {
         $("#pending-fees").show()
         $("#submitted-fees").hide()
+        $("#not-started-fees").hide()
+        $("#exclude-students").hide()
+    } else if ($(this).text() == "Submitted Fees") {
+        $("#pending-fees").hide()
+        $("#submitted-fees").show()
+        $("#not-started-fees").hide()
+        $("#exclude-students").hide()
+    } else if ($(this).text() == "Not Started") {
+        $("#pending-fees").hide()
+        $("#submitted-fees").hide()
+        $("#not-started-fees").show()
+        $("#exclude-students").hide()
+    } else if ($(this).text() == "Excluded") {
+        $("#pending-fees").hide()
+        $("#submitted-fees").hide()
+        $("#not-started-fees").hide()
+        $("#exclude-students").show()
     }
 })
 
-$('#submitted-fees-table, #pending-fees-table').DataTable({
+$('#submitted-fees-table, #pending-fees-table, #not-started-fees-table, #exclude-students-table').DataTable({
+    initComplete: function () {
+        let i = 1;
+        this.api()
+            .columns()
+            .every(function () {
+                var column = this;
+                var title = column.header().textContent;
+
+                // Create input element and add event listener
+                $('<input type="text" placeholder="Search ' + title + '" />')
+                    .appendTo($(`.search-row-${i}`).empty())
+                    .on('keyup change clear', function () {
+                        if (column.search() !== this.value) {
+                            column.search(this.value).draw();
+                        }
+                    });
+
+                i++;
+            });
+    },
     dom: 'lBfrtip',
     buttons: [
         'copy', 'csv', 'excel', 'pdf', 'print'
@@ -666,9 +873,11 @@ $(".submit-fee-btn").click(function () {
     fetch_student_fee_record(student_id)
 })
 
-$(".exclude-btn").click(function () {
-    let student_id = $(this).data("student-id");    
-    fetch("/admin/fees/process_excludeStudent/" + student_id).then((res) => {return res.json()}).then(function (data) {
+$(".exclude-btn, .include-btn").click(function () {
+    let student_id = $(this).data("student-id");
+    let action = $(this).text();
+    
+    fetch("/admin/fees/process_excludeIncludeStudent/" + student_id + "/" + action).then((res) => {return res.json()}).then(function (data) {
         console.log(data);
         if (data == 1) {
             location.reload()
@@ -676,18 +885,6 @@ $(".exclude-btn").click(function () {
         
     })
 })
-
-// Show student data on index page
-$("table tr").dblclick(function(evt){
-    if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
-        return;             
-    }
-    let student_id = $(this).data("student-id");
-    if (student_id != undefined) {
-        window.open(`/admin/single_student/${student_id}`, '_blank');
-    }
-});
-
 
 // Modifying Modal for editting admin
 $(document).on('click', ".edit-btn", function() {
@@ -770,6 +967,17 @@ $(document).on("click", ".del-btn", function() {
     })
 
 })
+
+// Show student data on single page
+$("table tr").dblclick(function(evt){
+    if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
+        return;             
+    }
+    let student_id = $(this).data("student-id");
+    if (student_id != undefined) {
+        window.open(`/admin/single_student/${student_id}`, '_blank');
+    }
+});
 </script>
 
 

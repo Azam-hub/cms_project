@@ -337,6 +337,65 @@
             $(this).find('.chevron').css("transform", 'rotate(90deg)')
         }
     })
+
+    // function check_sidebar(load) {
+    //     let show = localStorage.getItem("show");
+    //     if (show == "1" || localStorage.getItem("show") === null) {
+            
+    //         // if (load == true) {
+                
+    //         //     $('.sidebar').show("slide", { direction: "left" }, 200);
+    //         // } else {
+                
+    //         // }
+    //         $('.sidebar').removeClass("d-none");
+    //         $('.sidebar').addClass("d-block");
+            
+    //         $('.content').removeClass("col-xl-12")
+    //         $('.content').addClass("col-xl-10")
+            
+    //         $('.bg').removeClass('d-none')
+    //         $('.bg').addClass('d-block')
+    //     } else {
+            
+    //         // if (load == true) {
+                
+    //         //     $('.sidebar').hide("slide", { direction: "left" }, 200);
+    //         // } else {
+                
+    //         // }
+    //         $('.sidebar').addClass("d-none");
+    //         // $('.sidebar').hide();
+            
+    //         $('.content').removeClass("col-xl-10")
+    //         $('.content').addClass("col-xl-12")
+    //     }
+    // }
+    
+    // $(document).on("click", ".fa-bars", function () {
+    //     if ($('.sidebar').css('display') == 'none') {
+            
+    //         // $('.sidebar').show("slide", { direction: "left" }, 200);
+            
+    //         // $('.content').removeClass("col-xl-12")
+    //         // $('.content').addClass("col-xl-10")
+
+    //         // $('.bg').removeClass('d-none')
+    //         // $('.bg').addClass('d-block')
+    //         localStorage.setItem("show", "1")
+    //     } else {
+    //         localStorage.setItem("show", "0")
+            
+    //         // $('.sidebar').hide("slide", { direction: "left" }, 200);
+            
+    //         // $('.content').removeClass("col-xl-10")
+    //         // $('.content').addClass("col-xl-12")
+    //     }
+    //     check_sidebar(false)
+    // })
+    // // localStorage.setItem("show", "1")
+    // check_sidebar(true)
+
     $(document).on("click", ".fa-bars", function () {
         if ($('.sidebar').css('display') == 'none') {
             

@@ -1,30 +1,3 @@
-@php
-
-    if (!function_exists('convertTimeRange')) {
-
-        function convertTimeRange($timeRange) {
-            // Split the time range
-            list($startHour, $endHour) = explode('-', $timeRange);
-
-            // Helper function to format hours
-            if (!function_exists('formatHour')) {
-
-                function formatHour($hour) {
-                    $period = ($hour == 12 || $hour == 11) ? 'am' : 'pm';
-                    $formattedHour = $hour % 12 == 0 ? 12 : $hour % 12;
-                    return str_pad($formattedHour, 2, '0', STR_PAD_LEFT) . ":00 " . $period;
-                }
-            }
-
-            $startFormatted = formatHour((int)$startHour);
-            $endFormatted = formatHour((int)$endHour);
-
-            return "{$startFormatted} to {$endFormatted}";
-        }
-    }
-
-@endphp
-
 @extends('student._layout')
 
 
@@ -77,6 +50,14 @@ Home
                     <p class="m-0">{!! date('h:i a <b>||</b> d M, Y', strtotime($user->created_at)) !!}</p>
                 </div>
                 <div class="info">
+                    <h6 class="m-0 mb-1 fw-bolder">Annual Fees</h6>
+                    <p class="m-0">{{ $user->studentData->annual_fees }}</p>
+                </div>
+                <div class="info">
+                    <h6 class="m-0 mb-1 fw-bolder">Shift</h6>
+                    <p class="m-0">{{ ucfirst($user->studentData->shift) }}</p>
+                </div>
+                <div class="info">
                     <h6 class="m-0 mb-1 fw-bolder">Name</h6>
                     <p class="m-0">{{ $user->name }}</p>
                 </div>
@@ -85,7 +66,7 @@ Home
                     <p class="m-0">{{ $user->father_name }}</p>
                 </div>
                 <div class="info status-div">
-                    <h6 class="m-0 mb-1 fw-bolder">Assessment Status</h6>
+                    <h6 class="m-0 mb-1 fw-bolder">Status</h6>
                     <p class="m-0">
                         {{-- <span class="status not-allowed-status">Not Allowed</span> --}}
                         {{-- <span class="status pending-status">Pending</span>
@@ -117,7 +98,7 @@ Home
                 <div class="row my-grid gap-3">
                     <div class="col info room">
                         <h6 class="m-0 mb-1 fw-bolder">Room</h6>
-                        <p class="m-0">{{ $user->studentData->room }}</p>
+                        <p class="m-0">{{ $user->studentData->room_row->name }}</p>
                     </div>
                     <div class="col info seat">
                         <h6 class="m-0 mb-1 fw-bolder">Seat</h6>
@@ -125,7 +106,8 @@ Home
                     </div>
                     <div class="col info timing">
                         <h6 class="m-0 mb-1 fw-bolder">Timing</h6>
-                        <p class="m-0">{{ convertTimeRange($user->studentData->timing) }}</p>
+                        {{-- <p class="m-0">{{ convertTimeRange($user->studentData->timing) }}</p> --}}
+                        <p class="m-0">{{ \DateTime::createFromFormat('G', explode('-', $user->studentData->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $user->studentData->timing)[1])->format('h:i a') }}</p>
                     </div>
                 </div>
                 <div class="info">
@@ -160,8 +142,11 @@ Home
                 </div>
             </div>
             <div class="px-3 py-2 collapse" id="collapse-attendance">
-                <div class="table-responsive">
-                    <table id="attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                <div class="row justify-content-start mb-2">
+                    <button class="col-auto btn btn-primary" id="attendance-mode">Day wise Attendance</button>
+                </div>
+                <div class="table-responsive" style="display: none;" id="full-attendance-div">
+                    <table id="full-attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -193,6 +178,30 @@ Home
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive" id="month-attendance-div">
+                    <table id="month-attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($month_attendances as $attendance)
+                                <tr>
+                                    <td class="text-center py-2">{{ date('M-Y', strtotime($attendance->month)) }}</td>
+                                    <td class="status-td text-center" style="font-size: 14px">
+                                        <span class="px-2 py-1 rounded-2 text-light bg-success d-inline-block"><b style="font-size: 15px">{{ $attendance->present }}</b> Presents</span>
+                                        <span class="px-2 py-1 rounded-2 text-light bg-danger d-inline-block"><b style="font-size: 15px">{{ $attendance->absent }}</b> Absents</span>
+                                    </td>
+                                </tr>
+                            @empty
+                                No attendance marked.
+                            @endforelse
+                    
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="collapse-head row my-2" data-bs-toggle="collapse" data-bs-target="#collapse-modules" aria-expanded="false" aria-controls="collapse-modules">
@@ -204,7 +213,6 @@ Home
                     <i class="fa-solid fa-chevron-left"></i>
                 </div>
             </div>
-
             <div class="px-3 my-4 collapse" id="collapse-modules">
                 <h3 class="text-center"><q>{{ $user->studentData->course->name }}</q> Modules</h3>
                 <div class="modules my-3">
@@ -231,6 +239,52 @@ Home
                 </div>
             </div>
 
+            <div class="collapse-head row my-2" data-bs-toggle="collapse" data-bs-target="#collapse-fees" aria-expanded="false" aria-controls="collapse-fees">
+                <div class="left col-auto">
+                    <h5 class="m-0">Fees Record</h5>
+                </div>
+                <div class="middle col-auto"></div>
+                <div class="right col-auto">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </div>
+            </div>
+            <div class="px-3 py-2 collapse" id="collapse-fees">
+                <div class="table-responsive">
+                    <table id="fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
+                        <thead>
+                            <tr>
+                                {{-- <th>S. no.</th> --}}
+                                <th>Purpose</th>
+                                <th>Month</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Added on</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                            @forelse ($fees as $fee)
+                                <tr>
+                                    <td class="text-center">{{ ucfirst($fee->purpose) }}</td>
+                                    <td class="text-center">{{ ($fee->month == "-") ? "-" : DateTime::createFromFormat('m-Y', $fee->month)->format('M Y') }}</td>
+                                    <td class="text-center">{{ $fee->description }}</td>
+                                    <td class="text-center">{{ $fee->amount }}</td>
+                                    <td class="text-center w-25">{!! date('h:i a <b>||</b> d M, Y', strtotime($fee->created_at)) !!}</td>
+                                </tr>
+                            @empty
+                                No attendance marked.
+                            @endforelse
+                            <!-- <tr>
+                                <td colspan="3">Total:</td>
+                                <td>{{ $total_paid_fees }}</td>
+                                <td></td>
+                            </tr> -->
+                            
+    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -242,7 +296,19 @@ Home
 
 <script>
 
-$('#attendance-table').DataTable({
+$('#attendance-mode').click(function () {
+    if ($(this).text() == "Day wise Attendance") {
+        $(this).text("Month wise Attendance")
+        $("#full-attendance-div").show()
+        $("#month-attendance-div").hide()
+    } else {
+        $(this).text("Day wise Attendance")
+        $("#full-attendance-div").hide()
+        $("#month-attendance-div").show()
+    }
+})
+
+$('#full-attendance-table, #month-attendance-table, #fees-table').DataTable({
     dom: 'lBfrtip',
     buttons: [
         'copy', 'csv', 'excel', 'pdf', 'print'

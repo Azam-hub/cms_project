@@ -1,30 +1,3 @@
-@php
-
-    if (!function_exists('convertTimeRange')) {
-
-        function convertTimeRange($timeRange) {
-            // Split the time range
-            list($startHour, $endHour) = explode('-', $timeRange);
-
-            // Helper function to format hours
-            if (!function_exists('formatHour')) {
-
-                function formatHour($hour) {
-                    $period = ($hour == 12 || $hour == 11) ? 'am' : 'pm';
-                    $formattedHour = $hour % 12 == 0 ? 12 : $hour % 12;
-                    return str_pad($formattedHour, 2, '0', STR_PAD_LEFT) . ":00 " . $period;
-                }
-            }
-
-            $startFormatted = formatHour((int)$startHour);
-            $endFormatted = formatHour((int)$endHour);
-
-            return "{$startFormatted} to {$endFormatted}";
-        }
-    }
-
-@endphp
-
 @extends('admin_panel._layout')
 
 
@@ -80,7 +53,7 @@
                     <p class="m-0">{{ $user->father_name }}</p>
                 </div>
                 <div class="info status-div">
-                    <h6 class="m-0 mb-1 fw-bolder">Assessment Status</h6>
+                    <h6 class="m-0 mb-1 fw-bolder">Status</h6>
                     <p class="m-0">
                         {{-- <span class="status not-allowed-status">Not Allowed</span> --}}
                         {{-- <span class="status pending-status">Pending</span>
@@ -106,7 +79,7 @@
                     </p>
                 </div>
                 <div class="info">
-                    <h6 class="m-0 mb-1 fw-bolder">Assessment Action</h6>
+                    <h6 class="m-0 mb-1 fw-bolder">Action</h6>
                     {{-- <p class="m-0"> --}}
                         {{-- <button class="mt-1 btn btn-primary status-change-btn" data-student-id="">Allow</button>
                         <button class="mt-1 btn btn-danger status-change-btn" data-student-id="">Disallow</button> --}}
@@ -172,7 +145,7 @@
                 <div class="row my-grid gap-3">
                     <div class="col info room">
                         <h6 class="m-0 mb-1 fw-bolder">Room</h6>
-                        <p class="m-0">{{ $user->studentData->room }}</p>
+                        <p class="m-0">{{ $user->studentData->room_row->name }}</p>
                     </div>
                     <div class="col info seat">
                         <h6 class="m-0 mb-1 fw-bolder">Seat</h6>
@@ -180,7 +153,7 @@
                     </div>
                     <div class="col info timing">
                         <h6 class="m-0 mb-1 fw-bolder">Timing</h6>
-                        <p class="m-0">{{ convertTimeRange($user->studentData->timing) }}</p>
+                        <p class="m-0">{{ \DateTime::createFromFormat('G', explode('-', $user->studentData->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $user->studentData->timing)[1])->format('h:i a') }}</p>
                     </div>
                 </div>
                 <div class="info">
@@ -206,6 +179,22 @@
                 <div class="info">
                     <h6 class="m-0 mb-1 fw-bolder">Address</h6>
                     <p class="m-0">{{ $user->address }}</p>
+                </div>
+                <div class="info">
+                    <h6 class="m-0 mb-1 fw-bolder">Annual Fees</h6>
+                    <p class="m-0">{{ $user->studentData->annual_fees }}</p>
+                </div>
+                <div class="info">
+                    <h6 class="m-0 mb-1 fw-bolder">Discount</h6>
+                    <p class="m-0">{{ $user->studentData->discount }}%</p>
+                </div>
+                <div class="info">
+                    <h6 class="m-0 mb-1 fw-bolder">Shift</h6>
+                    <p class="m-0">{{ ucfirst($user->studentData->shift) }}</p>
+                </div>
+                <div class="info">
+                    <h6 class="m-0 mb-1 fw-bolder">Exclude from Fees Reminder</h6>
+                    <p class="m-0">{{ $user->studentData->exclude == "0" ? "Not Excluded" : "Excluded" }}</p>
                 </div>
             </div>
 
@@ -264,12 +253,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($month_attendances as $date => $attendance)
+                            @forelse ($month_attendances as $attendance)
                                 <tr>
-                                    <td class="text-center py-2">{{ date('M-Y', strtotime($date)) }}</td>
+                                    <td class="text-center py-2">{{ date('M-Y', strtotime($attendance->month)) }}</td>
                                     <td class="status-td text-center" style="font-size: 14px">
-                                        <span class="px-2 py-1 rounded-2 text-light bg-success d-inline-block"><b style="font-size: 15px">{{ $attendance['present'] }}</b> Presents</span>
-                                        <span class="px-2 py-1 rounded-2 text-light bg-danger d-inline-block"><b style="font-size: 15px">{{ $attendance['absent'] }}</b> Absents</span>
+                                        <span class="px-2 py-1 rounded-2 text-light bg-success d-inline-block"><b style="font-size: 15px">{{ $attendance->present }}</b> Presents</span>
+                                        <span class="px-2 py-1 rounded-2 text-light bg-danger d-inline-block"><b style="font-size: 15px">{{ $attendance->absent }}</b> Absents</span>
                                     </td>
                                 </tr>
                             @empty

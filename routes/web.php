@@ -86,7 +86,7 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
         Route::post('/fees/process_addRecord', [FeesController::class, 'process_addRecord'])->name('admin_panel.process_addRecord');
         Route::post('/fees/process_editRecord', [FeesController::class, 'process_editRecord'])->name('admin_panel.process_editRecord');
         Route::get('/fees/process_destroyRecord/{id}', [FeesController::class, 'process_destroyRecord'])->name('admin_panel.process_destroyRecord');
-        Route::get('/fees/process_excludeStudent/{id}', [FeesController::class, 'process_excludeStudent'])->name('admin_panel.process_excludeStudent');
+        Route::get('/fees/process_excludeIncludeStudent/{id}/{action}', [FeesController::class, 'process_excludeIncludeStudent'])->name('admin_panel.process_excludeIncludeStudent');
 
     
         Route::get('/results', [ResultController::class, 'index'])->name('admin_panel.results');

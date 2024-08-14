@@ -231,6 +231,20 @@
                 <div class="table-responsive">
                     <table id="student-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
+                            <tr class="search-row">
+                                <td class="search-row-1">G.R. No.</td>
+                                <td class="search-row-2">Profile Picture</td>
+                                <td class="search-row-3">Name</td>
+                                <td class="search-row-4">Father's Name</td>
+                                <td class="search-row-5">Course</td>
+                                <td class="search-row-6">Status</td>
+                                <td class="search-row-7">Mobile No.</td>
+                                <td class="search-row-8">Annual Fees</td>
+                                <td class="search-row-9">Discount (%)</td>
+                                <td class="search-row-10">Action</td>
+                                <td class="search-row-11">Action</td>
+                                <td class="search-row-12">Added On</td>
+                            </tr>
                             <tr>
                                 {{-- <th>S. No.</th> --}}
                                 <th>G.R. No.</th>
@@ -416,6 +430,26 @@
 
     // Datatable plugin
     $('#student-table').DataTable({
+        initComplete: function () {
+            let i = 1;
+            this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var title = column.header().textContent;
+    
+                    // Create input element and add event listener
+                    $('<input type="text" placeholder="Search ' + title + '" />')
+                        .appendTo($(`.search-row-${i}`).empty())
+                        .on('keyup change clear', function () {
+                            if (column.search() !== this.value) {
+                                column.search(this.value).draw();
+                            }
+                        });
+
+                    i++;
+                });
+        },
         dom: 'lBfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'

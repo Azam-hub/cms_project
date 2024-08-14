@@ -76,23 +76,57 @@ class FeesController extends Controller
         ->where('students.exclude', '0')
         // ->groupBy('students.id', 'students.gr_no', 'users.name', 'students.timing', 'rooms.name', 'fees.student_id')
         ->groupBy('students.id')
-        ->orderBy('users.name', 'asc')
+        ->orderBy('last_fee_date', 'asc')
         ->get();
 
-        $pending_fees_count = $pending_fees->count();
-
-
+        // $exclude_students = Student::with("user", function ($query) {
+        //     $query->where("is_deleted", "0");
+        // })->where("status", "running")
+        // ->where("exclude", "1")
+        // // ->where("is_deleted", "0")
+        // // ->orderBy("fees.id", "desc")
+        // ->get();
         
-        // foreach ($pending_fees as $pending_fee) {
-        //     echo $pending_fee->gr_no. " : " .$pending_fee->user_name;
-        //     echo "<br>";
-        //     echo $pending_fee->last_fee_date. " : " .$pending_fee->last_fee_month. " : " .$pending_fee->last_fee_purpose;
-        //     echo "<br>";
-        //     echo "<br>";
-        // }
-        // dd($pending_fees);
+        $exclude_students = Student::join('users', 'users.id', '=', 'students.user_id')
+        ->join("rooms", "rooms.id", "=", "students.room")
+        ->leftJoin('fees as last_fee', function($join) {
+            $join->on('last_fee.student_id', '=', 'students.id')
+                 ->whereRaw('last_fee.id = (SELECT MAX(id) FROM fees WHERE fees.student_id = students.id)');
+        })
+        ->where("students.status", "running")
+        ->where("students.exclude", "1")
+        ->where("users.is_deleted", "0")
+        ->select(
+            "students.id AS student_p_id", 
+            // 'students.*', 
+            'students.gr_no', 
+            'users.name AS user_name', 
+            'users.father_name', 
+            'rooms.name AS room_name', 
+            'students.timing', 
+            "users.id AS user_p_id", 
+            
+            'last_fee.id AS last_fee_p_id',
+            'last_fee.amount AS last_fee_amount', // Add other fee columns you want to select
+            'last_fee.purpose AS last_fee_purpose',
+            'last_fee.month AS last_fee_month',
+            'last_fee.created_at AS last_fee_date'
+        )
+        // ->with(['fees' => function($query) {
+        //     $query->orderBy('id', 'desc')->take(1); // Get the latest fee record
+        // }])
+        ->get();
 
-        return view("admin_panel.fees", compact("rooms", "submitted_fees", "submitted_fees_count", "pending_fees", "pending_fees_count"));
+        // $last_fee_record = "";
+        // if ($exclude_students) {
+        //     $last_fee_record = Fee::where($exclude_students->student_p_id)->orderBy('id', "desc")->first();
+        // }
+
+        // dd($exclude_students);
+
+        // $pending_fees_count = $pending_fees->count();
+
+        return view("admin_panel.fees", compact("rooms", "submitted_fees", "submitted_fees_count", "pending_fees", "exclude_students"));
     }
 
     function fetch_students($room, $timing) {
@@ -309,10 +343,14 @@ class FeesController extends Controller
         }
     }
 
-    function process_excludeStudent($id) {
+    function process_excludeIncludeStudent($id, $action) {
         // return $id;
         $student = Student::find($id);
-        $student->exclude = "1";
+        if ($action == "Include") {
+            $student->exclude = "0";            
+        } elseif ($action == "Exclude") {
+            $student->exclude = "1";
+        }
         if ($student->save()) {
             return 1;
         }

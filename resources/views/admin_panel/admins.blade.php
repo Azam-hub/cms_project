@@ -149,6 +149,20 @@
             <div class="table-responsive">
                 <table id="admin-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                     <thead>
+                        <tr class="search-row">
+                            <td class="search-row-1">S. No.</td>
+                            <td class="search-row-2">Profile Picture</td>
+                            <td class="search-row-3">Name</td>
+                            <td class="search-row-4">Father's Name</td>
+                            <td class="search-row-5">CNIC/B-Form No.</td>
+                            <td class="search-row-6">Date of Birth</td>
+                            <td class="search-row-7">Email ID</td>
+                            <td class="search-row-8">Mobile No.</td>
+                            <td class="search-row-9">Address</td>
+                            <td class="search-row-10">Post</td>
+                            <td class="search-row-11">Action</td>
+                            <td class="search-row-12">Added On</td>
+                        </tr>
                         <tr>
                             <th class="text-center">S. No.</th>
                             <th class="text-center">Profile Picture</th>
@@ -220,6 +234,26 @@
 @section('script')
 <script>
     $('#admin-table').DataTable({
+        initComplete: function () {
+            let i = 1;
+            this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var title = column.header().textContent;
+    
+                    // Create input element and add event listener
+                    $('<input type="text" placeholder="Search ' + title + '" />')
+                        .appendTo($(`.search-row-${i}`).empty())
+                        .on('keyup change clear', function () {
+                            if (column.search() !== this.value) {
+                                column.search(this.value).draw();
+                            }
+                        });
+
+                    i++;
+                });
+        },
         dom: 'lBfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'

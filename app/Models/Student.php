@@ -27,7 +27,7 @@ class Student extends Model
     }
 
     function fees() {
-        return $this->hasMany("fees", "student_id", "id");
+        return $this->hasMany(Fee::class, "student_id", "id");
     }
 
 }
