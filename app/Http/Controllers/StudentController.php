@@ -19,7 +19,7 @@ class StudentController extends Controller
 {
     function index() {
         $students = User::with('studentData')->with("studentData.course")->where('role', 'student')->where('is_deleted', '0')->orderBy('id', 'desc')->get();
-        $courses = Course::where('is_deleted', '0')->orderBy('id', 'desc')->get();
+        $courses = Course::where('deactive', '0')->where('is_deleted', '0')->orderBy('id', 'desc')->get();
         $rooms = Room::where('is_deleted', '0')->orderBy('id', 'desc')->get();
 
         $studentsCount = $students->count();

@@ -136,7 +136,7 @@
                     </thead>
                     <tbody>
                         @forelse ($rosters as $roster)
-                            <tr data-admin-id="{{ $roster->admin_id }}">
+                            <tr data-admin-id="{{ $roster->admin_id }}" class="cursor-pointer">
                                 <td class="text-center">{{ $rosters_count }}.</td>
                                 <td class="text-center">{{ $roster->user->name }}</td>
                                 <td class="text-center">{{ $roster->room->name }}</td>

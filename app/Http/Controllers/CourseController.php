@@ -106,4 +106,20 @@ class CourseController extends Controller
         }
         
     }
+
+    function process_statusChangeCourse($id, $action) {
+        $course = Course::find($id);
+
+        if ($action == "Active") {
+            $course->deactive = '0';
+        } elseif ($action == "Deactive") {
+            $course->deactive = '1';
+        }
+
+        if ($course->save()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

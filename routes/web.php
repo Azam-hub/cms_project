@@ -71,6 +71,7 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
         Route::post('/courses/process_addCourse', [CourseController::class, 'process_addCourse'])->name("admin_panel.process_addCourse");
         Route::post('/courses/process_editCourse', [CourseController::class, 'process_editCourse'])->name("admin_panel.process_editCourse");
         Route::get('/courses/process_destroyCourse/{id}', [CourseController::class, 'process_destroyCourse'])->name("admin_panel.process_destroyCourse");
+        Route::get('/courses/process_statusChangeCourse/{id}/{action}', [CourseController::class, 'process_statusChangeCourse'])->name("admin_panel.process_statusChangeCourse");
     
     
         Route::get('/students', [StudentController::class, 'index'])->name('admin_panel.students');

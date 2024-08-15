@@ -267,7 +267,7 @@
                         </thead>
                         <tbody>
                             @forelse ($students as $student)
-                                <tr data-student-id="{{ $student->id }}">
+                                <tr data-student-id="{{ $student->id }}" class="cursor-pointer">
                                     {{-- <td>{{ $studentsCount }}.</td> --}}
                                     <td>{{ $student->studentData->gr_no }}</td>
                                     <td class="profile-pic-td">

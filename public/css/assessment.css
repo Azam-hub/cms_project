@@ -12,3 +12,7 @@
 .question, .result {
     display: none;
 }
+
+.progress-bar {
+    transition: 3.7s ease;
+}

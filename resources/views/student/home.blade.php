@@ -19,7 +19,7 @@ Home
         <div class="section">
             <div class="row">
                 <div class="col">
-                    <h4 class="text-center mb-3">Information of <b style="font-size: 26px"><q>{{ $user->name }}</q></b></h4>
+                    <h4 class="text-center mb-3">Portal of <b style="font-size: 26px"><q>{{ $user->name }}</q></b></h4>
                 </div>
             </div>
                     

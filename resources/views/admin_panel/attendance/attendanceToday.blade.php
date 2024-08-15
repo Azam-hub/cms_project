@@ -53,7 +53,7 @@
                     <tbody>
 
                         @forelse ($students as $student)
-                            <tr data-user-id="{{ $student->user->id }}">
+                            <tr data-user-id="{{ $student->user->id }}" class="cursor-pointer">
                                 <td>{{ $count }}.</td>
                                 <td>{{ $student->gr_no }}</td>
                                 <td class="profile-pic-td">

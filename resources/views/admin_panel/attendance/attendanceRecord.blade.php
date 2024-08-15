@@ -150,7 +150,7 @@
                         attendance = student.attendance.status
                     }
                     
-                    rows += `<tr data-user-id="${student.user.id}">
+                    rows += `<tr data-user-id="${student.user.id}" class="cursor-pointer">
                                 <td>${count}.</td>
                                 <td>${student.gr_no}</td>
                                 <td class="profile-pic-td">

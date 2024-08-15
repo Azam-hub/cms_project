@@ -133,6 +133,11 @@
                                 </td>
                                 <td>{{ $course->questions_to_ask }}</td>
                                 <td class="action-btns">
+                                    {!! $course->deactive == "0" ?
+                                    '<button class="btn btn-danger d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Deactive</button>' :
+                                    '<button class="btn btn-primary d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Active</button>' !!}
+                                    
+
                                     <button class="btn btn-primary edit-btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#course-modal"
@@ -246,7 +251,7 @@
         // console.log(module_ids_arr);
     })
     
-    // Ajax call to delete course
+    //  call to delete course
     $(document).on('click', ".del-btn", function () {
         let course_id = $(this).data('course-id')
     
@@ -255,6 +260,26 @@
         }).then(function (result) {
             if (result == 1) {
                 $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
+            } else {
+                console.log(result);
+            }
+        })
+    
+    });
+
+    //  call to change status of course
+    $(document).on('click', ".active-deactive-btn", function () {
+        let course_id = $(this).data('course-id')
+        console.log(course_id);
+        
+        let action = $(this).text()
+
+        fetch('/admin/courses/process_statusChangeCourse/'+course_id+"/"+action).then(function (response) {
+            return response.json()
+        }).then(function (result) {
+            if (result == 1) {
+                // $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
+                location.reload()
             } else {
                 console.log(result);
             }

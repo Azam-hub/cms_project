@@ -390,7 +390,7 @@
                         </thead>
                         <tbody>
                             @forelse ($submitted_fees as $submitted_fee)
-                                <tr data-student-id="{{ $submitted_fee->student->user->id }}">
+                                <tr data-student-id="{{ $submitted_fee->student->user->id }}" class="cursor-pointer">
                                     <td class="text-center">{{ $submitted_fee->student->gr_no }}.</td>
                                     <td class="text-center">{{ $submitted_fee->student->user->name }}</td>
                                     <td class="text-center">{{ $submitted_fee->student->user->father_name }}</td>
@@ -458,7 +458,7 @@
                         <tbody>
                             @forelse ($pending_fees as $pending_fee)
                                 @if ($pending_fee->last_fee_purpose != "")
-                                    <tr data-student-id="{{ $pending_fee->user_id }}">
+                                    <tr data-student-id="{{ $pending_fee->user_id }}" class="cursor-pointer">
                                         <td class="text-center">{{ $pending_fee->gr_no }}.</td>
                                         <td class="text-center">{{ $pending_fee->user_name }}</td>
                                         <td class="text-center">{{ $pending_fee->father_name }}</td>
@@ -515,7 +515,7 @@
                         <tbody>
                             @forelse ($pending_fees as $pending_fee)
                                 @if ($pending_fee->last_fee_purpose == "")
-                                    <tr data-student-id="{{ $pending_fee->user_id }}">
+                                    <tr data-student-id="{{ $pending_fee->user_id }}" class="cursor-pointer">
                                         <td class="text-center">{{ $pending_fee->gr_no }}.</td>
                                         <td class="text-center">{{ $pending_fee->user_name }}</td>
                                         <td class="text-center">{{ $pending_fee->father_name }}</td>
@@ -573,7 +573,7 @@
                         </thead>
                         <tbody>
                             @forelse ($exclude_students as $exclude_student)
-                                <tr data-student-id="{{ $exclude_student->user_p_id }}">
+                                <tr data-student-id="{{ $exclude_student->user_p_id }}" class="cursor-pointer">
                                     <td class="text-center">{{ $exclude_student->gr_no }}.</td>
                                     <td class="text-center">{{ $exclude_student->user_name }}</td>
                                     <td class="text-center">{{ $exclude_student->father_name }}</td>

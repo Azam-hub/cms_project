@@ -180,7 +180,7 @@
                     </thead>
                     <tbody>
                         @forelse ($admins as $admin)
-                            <tr data-admin-id="{{ $admin->id }}">
+                            <tr data-admin-id="{{ $admin->id }}" class="cursor-pointer">
                                 <td>{{ $count }}.</td>
                                 <td><img src="{{ asset('storage/'.$admin->profile_pic) }}" class="w-100" alt="Profile Pic" ></td>
                                 <td>{{ $admin->name }}</td>

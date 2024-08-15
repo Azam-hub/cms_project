@@ -27,7 +27,7 @@
 <body>
     <header class="row justify-content-between align-items-center border-bottom border-2 border-dark py-3 px-2">
         <div class="col-3  justify-content-center">
-            <img src="admin_panel/img/static/logo.png" alt="">
+            <img src="{{ asset('img/static/logo.png') }}" alt="">
         </div>
         <div class="col-6 d-md-block d-none justify-content-center">
             
@@ -36,7 +36,8 @@
             
         </div>
         <div class="col-3 d-flex justify-content-end">
-            <a href="logout.php" class="btn btn-secondary">Logout</a>
+            {{-- <a href="logout.php" class="btn btn-secondary">Logout</a> --}}
+            <img src="{{ asset('storage/'.Auth::user()->profile_pic ) }}" class="rounded-circle" width="55px" height="55px" alt="">
         </div>
     </header>
     <!-- <hr> -->
@@ -68,7 +69,7 @@
                 </div>
             </div>
             <div class="question">
-                <div class="row justify-content-between mb-2">
+                <div class="row justify-content-between">
                     <div class="col-auto px-0">
                         <b>Timer:</b> <span id="timer">02:00</span>
                     </div>
@@ -76,6 +77,13 @@
                         <b>Question:</b> <span id="current-question"></span>/<span id="total-questions"></span>
                     </div>
                 </div>
+                {{-- <div class="row my-2">
+                    <div class="col px-0">
+                        <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: 100%;">02:00</div>
+                        </div>
+                    </div>
+                </div> --}}
                 <div class="question bg-secondary text-light p-3 rounded-3" id="question">
                     <p class="m-0"></p>
                 </div>
@@ -303,16 +311,19 @@
                     let crr_minutes = padWithLeadingZeros(parseInt(seconds / 60), 2)
                     let crr_seconds = padWithLeadingZeros(parseInt(seconds - (crr_minutes * 60)), 2)
                     $("#timer").text(`${crr_minutes}:${crr_seconds}`)
-
+                    // let percentage = (seconds/120)*100;
+                    // $(".progress-bar").css("width", percentage + "%")
+                    
                     if (seconds == 0) {
                         
                         // Pushing statement
                         answers[question_id] = "skipped-by-student";
                         clearInterval(time)
-
+                        
                         // Pushing next question
                         parent_array_index++
                         if (parent_array.length > parent_array_index) {
+                            // $(".progress-bar").css("width", "100%")
                             question_fetcher(parent_array_index)
                         } else {
                             send_answers(answers)
