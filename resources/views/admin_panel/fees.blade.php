@@ -294,7 +294,7 @@
         </div>
     </div> --}}
     <div class="row mb-4">
-        <div class="col-lg mb-3">
+        <div class="col-sm mb-3">
             <label for="select-room" class="form-label mb-1">Select Room</label>
             <select name="room" id="select-room" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('room') ? 'is-invalid' : 'border-dark-subtle' }}">
                 <option value="">-- Select Room --</option>
@@ -306,7 +306,7 @@
             </select>
             <div class="text-danger">@error('room') {{ $message }} @enderror</div>
         </div>
-        <div class="col-lg mb-3">
+        <div class="col-sm mb-3">
             <label for="select-timing" class="form-label mb-1">Select Timing</label>
             <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('timing') ? 'is-invalid' : 'border-dark-subtle' }}">
                 <option value="">-- Select Timing --</option>
@@ -325,7 +325,7 @@
             </select>
             <div class="text-danger">@error('timing') {{ $message }} @enderror</div>
         </div>
-        <div class="col-lg mb-3">
+        <div class="col-sm mb-3">
             <label for="select-students" class="form-label mb-1">Select Student</label>
             <select  disabled name="student_id" id="select-student" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('students') ? 'is-invalid' : 'border-dark-subtle' }}">
                 <option value="">-- Select Student --</option>
@@ -341,7 +341,8 @@
         </div> --}}
         <div class="col row mb-4 border-1 border-dark-subtle py-1 px-2 border-bottom border-top">
             {{-- <hr class="border border-dark-subtle border-1 opacity-50 my-1">     --}}
-            <ul class="nav nav-underline gap-5">
+            {{-- <ul class="nav nav-underline gap-sm-5 gap-3"> --}}
+            <ul class="nav nav-underline gap-0 column-gap-md-5 column-gap-4">
                 <li class="nav-item">
                     <a class="nav-link mode-switch text-dark active" aria-current="page" href="#">Pending Fees</a>
                 </li>

@@ -10,8 +10,8 @@
 @section('content')
 <section class="py-3">
 
-    <div class="row mb-4">
-        <div class="col-3">
+    <div class="row mb-1">
+        <div class="col-sm mb-3">
             <label class="form-label mb-1">Select Room</label>
             <select id="room" class="form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="">-- Select Room --</option>
@@ -22,7 +22,7 @@
                 @endforelse
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-sm mb-3">
             <label class="form-label mb-1">Select Timing</label>
             <select id="timing" class="form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="" selected>-- Select Timing --</option>
@@ -39,7 +39,7 @@
                 <option value="21-22">09:00 pm to 10:00 pm</option>
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-sm mb-3">
             <label class="form-label mb-1">Select Room</label>
             <input type="date" id="date" class="form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
         </div>

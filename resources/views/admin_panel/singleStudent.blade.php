@@ -143,15 +143,15 @@
                     {{-- </p> --}}
                 </div>
                 <div class="row my-grid gap-3">
-                    <div class="col info room">
+                    <div class="col-sm col-12 info room">
                         <h6 class="m-0 mb-1 fw-bolder">Room</h6>
                         <p class="m-0">{{ $user->studentData->room_row->name }}</p>
                     </div>
-                    <div class="col info seat">
+                    <div class="col-sm col-12 info seat">
                         <h6 class="m-0 mb-1 fw-bolder">Seat</h6>
                         <p class="m-0">{{ $user->studentData->seat }}</p>
                     </div>
-                    <div class="col info timing">
+                    <div class="col-sm col-12 info timing">
                         <h6 class="m-0 mb-1 fw-bolder">Timing</h6>
                         <p class="m-0">{{ \DateTime::createFromFormat('G', explode('-', $user->studentData->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $user->studentData->timing)[1])->format('h:i a') }}</p>
                     </div>

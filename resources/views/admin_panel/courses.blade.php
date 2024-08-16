@@ -51,12 +51,12 @@
                     </div>
 
                     <div class="row modules-row">
-                        <div class="col-6 mb-3">
+                        <div class="col-lg-6 col-12 mb-3">
                             <label for="module-1" class="form-label mb-1">Enter Module 1 Name</label>
                             <input type="text" name="modules[]" id="module-1" class="module w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('modules.0') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Module Name" value="{{ old('modules.0') }}">
                             <span class="text-danger">@error('modules.0') {{ $message }} @enderror</span>
                         </div>
-                        <div class="col-6 mb-3">
+                        <div class="col-lg-6 col-12 mb-3">
                             <label for="module-2" class="form-label mb-1">Enter Module 2 Name</label>
                             <input type="text" name="modules[]" id="module-2" class="module w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('modules.1') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Module Name" value="{{ old('modules.1') }}">
                             <span class="text-danger">@error('modules.1') {{ $message }} @enderror</span>
@@ -199,7 +199,7 @@
     $("#add-module-btn").click(function () {
         // console.log($('.module')[($('.module')).length - 1])
 
-        let html = `<div class="col-6 mb-3">
+        let html = `<div class="col-lg-6 col-12 mb-3">
                         <label for="module-${$('.module').length + 1}" class="form-label mb-1">Enter Module ${$('.module').length + 1} Name</label>
                         <input type="text" name="modules[]" id="module-${$('.module').length + 1}" 
                         class="module w-100 form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle" placeholder="Enter Module Name">

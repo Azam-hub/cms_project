@@ -59,7 +59,8 @@
 .middle {
     flex-grow: 1;
     border-bottom: 1px solid black;
-    margin: 0 18px 11px;
+    /* margin: 0 18px 11px; */
+    margin-bottom: 11px;
 }
 .right {
     flex-shrink: 0;
@@ -102,8 +103,16 @@
 }
 
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 576px) {
     .infos {
         grid-template-columns: 100%;
+    }
+
+    .my-grid {
+        grid-column: unset;
+    }
+
+    .modules {
+        grid-template-columns: 1fr;
     }
 }
