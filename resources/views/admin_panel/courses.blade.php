@@ -65,7 +65,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Course</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -132,13 +132,13 @@
                                     </ul>
                                 </td>
                                 <td>{{ $course->questions_to_ask }}</td>
-                                <td class="action-btns">
+                                <td>
                                     {!! $course->deactive == "0" ?
-                                    '<button class="btn btn-danger d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Deactive</button>' :
-                                    '<button class="btn btn-primary d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Active</button>' !!}
+                                    '<button class="btn btn-sm btn-danger d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Deactive</button>' :
+                                    '<button class="btn btn-sm btn-primary d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Active</button>' !!}
                                     
 
-                                    <button class="btn btn-primary edit-btn" 
+                                    <button class="btn btn-sm btn-primary edit-btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#course-modal"
 
@@ -153,7 +153,7 @@
                                         data-course-module="{{ $module->name }}" 
                                     @endforeach --}}
                                     >Edit</button>
-                                    <button class="btn btn-danger del-btn" data-course-id="{{ $course->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-course-id="{{ $course->id }}">Delete</button>
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($course->created_at)) !!}</td>
                             </tr>
@@ -192,7 +192,6 @@
 
     $("#add-course-btn").click(function () {
         $(".modal-title").text("Add Course")
-        $(".modal button[type=submit]").text("Add Course")
         $(".modal form").attr('action', '{{ route("admin_panel.process_addCourse") }}')
     })
 
@@ -220,7 +219,6 @@
     
         // Change modal for editting
         $(".modal-title").text("Edit Course")
-        $(".modal button[type=submit]").text("Edit Course")
         $(".modal form").attr('action', `{{ route("admin_panel.process_editCourse") }}`)
 
         // console.log(modules_array);

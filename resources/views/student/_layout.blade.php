@@ -46,7 +46,7 @@
                 <hr class="border-2 border-white">
                 <div class="row align-items-center">
                     <div class="col-3 pe-0">
-                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}" class="user-pic rounded-circle" alt="">
+                        <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class="user-pic rounded-circle" alt="">
                     </div>
                     <div class="col px-0 ms-1 d-flex align-items-center ">
                         <p class="mb-0">{{ Auth::user()->name }}</p>
@@ -61,6 +61,26 @@
                                 <i class="fa-solid fa-house"></i>
                             </div>
                             <div class="col-auto">Home</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="link-section mb-1">
+                    <div class="head row justify-content-between cursor-pointer">
+                        <a href="{{ route('student.attendance') }}" class="col row py-2 bg-transparent text-decoration-none">
+                            <div class="col-auto px-0">
+                                <i class="fa-solid fa-address-book"></i>
+                            </div>
+                            <div class="col-auto">Attendance</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="link-section mb-1">
+                    <div class="head row justify-content-between cursor-pointer">
+                        <a href="{{ route('student.fees_record') }}" class="col row py-2 bg-transparent text-decoration-none">
+                            <div class="col-auto px-0">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                            </div>
+                            <div class="col-auto">Fees Record</div>
                         </a>
                     </div>
                 </div>
@@ -139,7 +159,7 @@
                             </div> -->
                             <div class="user-btn col-auto row column-gap-2 align-items-center px-0 cursor-pointer">
                                 <div class="col-auto px-0">
-                                    <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}" class=" rounded-circle user-pic" alt="User Pic">
+                                    <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class=" rounded-circle user-pic" alt="User Pic">
                                 </div>
                                 <div class="col-auto px-0 d-sm-block d-none">
                                     <p class="m-0">{{ Auth::user()->name }}</p>
@@ -150,7 +170,7 @@
                             <div class="user-details py-3 rounded-top-3">
                                 <div class="row justify-content-center">
                                     <div class="col-auto">
-                                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}" class="rounded-circle " width="80px" height="80px" alt="User Pic">
+                                        <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class="rounded-circle " width="80px" height="80px" alt="User Pic">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center mt-1">

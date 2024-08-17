@@ -21,7 +21,7 @@
             <div class="row justify-content-center mb-4">
                 <div class="col-auto">
                     <div class="profile-pic">
-                        <img src="{{ asset('storage/'.$user->profile_pic ) }}" class="rounded-circle" width="120px" height="120px" alt="">
+                        <img src="{{ $user->profile_pic == "0" ? asset('img/static/user.png') : asset('storage/'.$user->profile_pic ) }}" class="rounded-circle" width="120px" height="120px" alt="">
                     </div>
                 </div>
             </div>
@@ -52,29 +52,29 @@
                     <h6 class="m-0 mb-1 fw-bolder">Father's Name</h6>
                     <p class="m-0">{{ $user->father_name }}</p>
                 </div>
-                <div class="info status-div">
+                <div class="info">
                     <h6 class="m-0 mb-1 fw-bolder">Status</h6>
                     <p class="m-0">
                         {{-- <span class="status not-allowed-status">Not Allowed</span> --}}
                         {{-- <span class="status pending-status">Pending</span>
                         <span class="status done-status">Done</span> --}}
                         @if ($user->studentData->status == 'running')
-                            <span class="d-inline-block my-1 px-2 py-1 rounded-2 text-light bg-primary">Running</span>
+                            <span class="badge text-bg-primary">Running</span>
                         @elseif ($user->studentData->status == 'freezed')
-                            <span class="d-inline-block my-1 px-2 py-1 rounded-2 text-light bg-secondary">Freezed</span>
+                            <span class="badge text-bg-secondary">Freezed</span>
                         @elseif ($user->studentData->status == "left")
-                            <span class="d-inline-block my-1 px-2 py-1 rounded-2 text-light bg-danger">Left</span>
+                            <span class="badge text-bg-danger">Left</span>
                         @elseif ($user->studentData->status == "completed")
-                            <span class="d-inline-block my-1 px-2 py-1 rounded-2 text-light bg-warning">Completed</span>
-                            <span class="px-2 py-1 rounded-2 text-light bg-danger">Disallowed</span>
+                            <span class="badge text-bg-warning">Completed</span>
+                            <span class="badge text-bg-danger">Disallowed</span>
                         @elseif ($user->studentData->status == "pending")
-                            <span class="d-inline-block my-1 px-2 py-1 rounded-2 text-light bg-warning">Completed</span>
-                            <span class="px-2 py-1 rounded-2 text-light bg-primary">Pending</span>
+                            <span class="badge text-bg-warning">Completed</span>
+                            <span class="badge text-bg-primary">Pending</span>
                         @elseif ($user->studentData->status == "done")
-                            <span class="d-inline-block my-1 px-2 py-1 rounded-2 text-light bg-warning">Completed</span>
-                            <span class="px-2 py-1 rounded-2 text-light bg-success">Done</span>
+                            <span class="badge text-bg-warning">Completed</span>
+                            <span class="badge text-bg-success">Done</span>
                         @elseif ($user->studentData->status == "passed-out")
-                            <span class="d-inline-block my-1 px-1 py-1 rounded-2 text-light bg-success">Passed Out</span>
+                            <span class="badge text-bg-success">Passed Out</span>
                         @endif
                     </p>
                 </div>
@@ -86,59 +86,59 @@
                         @if ($user->studentData->status == "running")
                             <div class="row column-gap-1">
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-secondary status-change-btn" data-student-id="{{ $user->id }}">Freeze</button>
+                                    <button class="btn btn-sm btn-secondary status-change-btn" data-student-id="{{ $user->id }}">Freeze</button>
                                 </div>
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $user->id }}">Left</button>
+                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $user->id }}">Left</button>
                                 </div>
                             </div>
                         @elseif ($user->studentData->status == "freezed")
                             <div class="row column-gap-1">
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-secondary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Unfreeze</button>
+                                    <button class="btn btn-sm btn-secondary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Unfreeze</button>
                                 </div>
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Left</button>
+                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Left</button>
                                 </div>
                             </div>
                         @elseif ($user->studentData->status == "left")
                             <div class="row column-gap-1">
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Re-enroll</button>
+                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Re-enroll</button>
                                 </div>
                             </div>
                         @elseif ($user->studentData->status == "completed")
                             <div class="row column-gap-1">
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $user->id }}">Allow</button>
+                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $user->id }}">Allow</button>
                                 </div>
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $user->id }}">Left</button>
+                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $user->id }}">Left</button>
                                 </div>
                             </div>
                         @elseif ($user->studentData->status == "pending")
                             <div class="row column-gap-1">
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Disallow</button>
+                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Disallow</button>
                                 </div>
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Left</button>
+                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Left</button>
                                 </div>
                             </div>
                         @elseif ($user->studentData->status == "done")
                             <div class="row column-gap-1">
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Again</button>
+                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Again</button>
                                 </div>
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-success status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Pass Out</button>
+                                    <button class="btn btn-sm btn-success status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Pass Out</button>
                                 </div>
                                 <div class="col-auto p-0">
-                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Left</button>
+                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $user->id }}" style="font-size: 14px">Left</button>
                                 </div>
                             </div>
                         @elseif ($user->studentData->status == "passed-out")
-                            <span class="px-1 py-1 rounded-2 text-light bg-success" style="font-size: 14px">Passed Out</span>
+                            <span class="badge text-bg-success">Passed Out</span>
                         @endif
                     {{-- </p> --}}
                 </div>

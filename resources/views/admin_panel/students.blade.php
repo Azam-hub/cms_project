@@ -57,7 +57,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg mb-3">
-                                <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No</label>
+                                <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No (without <b>-</b>)</label>
                                 <input type="number" name="cnic_bform_no" id="cnic-bform-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('cnic_bform_no') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter CNIC/B-Form No." value="{{ old('cnic_bform_no') }}">
                                 <div class="text-danger">@error('cnic_bform_no') {{ $message }} @enderror</div>
                             </div>
@@ -181,7 +181,7 @@
                             </div>
                             <div class="col-auto">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Add Student</button>
+                                <button type="submit" class="btn btn-success">Save</button>
                             </div>
                     </div>
                 </form>
@@ -271,32 +271,32 @@
                                     {{-- <td>{{ $studentsCount }}.</td> --}}
                                     <td>{{ $student->studentData->gr_no }}</td>
                                     <td class="profile-pic-td">
-                                        <a href="{{ asset('storage/'.$student->profile_pic) }}" data-lightbox="profile-pic-{{ $studentsCount }}">
-                                            <img src="{{ asset('storage/'.$student->profile_pic) }}" class="w-100" alt="Profile Pic">
+                                        <a href="{{ $student->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$student->profile_pic) }}" data-lightbox="profile-pic-{{ $studentsCount }}">
+                                            <img src="{{ $student->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$student->profile_pic) }}" class="w-100" alt="Profile Pic">
                                         </a>
                                     </td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->father_name }}</td>
                                     <td>{{ $student->studentData->course->name }}</td>
-                                    <td class="status-td text-center" style="font-size: 14px;">
+                                    <td class="text-center">
                                         {{-- Running(secondary) - Freeze(primary) - Left(danger) - Completed(warning) - Passed Out(success) --}}
                                         @if ($student->studentData->status == 'running')
-                                            <span class="px-2 py-1 rounded-2 text-light bg-primary">Running</span>
+                                            <span class="badge text-bg-primary">Running</span>
                                         @elseif ($student->studentData->status == 'freezed')
-                                            <span class="px-2 py-1 rounded-2 text-light bg-secondary">Freezed</span>
+                                            <span class="badge text-bg-secondary">Freezed</span>
                                         @elseif ($student->studentData->status == "left")
-                                            <span class="px-2 py-1 rounded-2 text-light bg-danger">Left</span>
+                                            <span class="badge text-bg-danger">Left</span>
                                         @elseif ($student->studentData->status == "completed")
-                                            <span class="px-2 py-1 rounded-2 text-light bg-danger d-inline-block mb-1">Disallowed</span>
-                                            <span class="px-2 py-1 rounded-2 text-light bg-warning">Completed</span>
+                                            <span class="badge text-bg-danger d-inline-block mb-1">Disallowed</span>
+                                            <span class="badge text-bg-warning">Completed</span>
                                         @elseif ($student->studentData->status == "pending")
-                                            <span class="px-2 py-1 rounded-2 text-light bg-primary d-inline-block mb-1">Pending</span>
-                                            <span class="px-2 py-1 rounded-2 text-light bg-warning">Completed</span>
+                                            <span class="badge text-bg-primary d-inline-block mb-1">Pending</span>
+                                            <span class="badge text-bg-warning">Completed</span>
                                         @elseif ($student->studentData->status == "done")
-                                            <span class="px-2 py-1 rounded-2 text-light bg-success d-inline-block mb-1">Done</span>
-                                            <span class="px-2 py-1 rounded-2 text-light bg-warning">Completed</span>
+                                            <span class="badge text-bg-success d-inline-block mb-1">Done</span>
+                                            <span class="badge text-bg-warning">Completed</span>
                                         @elseif ($student->studentData->status == "passed-out")
-                                            <span class="px-1 py-1 rounded-2 text-light bg-success d-block text-center"  style="font-size: 11px">Passed Out</span>
+                                            <span class="badge text-bg-success">Passed Out</span>
                                         @endif
                                     </td>
                                     {{-- <td>{{ $student->cnic_bform_no }}</td> --}}
@@ -306,70 +306,70 @@
                                     {{-- <td>{{ $student->address }}</td> --}}
                                     <td>{{ $student->studentData->annual_fees }}</td>
                                     <td>{{ $student->studentData->discount }}%</td>
-                                    <td class="before-action-btns text-center">
+                                    <td class="action-btns text-center">
                                         @if ($student->studentData->status == "running")
                                             <div class="row justify-content-center column-gap-1">
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-secondary status-change-btn" data-student-id="{{ $student->id }}">Freeze</button>
+                                                    <button class="btn btn-sm btn-secondary status-change-btn" data-student-id="{{ $student->id }}">Freeze</button>
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $student->id }}">Left</button>
+                                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $student->id }}">Left</button>
                                                 </div>
                                             </div>
                                         @elseif ($student->studentData->status == "freezed")
                                             <div class="row justify-content-center column-gap-1">
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-secondary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Unfreeze</button>
+                                                    <button class="btn btn-sm btn-secondary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Unfreeze</button>
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Left</button>
+                                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Left</button>
                                                 </div>
                                             </div>
                                         @elseif ($student->studentData->status == "left")
                                             <div class="row justify-content-center column-gap-1">
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Re-enroll</button>
+                                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Re-enroll</button>
                                                 </div>
                                             </div>
                                         @elseif ($student->studentData->status == "completed")
                                             <div class="row justify-content-center column-gap-1">
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $student->id }}">Allow</button>
+                                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $student->id }}">Allow</button>
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $student->id }}">Left</button>
+                                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $student->id }}">Left</button>
                                                 </div>
                                             </div>
                                         @elseif ($student->studentData->status == "pending")
                                             <div class="row justify-content-center column-gap-1">
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Disallow</button>
+                                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Disallow</button>
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Left</button>
+                                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Left</button>
                                                 </div>
                                             </div>
                                         @elseif ($student->studentData->status == "done")
                                             <div class="row justify-content-center column-gap-1">
                                                 <div class="col-auto p-0 mb-1">
-                                                    <button class="btn btn-primary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Again</button>
+                                                    <button class="btn btn-sm btn-primary status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Again</button>
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-success status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Pass Out</button>
+                                                    <button class="btn btn-sm btn-success status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Pass Out</button>
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <button class="btn btn-danger status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Left</button>
+                                                    <button class="btn btn-sm btn-danger status-change-btn" data-student-id="{{ $student->id }}" style="font-size: 14px">Left</button>
                                                 </div>
                                             </div>
                                         @elseif ($student->studentData->status == "passed-out")
-                                            <span class="px-1 py-1 rounded-2 text-light bg-success" style="font-size: 14px">Passed Out</span>
+                                            <span class="badge text-bg-success">Passed Out</span>
                                         @endif
                                     </td>
                                     <td class="action-btns">
                                         <div class="row justify-content-center column-gap-1">
                                             <div class="col-auto p-0">
                                                 <button 
-                                                class="btn btn-primary edit-btn" 
+                                                class="btn btn-sm btn-primary edit-btn" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#student-modal" 
                                                 data-student-id="{{ $student->id }}" 
@@ -391,7 +391,7 @@
                                                 >Edit</button>
                                             </div>
                                             <div class="col-auto p-0">
-                                                <button class="btn btn-danger del-btn" data-student-id="{{ $student->id }}">Delete</button>
+                                                <button class="btn btn-sm btn-danger del-btn" data-student-id="{{ $student->id }}">Delete</button>
                                             </div>
                                         </div>
                                     </td>
@@ -523,7 +523,6 @@
     // readying modal for add student
     $("#add-student-btn").click(function() {
         $(".modal-title").text("Add Student")
-        $(".modal button[type=submit]").text("Add Student")
         $(".modal form").attr('action', '{{ route("admin_panel.process_addStudent") }}')
 
         let fields = `<div class="col-lg mb-3">
@@ -566,7 +565,6 @@
 
         // Change modal for editting
         $(".modal-title").text("Edit Student")
-        $(".modal button[type=submit]").text("Edit Student")
         $(".modal form").attr('action', `{{ route("admin_panel.process_editStudent") }}`)
         let fields = `<div class="col-lg mb-3">
                             <label for="name" class="form-label mb-1">Enter Name</label>
@@ -582,7 +580,8 @@
 
         $('#student-id').val(student_id)
 
-        $("#preview_image").attr('src', "{{ asset('storage') }}" + "/" + profile_pic)
+        let src = profile_pic == "0" ? "{{ asset('img/static/default_image-removebg-preview.png') }}" : "{{ asset('storage') }}" + "/" + profile_pic;
+        $("#preview_image").attr('src', src)
         $("#name").val(name)
         $("#email").val(email)
         $("#father-name").val(father_name)

@@ -42,15 +42,14 @@ class StudentController extends Controller
 
         // Validating Information
         $req->validate([
-            "profile_pic" => "required|image|max:5000",
+            "profile_pic" => "image|max:5000",
             "first_name" => "required",
             "last_name" => "required",
             "father_name" => "required",
             "course_id" => "required",
-            "cnic_bform_no" => "required|numeric|digits:13|unique:users,cnic_bform_no",
+            "cnic_bform_no" => "required|numeric|digits:13",
             "dob" => "required",
             "mobile_no" => "required|numeric|digits:11",
-            "discount" => "required|numeric",
             "address" => "required",
             "password" => "required|confirmed",
             "password_confirmation" => "required",
@@ -61,15 +60,21 @@ class StudentController extends Controller
         ]);
 
         // Uploading profile pic
-        $profile_pic = $req->profile_pic->store('student_profile_pics', 'public');
+        $profile_pic = "0";
+        
+        if (isset($req->profile_pic)) {
+            $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+        }
 
         // Calculating Fees
         $course_row = Course::find($req->course_id);
         $monthly_fees = $course_row->fees;
         $duration = $course_row->duration;
 
+        $discount = 0;
         $annual_fees = $monthly_fees * $duration;
-        if ($req->discount) {
+        if (isset($req->discount)) {
+            $discount = $req->discount;
             $annual_fees = $annual_fees - (($req->discount / 100) * ($annual_fees));
         }
         
@@ -136,7 +141,7 @@ class StudentController extends Controller
         if ($user->save()) {
             $student->gr_no = $gr_no;
             $student->course_id = $req->course_id;
-            $student->discount = $req->discount;
+            $student->discount = $discount;
             $student->annual_fees = $annual_fees;
             $student->completed_modules = json_encode([]);
             $student->status = 'running';
@@ -177,8 +182,7 @@ class StudentController extends Controller
             "cnic_bform_no" => [
                 'required',
                 'numeric',
-                'digits:13',
-                Rule::unique('users', 'cnic_bform_no')->ignore($req->student_id),
+                'digits:13'
             ],
             "dob" => "required",
             "mobile_no" => "required|numeric|digits:11",
@@ -218,15 +222,10 @@ class StudentController extends Controller
         if (isset($req->profile_pic)) {
             $image_path = storage_path('app/public/' . $user->profile_pic);
             if (fileExists($image_path)) {
-
-                if (@unlink($image_path)) {
-                    $profile_pic = $req->profile_pic->store('student_profile_pics', 'public');
-                    $user->profile_pic = $profile_pic;
-                } else {
-                    return redirect()->route('admin_panel.students')->with("error", "Profile Picture can't be updated.");
-                }
-
+                @unlink($image_path);                
             }
+            $profile_pic = $req->profile_pic->store('student_profile_pics', 'public');
+            $user->profile_pic = $profile_pic;
         }
 
 

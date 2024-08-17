@@ -17,22 +17,37 @@ class UserStudentController extends Controller
         $id = Auth::user()->id;
 
         $user = User::with('studentData')->with('studentData.room_row')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
+
+        // dd($student);
+        return view('student.home', compact('user'));
+    }
+
+    function attendance() {
+        $id = Auth::user()->id;
+        $user = User::with('studentData')->where("id", $id)->first();
+
         $attendances = Attendance::where('student_id', $user->studentData->id)->orderBy('date', 'desc')->get();
+        $month_attendances = Attendance::selectRaw("
+                    DATE_FORMAT(date, '%Y-%m') as month,
+                    SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
+                    SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent
+                ")
+                ->where('student_id', $user->studentData->id)
+                ->groupBy('month')
+                ->orderBy('month', 'desc')
+                ->get();
+
+        return view("student.attendance", compact("attendances", "month_attendances"));
+    }
+    
+    function fees_record() {
+        $id = Auth::user()->id;
+        $user = User::with('studentData')->where("id", $id)->first();
+        
         $fees = Fee::where("student_id", $user->studentData->id)->where("is_deleted", "0")->orderBy('id', 'desc')->get();
         $total_paid_fees = Fee::where("student_id", $user->studentData->id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
 
-        $month_attendances = Attendance::selectRaw("
-            DATE_FORMAT(date, '%Y-%m') as month,
-            SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
-            SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent
-        ")
-        ->where('student_id', $user->studentData->id)
-        ->groupBy('month')
-        ->orderBy('month', 'desc')
-        ->get();
-
-        // dd($student);
-        return view('student.home', compact('user', 'attendances', "month_attendances", "fees", "total_paid_fees"));
+        return view("student.fees_record", compact("fees", "total_paid_fees"));
     }
 
     function assessment() {

@@ -41,7 +41,7 @@
                                 <td>{{ $result->wrong_answers }}</td>
                                 <td>{{ $result->skipped_questions }}</td>
                                 <td>
-                                    <button class="btn btn-danger del-btn" data-result-id="{{ $result->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-result-id="{{ $result->id }}">Delete</button>
                                 </td>
                                 <td>{!! date ('h:i a <b>||</b> d M, Y', strtotime($result->created_at)) !!}</td>
                             </tr>    
@@ -90,16 +90,6 @@
         
     })
 
-    // Show student data on index page
-    $("table tr").click(function(evt){
-        if($(evt.target).closest('.action-btns').length) {
-            return;
-        }
-        let student_id = $(this).data("student-id");
-        if (student_id != undefined) {
-            window.open(`../result.php?student_id=${student_id}`, '_blank');
-        }
-    });
 </script>
 @endsection
 

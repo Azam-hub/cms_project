@@ -22,11 +22,11 @@ class AdminController extends Controller
         
         // Validating Information
         $req->validate([
-            "profile_pic" => "required|image|max:5000",
+            "profile_pic" => "image|max:5000",
             "first_name" => "required",
             "last_name" => "required",
             "father_name" => "required",
-            "cnic_bform_no" => "required|numeric|digits:13|unique:users,cnic_bform_no",
+            "cnic_bform_no" => "required|numeric|digits:13",
             "dob" => "required",
             "mobile_no" => "required|numeric|digits:11",
             "address" => "required",
@@ -36,7 +36,12 @@ class AdminController extends Controller
         ]);
 
         // Uploading profile pic
-        $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+        $profile_pic = "0";
+        
+        if (isset($req->profile_pic)) {
+            $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+        }
+        
 
         // Generating Email
         $email = strtolower(str_replace(' ', '', $req->first_name)) . "." . strtolower(str_replace(' ', '', $req->last_name)) . "@simsatedu.com";
@@ -108,8 +113,7 @@ class AdminController extends Controller
             "cnic_bform_no" => [
                 'required',
                 'numeric',
-                'digits:13',
-                Rule::unique('users', 'cnic_bform_no')->ignore($req->admin_id),
+                'digits:13'
             ],
             "dob" => "required",
             "mobile_no" => "required|numeric|digits:11",
@@ -134,15 +138,10 @@ class AdminController extends Controller
         if (isset($req->profile_pic)) {
             $image_path = storage_path('app/public/' . $user->profile_pic);
             if (fileExists($image_path)) {
-
-                if (@unlink($image_path)) {
-                    $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
-                    $user->profile_pic = $profile_pic;
-                } else {
-                    return redirect()->route('admin_panel.admins')->with("error", "Profile Picture can't be updated.");
-                }
-
+                @unlink($image_path);
             }
+            $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+            $user->profile_pic = $profile_pic;
         }
 
         if (isset($req->password)) {

@@ -62,10 +62,74 @@ class AttendanceController extends Controller
 
     }
 
-    function fetch_room_record() {
+    function fetch_room_record(Request $req) {
         $rooms = Room::where("is_deleted", '0')->orderBy('id', "desc")->get();
-        return view("admin_panel.attendance.attendanceRecord", compact('rooms'));
+        $currentRoute = $req->route()->getName();
+
+        if ($currentRoute == "admin_panel.attendancePast") {
+            return view("admin_panel.attendance.attendancePast", compact('rooms'));
+        } elseif ($currentRoute == "admin_panel.attendanceReport") {
+            return view("admin_panel.attendance.attendanceReport", compact('rooms'));
+        }
     }
+
+    function attendance_report($room, $timing, $startDate, $endDate) {
+        // return [$room, $timing, $startDate, $endDate];
+
+        // $attendances = Attendance::join("students", "students.id", "=", "attendances.student_id")
+        // ->join("users", "users.id", "=", "students.user_id")
+        // ->selectRaw("
+        //     SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
+        //     SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent
+        // ")
+        // ->where('students.room', $room)
+        // ->where('students.timing', $timing)
+        // ->where('students.status', "running")
+        // ->whereBetween('attendances.date', [$startDate, $endDate])
+        // ->orderBy('users.name', "asc")
+        // ->groupBy('attendances.student_id')
+        // ->get();
+
+        $attendances = Attendance::join("students", "students.id", "=", "attendances.student_id")
+        ->join("users", "users.id", "=", "students.user_id")
+        ->join("courses", "courses.id", "=", "students.course_id")
+        ->selectRaw("
+            users.id,
+            users.profile_pic,
+            users.name AS user_name,
+            users.father_name,
+            courses.name AS course_name,
+            students.gr_no,
+            students.shift,
+            SUM(CASE WHEN attendances.status = 'present' THEN 1 ELSE 0 END) as present,
+            SUM(CASE WHEN attendances.status = 'absent' THEN 1 ELSE 0 END) as absent
+        ")
+        ->where('students.room', $room)
+        ->where('students.timing', $timing)
+        ->where('students.status', "running")
+        ->whereBetween('attendances.date', [$startDate, $endDate])
+        ->orderBy('users.name', "asc")
+        ->groupBy('attendances.student_id', 'users.name')
+        ->get();
+
+
+        // $month_attendances = Attendance::selectRaw("
+        //     DATE_FORMAT(date, '%Y-%m') as month,
+        //     SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
+        //     SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent
+        // ")
+        // ->where('student_id', $user->studentData->id)
+        // ->orderBy('month', 'desc')
+        // ->get();
+
+        // $attendance = Attendance::where('date', $date)->get();
+
+        return json_encode($attendances);
+    }
+
+
+
+
 
     function fetch_students($room, $timing, $date) {
 

@@ -129,7 +129,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add </button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -404,11 +404,11 @@
                                     $submitted_fee->purpose
                                     }}</td>
                                     <td class="text-center">{{ $submitted_fee->description }}</td>
-                                    <td class="action-btns">
+                                    <td class="w-25 text-center">
                                         {{-- {{ $submitted_fee->purpose == "registration" }} --}}
                                         @if ($submitted_fee->purpose != "registration")
                                             
-                                            <button class="btn btn-primary edit-btn"
+                                            <button class="btn btn-sm btn-primary edit-btn"
                                             data-bs-toggle="modal"
                                             data-bs-target="#fees-modal"
                                             data-submitted_fee-id="{{ $submitted_fee->id }}"
@@ -420,7 +420,7 @@
                                             data-submitted_fee-description="{{ $submitted_fee->description }}"
                                             >Edit</button>
                                         @endif
-                                        <button class="btn btn-danger del-btn" data-submitted_fee-id="{{ $submitted_fee->id }}">Delete</button>
+                                        <button class="btn btn-sm btn-danger del-btn" data-submitted_fee-id="{{ $submitted_fee->id }}">Delete</button>
                                     </td>
                                     <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($submitted_fee->created_at)) !!}</td>
                                 </tr>
@@ -472,9 +472,9 @@
                                         '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
                                         $pending_fee->last_fee_purpose)
                                         !!}</td>
-                                        <td class="action-btns">
-                                            <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
-                                            <button class="btn btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
+                                        <td class="w-25 text-center">
+                                            <button class="btn btn-sm btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
+                                            <button class="btn btn-sm btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
                                         </td>
                                         <td>{!! ($pending_fee->last_fee_date == "") ? 
                                         '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
@@ -529,9 +529,9 @@
                                         '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
                                         $pending_fee->last_fee_purpose)
                                         !!}</td>
-                                        <td class="action-btns">
-                                            <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
-                                            <button class="btn btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
+                                        <td class="w-25 text-center">
+                                            <button class="btn btn-sm btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Submit Fees</button>
+                                            <button class="btn btn-sm btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
                                         </td>
                                         <td>{!! ($pending_fee->last_fee_date == "") ? 
                                         '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
@@ -598,9 +598,8 @@
                                         !!}
                                     </td>
 
-                                    <td class="action-btns">
-                                        {{-- <button class="btn btn-primary submit-fee-btn" style="font-size: 14px; !important" data-student-id="{{ $exclude_student->student_id }}">Submit Fees</button> --}}
-                                        <button class="btn btn-primary include-btn" style="font-size: 14px; !important" data-student-id="{{ $exclude_student->student_p_id }}">Include</button>
+                                    <td class="w-25 text-center">
+                                        <button class="btn btn-sm btn-primary include-btn" style="font-size: 14px; !important" data-student-id="{{ $exclude_student->student_p_id }}">Include</button>
                                     </td>
                                     <td>
                                         {!! ($exclude_student->last_fee_date == "") ? 
@@ -682,7 +681,6 @@ function fetch_student_fee_record(student_id) {
         // console.log(data);
 
         $(".modal-title").html(`Add record of <q>${data['name']}</q>`)
-        $(".modal button[type=submit]").text("Add Record")
         $(".modal form").attr('action', `{{ route("admin_panel.process_addRecord") }}`)
 
         // Displaying last two old entries of student
@@ -907,7 +905,6 @@ $(document).on('click', ".edit-btn", function() {
 
     // Change modal for editting
     $(".modal-title").text("Edit Fee Record")
-    $(".modal button[type=submit]").text("Edit Record")
     $(".modal form").attr('action', `{{ route("admin_panel.process_editRecord") }}`)
 
     // Set purpose on condition

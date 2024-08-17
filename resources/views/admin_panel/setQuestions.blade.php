@@ -55,7 +55,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Question</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -124,9 +124,9 @@
                                         {{-- <li>{{($question->options->other_options)}}</li> --}}
                                     </ul>
                                 </td>
-                                <td class="action-btns">
+                                <td class="text-center">
                                     <button 
-                                    class="btn btn-primary edit-btn" 
+                                    class="btn btn-sm btn-primary edit-btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#question-modal"
 
@@ -138,7 +138,7 @@
                                     data-question-other_option_3="{{ json_decode($question->options->other_options)[2] }}" 
 
                                     >Edit</button>
-                                    <button class="btn btn-danger del-btn" data-question-id="{{ $question->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-question-id="{{ $question->id }}">Delete</button>
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($question->created_at)) !!}</td>
                             </tr>
@@ -178,7 +178,6 @@ $('#question-modal').on('hidden.bs.modal', function (e) {
 
 $("#add-question-btn").click(function() {
     $(".modal-title").text("Add Question")
-    $(".modal button[type=submit]").text("Add Question")
     $(".modal form").attr('action', '{{ route("admin_panel.process_addQuestion") }}')
 
 })
@@ -202,7 +201,6 @@ $(".edit-btn").click(function () {
         $("#other-option-3").val(option_3)
 
         $(".modal-title").text("Edit Question")
-        $(".modal button[type=submit]").text("Edit Question")
         $(".modal form").attr('action', '{{ route("admin_panel.process_editQuestion") }}')
     })
 

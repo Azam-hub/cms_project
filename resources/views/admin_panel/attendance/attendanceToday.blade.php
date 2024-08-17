@@ -19,7 +19,7 @@
 
     <div class="row flex-column ">
         <div class="col">
-            <h5 class="fw-semibold">Students</h5>
+            <h4 class="fw-semibold">Today's Attendance</h4>
         </div>
         <div class="col">
             <div class="table-responsive">
@@ -57,8 +57,8 @@
                                 <td>{{ $count }}.</td>
                                 <td>{{ $student->gr_no }}</td>
                                 <td class="profile-pic-td">
-                                    <a href="{{ asset('storage/'.$student->user->profile_pic) }}" data-lightbox="{{ $count }}">
-                                        <img src="{{ asset('storage/'.$student->user->profile_pic) }}" width="100px" alt="Profile Pic">
+                                    <a href="{{ $student->user->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$student->user->profile_pic) }}" data-lightbox="{{ $count }}">
+                                        <img src="{{ $student->user->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$student->user->profile_pic) }}" width="100px" alt="Profile Pic">
                                     </a>
                                 </td>
                                 <td>{{ $student->user->name }}</td>
@@ -68,13 +68,13 @@
                                 <td class="status-td text-center" style="font-size: 14px; width: 120px;">
                                     @if ($student->attendance)
                                         @if ($student->attendance->status == "present")
-                                            <span class="px-2 py-1 rounded-2 text-light bg-success">Present</span>
+                                            <span class="badge text-bg-success">Present</span>
                                         @elseif ($student->attendance->status == "absent")
-                                            <span class="px-2 py-1 rounded-2 text-light bg-danger">Absent</span>
+                                            <span class="badge text-bg-danger">Absent</span>
                                         @endif
                                         
                                     @else
-                                        <span class="px-2 py-1 rounded-2 text-light bg-warning">Not Marked</span>
+                                        <span class="badge text-bg-warning">Not Marked</span>
                                         
                                     @endif
                                 </td>
@@ -82,13 +82,13 @@
                                     @if ($student->attendance)
 
                                         @if ($student->attendance->status == 'present')
-                                            <button class="btn btn-danger attendance-btn" data-student-id="{{ $student->id }}">Absent</button>
+                                            <button class="btn btn-sm btn-danger attendance-btn" data-student-id="{{ $student->id }}">Absent</button>
                                         @elseif ($student->attendance->status == "absent")
-                                            <button class="btn btn-primary attendance-btn" data-student-id="{{ $student->id }}">Present</button>
+                                            <button class="btn btn-sm btn-primary attendance-btn" data-student-id="{{ $student->id }}">Present</button>
                                         @endif
                                     @else
-                                        <button class="btn btn-primary attendance-btn" data-student-id="{{ $student->id }}">Present</button>
-                                        <button class="btn btn-danger attendance-btn" data-student-id="{{ $student->id }}">Absent</button>
+                                        <button class="btn btn-sm btn-primary attendance-btn" data-student-id="{{ $student->id }}">Present</button>
+                                        <button class="btn btn-sm btn-danger attendance-btn" data-student-id="{{ $student->id }}">Absent</button>
 
                                     @endif
                                 </td>
@@ -207,12 +207,12 @@
             if (result == 1) {
                 if (action == "present") {
                     $(this).hide()
-                    $(btn_td).html(`<button class="btn btn-danger attendance-btn" data-student-id="${student_id}">Absent</button>`)
-                    $(status_td).html(`<span class="px-2 py-1 rounded-2 text-light bg-success">Present</span>`)
+                    $(btn_td).html(`<button class="btn btn-sm btn-danger attendance-btn" data-student-id="${student_id}">Absent</button>`)
+                    $(status_td).html(`<span class="badge text-bg-success">Present</span>`)
                 } else {
                     $(this).hide()
-                    $(btn_td).html(`<button class="btn btn-primary attendance-btn" data-student-id="${student_id}">Present</button>`)
-                    $(status_td).html(`<span class="px-2 py-1 rounded-2 text-light bg-danger">Absent</span>`)
+                    $(btn_td).html(`<button class="btn btn-sm btn-primary attendance-btn" data-student-id="${student_id}">Present</button>`)
+                    $(status_td).html(`<span class="badge text-bg-danger">Absent</span>`)
                 }
             } else {
                 console.log(result);
@@ -222,7 +222,7 @@
     
 
     // Show student data on index page
-    $(document).on('click', "table tr", function(evt){
+    $(document).on('dblclick', "table tr", function(evt){
         if($(evt.target).closest('.profile-pic-td, .action-btns').length) {
             return;             
         }

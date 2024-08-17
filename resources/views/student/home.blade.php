@@ -26,7 +26,7 @@ Home
             <div class="row justify-content-center mb-4">
                 <div class="col-auto">
                     <div class="profile-pic">
-                        <img src="{{ asset('storage/'.$user->profile_pic ) }}" class="rounded-circle" width="120px" height="120px" alt="">
+                        <img src="{{ $user->profile_pic == "0" ? asset('img/static/user.png') : asset('storage/'.$user->profile_pic ) }}" class="rounded-circle" width="120px" height="120px" alt="">
                     </div>
                 </div>
             </div>
@@ -132,78 +132,6 @@ Home
                 </div>
             </div>
 
-            <div class="collapse-head row my-2" data-bs-toggle="collapse" data-bs-target="#collapse-attendance" aria-expanded="false" aria-controls="collapse-attendance">
-                <div class="left col-auto">
-                    <h5 class="m-0">Attendance</h5>
-                </div>
-                <div class="middle col-auto"></div>
-                <div class="right col-auto">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </div>
-            </div>
-            <div class="px-3 py-2 collapse" id="collapse-attendance">
-                <div class="row justify-content-start mb-2">
-                    <button class="col-auto btn btn-primary" id="attendance-mode">Day wise Attendance</button>
-                </div>
-                <div class="table-responsive" style="display: none;" id="full-attendance-div">
-                    <table id="full-attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Added On</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-    
-                            @forelse ($attendances as $attendance)
-                                <tr>
-                                    <td class="text-center py-2">{{ $attendance->date }}</td>
-                                    <td class="status-td text-center" style="font-size: 14px">
-                                        @if ($attendance->status == "present") 
-                                            <span class="px-2 py-1 rounded-2 text-light bg-success">Present</span>
-                                        @elseif ($attendance->status == "absent") 
-                                            <span class="px-2 py-1 rounded-2 text-light bg-danger">Absent</span>
-                                        @elseif (!$attendance->status) 
-                                            <span class="px-2 py-1 rounded-2 text-light bg-warning">Not Marked</span>
-                                        @endif
-                                    </td>
-                                    <td class="w-25">{!! date('h:i a <b>||</b> d M, Y', strtotime($attendance->created_at)) !!}</td>
-                                </tr>
-                            @empty
-                                No attendance marked.
-                            @endforelse
-                            
-    
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-responsive" id="month-attendance-div">
-                    <table id="month-attendance-table" class="table table-striped table-bordered table-hover border-dark-subtle">
-                        <thead>
-                            <tr>
-                                <th>Month</th>
-                                <th>Attendance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($month_attendances as $attendance)
-                                <tr>
-                                    <td class="text-center py-2">{{ date('M-Y', strtotime($attendance->month)) }}</td>
-                                    <td class="status-td text-center" style="font-size: 14px">
-                                        <span class="px-2 py-1 rounded-2 text-light bg-success d-inline-block"><b style="font-size: 15px">{{ $attendance->present }}</b> Presents</span>
-                                        <span class="px-2 py-1 rounded-2 text-light bg-danger d-inline-block"><b style="font-size: 15px">{{ $attendance->absent }}</b> Absents</span>
-                                    </td>
-                                </tr>
-                            @empty
-                                No attendance marked.
-                            @endforelse
-                    
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
             <div class="collapse-head row my-2" data-bs-toggle="collapse" data-bs-target="#collapse-modules" aria-expanded="false" aria-controls="collapse-modules">
                 <div class="left col-auto">
                     <h5 class="m-0">Course Modules</h5>
@@ -239,52 +167,6 @@ Home
                 </div>
             </div>
 
-            <div class="collapse-head row my-2" data-bs-toggle="collapse" data-bs-target="#collapse-fees" aria-expanded="false" aria-controls="collapse-fees">
-                <div class="left col-auto">
-                    <h5 class="m-0">Fees Record</h5>
-                </div>
-                <div class="middle col-auto"></div>
-                <div class="right col-auto">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </div>
-            </div>
-            <div class="px-3 py-2 collapse" id="collapse-fees">
-                <div class="table-responsive">
-                    <table id="fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
-                        <thead>
-                            <tr>
-                                {{-- <th>S. no.</th> --}}
-                                <th>Purpose</th>
-                                <th>Month</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Added on</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-    
-                            @forelse ($fees as $fee)
-                                <tr>
-                                    <td class="text-center">{{ ucfirst($fee->purpose) }}</td>
-                                    <td class="text-center">{{ ($fee->month == "-") ? "-" : DateTime::createFromFormat('m-Y', $fee->month)->format('M Y') }}</td>
-                                    <td class="text-center">{{ $fee->description }}</td>
-                                    <td class="text-center">{{ $fee->amount }}</td>
-                                    <td class="text-center w-25">{!! date('h:i a <b>||</b> d M, Y', strtotime($fee->created_at)) !!}</td>
-                                </tr>
-                            @empty
-                                No attendance marked.
-                            @endforelse
-                            <!-- <tr>
-                                <td colspan="3">Total:</td>
-                                <td>{{ $total_paid_fees }}</td>
-                                <td></td>
-                            </tr> -->
-                            
-    
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -295,27 +177,6 @@ Home
 @section('script')
 
 <script>
-
-$('#attendance-mode').click(function () {
-    if ($(this).text() == "Day wise Attendance") {
-        $(this).text("Month wise Attendance")
-        $("#full-attendance-div").show()
-        $("#month-attendance-div").hide()
-    } else {
-        $(this).text("Day wise Attendance")
-        $("#full-attendance-div").hide()
-        $("#month-attendance-div").show()
-    }
-})
-
-$('#full-attendance-table, #month-attendance-table, #fees-table').DataTable({
-    dom: 'lBfrtip',
-    buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-    ],
-    "aaSorting": []
-
-});
 
 $(".collapse-head").click(function () {
     let chevron = $(this)[0].children[2].children[0]

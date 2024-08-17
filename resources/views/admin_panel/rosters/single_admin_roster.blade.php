@@ -58,7 +58,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Roster</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -118,9 +118,9 @@
                                 <td class="text-center">{{ $rosters_count }}.</td>
                                 <td class="text-center">{{ $roster->room->name }}</td>
                                 <td class="text-center">{{ \DateTime::createFromFormat('G', explode('-', $roster->timing)[0])->format('h:i a') . ' to ' . \DateTime::createFromFormat('G', explode('-', $roster->timing)[1])->format('h:i a') }}</td>
-                                <td class="action-btns">
+                                <td class="text-center">
 
-                                    <button class="btn btn-primary edit-btn" 
+                                    <button class="btn btn-sm btn-primary edit-btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#roster-modal"
                                     data-roster-id="{{ $roster->id }}" 
@@ -128,7 +128,7 @@
                                     data-roster-timing="{{ $roster->timing }}" 
                                     >Edit</button>
 
-                                    <button class="btn btn-danger del-btn" data-roster-id="{{ $roster->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-roster-id="{{ $roster->id }}">Delete</button>
 
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($roster->created_at)) !!}</td>
@@ -168,7 +168,6 @@ $('#roster-modal').on('hidden.bs.modal', function (e) {
 // Modifying Modal for adding roster
 $("#add-roster-btn").click(function() {
     $(".modal-title").text("Add Roster")
-    $(".modal button[type=submit]").text("Add Roster")
     $(".modal form").attr('action', '{{ route("admin_panel.process_addRoster") }}')
 
 })
@@ -182,7 +181,6 @@ $(document).on('click', ".edit-btn", function() {
 
     // Change modal for editting
     $(".modal-title").text("Edit Roster")
-    $(".modal button[type=submit]").text("Edit Roster")
     $(".modal form").attr('action', `{{ route("admin_panel.process_editRoster") }}`)
 
     

@@ -31,6 +31,10 @@ Route::middleware([ValidUser::class . ":student"])->group(function () {
 
     Route::get('/', [UserStudentController::class, 'fetch_single_student'])->name('student.home');
 
+    Route::get('/attendance', [UserStudentController::class, 'attendance'])->name('student.attendance');
+    
+    Route::get('/fees', [UserStudentController::class, 'fees_record'])->name('student.fees_record');
+
     Route::get('/assessment', [UserStudentController::class, 'assessment'])->name('student.assessment');
     Route::post('/assessment/questions_fetcher', [UserStudentController::class, 'questions_fetcher'])->name('student.questions_fetcher');
     Route::post('/assessment/answer_checker', [UserStudentController::class, 'answer_checker'])->name('student.answer_checker');
@@ -100,11 +104,15 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
     Route::get('/module_handler/{userId}/{action}/{moduleId}', [StudentController::class, 'module_handler'])->name('admin_panel.module_handler');
     
 
-    Route::get('/attendance/fetch_students/{room}/{timing}/{date}', [AttendanceController::class, 'fetch_students'])->name('admin_panel.fetch_students');
     Route::get('/attendance/marking_attendance/{id}/{action}/{date?}', [AttendanceController::class, 'marking_attendance'])->name('admin_panel.marking_attendance');
     
     Route::get('/attendance/today', [AttendanceController::class, 'today_students'])->name('admin_panel.attendanceToday');
-    Route::get('/attendance/record', [AttendanceController::class, 'fetch_room_record'])->name('admin_panel.attendanceRecord');
+
+    Route::get('/attendance/past', [AttendanceController::class, 'fetch_room_record'])->name('admin_panel.attendancePast');
+    Route::get('/attendance/past/fetch_students/{room}/{timing}/{date}', [AttendanceController::class, 'fetch_students'])->name('admin_panel.fetch_students');
+
+    Route::get('/attendance/report', [AttendanceController::class, 'fetch_room_record'])->name('admin_panel.attendanceReport');
+    Route::get('/attendance/report/fetch_students/{room}/{timing}/{startDate}/{endDate}', [AttendanceController::class, 'attendance_report']);
     
     
     Route::get('/set_questions/{course_id}', [QuestionController::class, 'index'])->name('admin_panel.setQuestions');

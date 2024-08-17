@@ -47,7 +47,7 @@
                 <div class="row align-items-center">
                     
                     <div class="col-3">
-                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}" class="user-pic rounded-circle" alt="">
+                        <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class="user-pic rounded-circle" alt="">
                     </div>
                     <div class="col pe-2 ps-0 d-flex align-items-center text-center">
                         <p class="mb-0">{{ Auth::user()->name }}</p>
@@ -174,10 +174,13 @@
                     <div class="ps-3 links">
                         <div class="row flex-column border-start border-2">
                             <a href="{{ route("admin_panel.attendanceToday") }}" class="col row mt-1 py-2 text-decoration-none">
-                                <div class="col-auto">Today Attendance</div>
+                                <div class="col-auto">Today's Attendance</div>
                             </a>
-                            <a href="{{ route("admin_panel.attendanceRecord") }}" class="col row mt-1 py-2 text-decoration-none">
-                                <div class="col-auto">Attendance Record</div>
+                            <a href="{{ route("admin_panel.attendancePast") }}" class="col row mt-1 py-2 text-decoration-none">
+                                <div class="col-auto">Past Attendance</div>
+                            </a>
+                            <a href="{{ route("admin_panel.attendanceReport") }}" class="col row mt-1 py-2 text-decoration-none">
+                                <div class="col-auto">Attendance Report</div>
                             </a>
                             {{-- <a href="deleted_items.php?mode=deleted_results" class="col row mt-1 py-2 text-decoration-none">
                                 <div class="col-auto">Deleted Results</div>
@@ -259,7 +262,7 @@
                             </div> -->
                             <div class="user-btn col-auto row column-gap-2 align-items-center px-0 cursor-pointer">
                                 <div class="col-auto px-0">
-                                    <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}" class=" rounded-circle user-pic" alt="User Pic">
+                                    <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class=" rounded-circle user-pic" alt="User Pic">
                                 </div>
                                 <div class="col-auto px-0 d-sm-block d-none">
                                     <p class="m-0">{{ Auth::user()->name }}</p>
@@ -270,7 +273,7 @@
                             <div class="user-details py-3 rounded-top-3">
                                 <div class="row justify-content-center">
                                     <div class="col-auto">
-                                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}" class="rounded-circle " width="80px" height="80px" alt="User Pic">
+                                        <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class="rounded-circle " width="80px" height="80px" alt="User Pic">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">

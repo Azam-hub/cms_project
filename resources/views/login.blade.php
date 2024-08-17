@@ -71,7 +71,7 @@
                         <div class="text-danger error-msg">@error('father_name') {{ $message }} @enderror</div>
                     </div>
                     <div class="col-md mb-3">
-                        <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No</label>
+                        <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No (without <b>-</b>)</label>
                         <input type="number" name="cnic_bform_no" id="cnic-bform-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('cnic-bform-no') is-invalid @enderror" placeholder="Enter CNIC/B-Form No." value="{{ old('cnic_bform_no') }}">
                         <div class="text-danger error-msg">@error('cnic_bform_no') {{ $message }} @enderror</div>
                     </div>

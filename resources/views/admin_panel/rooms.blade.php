@@ -34,7 +34,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Room</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -88,9 +88,9 @@
                                 <td class="text-center">{{ $count }}.</td>
                                 <td class="text-center">{{ $room->name }}</td>
                                 <td class="text-center">{{ $room->seats }}</td>
-                                <td class="action-btns">
+                                <td class="text-center">
 
-                                    <button class="btn btn-primary edit-btn" 
+                                    <button class="btn btn-sm btn-primary edit-btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#room-modal"
                                     data-room-id="{{ $room->id }}" 
@@ -98,7 +98,7 @@
                                     data-room-seats="{{ $room->seats }}" 
                                     >Edit</button>
 
-                                    <button class="btn btn-danger del-btn" data-room-id="{{ $room->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-room-id="{{ $room->id }}">Delete</button>
 
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($room->created_at)) !!}</td>
@@ -139,7 +139,6 @@
     // Modifying Modal for adding room
     $("#add-room-btn").click(function() {
         $(".modal-title").text("Add Room")
-        $(".modal button[type=submit]").text("Add Room")
         $(".modal form").attr('action', '{{ route("admin_panel.process_addRoom") }}')
 
     })
@@ -153,7 +152,6 @@
 
         // Change modal for editting
         $(".modal-title").text("Edit Room")
-        $(".modal button[type=submit]").text("Edit Room")
         $(".modal form").attr('action', `{{ route("admin_panel.process_editRoom") }}`)
 
         

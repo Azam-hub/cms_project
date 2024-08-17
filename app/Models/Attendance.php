@@ -10,4 +10,8 @@ class Attendance extends Model
     use HasFactory;
 
     protected $fillable = ['student_id', 'date', 'status'];
+
+    function student() {
+        return $this->hasOne(Student::class, "id", "student_id");
+    }
 }

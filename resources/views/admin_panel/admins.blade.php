@@ -16,7 +16,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Admin</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" enctype="multipart/form-data"> {{-- Action attribute set from JS --}}
+            <form method="POST" enctype="multipart/form-data" id="form"> {{-- Action attribute set from JS --}}
                 @csrf
                 <input type="hidden" name="admin_id" id="admin-id">
                 <div class="modal-body">
@@ -40,7 +40,7 @@
                             <div class="text-danger">@error('father_name') {{ $message }} @enderror</div>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No</label>
+                            <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No (without <b>-</b>)</label>
                             <input type="number" name="cnic_bform_no" id="cnic-bform-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('cnic_bform_no') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter CNIC/B-Form No." value="{{ old('cnic_bform_no') }}">
                             <div class="text-danger">@error('cnic_bform_no') {{ $message }} @enderror</div>
                         </div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Admin</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -182,7 +182,9 @@
                         @forelse ($admins as $admin)
                             <tr data-admin-id="{{ $admin->id }}" class="cursor-pointer">
                                 <td>{{ $count }}.</td>
-                                <td><img src="{{ asset('storage/'.$admin->profile_pic) }}" class="w-100" alt="Profile Pic" ></td>
+                                <td>
+                                    <img src="{{ $admin->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$admin->profile_pic) }}" class="w-100" alt="Profile Pic" >
+                                </td>
                                 <td>{{ $admin->name }}</td>
                                 <td>{{ $admin->father_name }}</td>
                                 <td>{{ $admin->cnic_bform_no }}</td>
@@ -190,12 +192,12 @@
                                 <td class="text-break">{{ $admin->email }}</td>
                                 <td>{{ $admin->mobile_no }}</td>
                                 <td>{{ $admin->address }}</td>
-                                <td>{!! $admin->role == "admin" ? 
-                                '<span class="px-2 py-1 rounded-2 text-light bg-primary d-block text-center" style="font-size: 13px;">Admin</span>' : 
-                                '<span class="px-2 py-1 rounded-2 text-light bg-success d-block text-center" style="font-size: 13px;">Super Admin</span>' !!}</td>
-                                <td class="action-btns">
+                                <td class="text-center">{!! $admin->role == "admin" ? 
+                                '<span class="badge text-bg-primary">Admin</span>' : 
+                                '<span class="badge text-bg-success">Super Admin</span>' !!}</td>
+                                <td class="text-center">
 
-                                    <button class="btn btn-primary edit-btn" 
+                                    <button class="btn btn-sm btn-primary edit-btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#admin-modal"
                                     data-admin-id="{{ $admin->id }}" 
@@ -210,7 +212,7 @@
                                     data-admin-role="{{ $admin->role }}" 
                                     >Edit</button>
 
-                                    <button class="btn btn-danger del-btn" data-admin-id="{{ $admin->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-admin-id="{{ $admin->id }}">Delete</button>
 
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($admin->created_at)) !!}</td>
@@ -233,158 +235,162 @@
 
 @section('script')
 <script>
-    $('#admin-table').DataTable({
-        initComplete: function () {
-            let i = 1;
-            this.api()
-                .columns()
-                .every(function () {
-                    var column = this;
-                    var title = column.header().textContent;
+$('#admin-table').DataTable({
+    initComplete: function () {
+        let i = 1;
+        this.api()
+            .columns()
+            .every(function () {
+                var column = this;
+                var title = column.header().textContent;
+
+                // Create input element and add event listener
+                $('<input type="text" placeholder="Search ' + title + '" />')
+                    .appendTo($(`.search-row-${i}`).empty())
+                    .on('keyup change clear', function () {
+                        if (column.search() !== this.value) {
+                            column.search(this.value).draw();
+                        }
+                    });
+
+                i++;
+            });
+    },
+    dom: 'lBfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
+    "aaSorting": []
+
+});
+
+// Showing image after select
+var preview_image = document.getElementById('preview_image')
+$('#profile-pic').change(function (e) {
+    var image_type = URL.createObjectURL(e.target.files[0]);
+    console.log(image_type)
+    preview_image.setAttribute('src', image_type)
+
+})
+
+// Password show/hide
+$(".eye").click(function () {
+    let name = $(this).attr('name')
+    if (name == "eye-outline") {
+        $(this).prev().attr("type", "text")
+        $(this).attr("name", "eye-off-outline")
+    } else {
+        $(this).prev().attr("type", "password")
+        $(this).attr("name", "eye-outline")
+    }
+})
+
+$(".modal form").submit(function (e) {
+    e.preventDefault()
     
-                    // Create input element and add event listener
-                    $('<input type="text" placeholder="Search ' + title + '" />')
-                        .appendTo($(`.search-row-${i}`).empty())
-                        .on('keyup change clear', function () {
-                            if (column.search() !== this.value) {
-                                column.search(this.value).draw();
-                            }
-                        });
+    
+})
 
-                    i++;
-                });
-        },
-        dom: 'lBfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        "aaSorting": []
+// On hiding modal resetting form
+$('#admin-modal').on('hidden.bs.modal', function (e) {
+    $(".modal form").trigger("reset");
+    $("#preview_image").attr('src', "{{ asset('img/static/default_image-removebg-preview.png') }}")
+});
 
-    });
+// Modifying Modal for adding admin
+$("#add-admin-btn").click(function() {
+    $(".modal-title").text("Add Admin")
+    $(".modal form").attr('action', '{{ route("admin_panel.process_addAdmin") }}')
 
-    // Showing image after select
-    var preview_image = document.getElementById('preview_image')
-    $('#profile-pic').change(function (e) {
-        var image_type = URL.createObjectURL(e.target.files[0]);
-        console.log(image_type)
-        preview_image.setAttribute('src', image_type)
+    let fields = `<div class="col-lg mb-3">
+                        <label for="first-name" class="form-label mb-1">Enter First Name</label>
+                        <input type="text" name="first_name" id="first-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('first_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter First Name" value="{{ old('first_name') }}">
+                        <div class="text-danger">@error('first_name') {{ $message }} @enderror</div>
+                    </div>
+                    <div class="col-lg mb-3">
+                        <label for="last-name" class="form-label mb-1">Enter Last Name</label>
+                        <input type="text" name="last_name" id="last-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('last_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Last Name" value="{{ old('last_name') }}">
+                        <div class="text-danger">@error('last_name') {{ $message }} @enderror</div>
+                    </div>`
+    $('.variable-row').html(fields)
 
-    })
+})
 
-    // Password show/hide
-    $(".eye").click(function () {
-        let name = $(this).attr('name')
-        if (name == "eye-outline") {
-            $(this).prev().attr("type", "text")
-            $(this).attr("name", "eye-off-outline")
+// Modifying Modal for editting admin
+$(document).on('click', ".edit-btn", function() {
+    // Fetching and assigning
+    let admin_id = $(this).data("admin-id")
+    let profile_pic = $(this).data("admin-profile_pic")
+    let name = $(this).data("admin-name")
+    let father_name = $(this).data("admin-father_name")
+    let cnic_bform_no = $(this).data("admin-cnic_bform_no")
+    let dob = $(this).data("admin-date_of_birth")
+    let email = $(this).data("admin-email")
+    let mobile_no = $(this).data("admin-mobile_no")
+    let address = $(this).data("admin-address")
+    let role = $(this).data("admin-role")
+
+    // Change modal for editting
+    $(".modal-title").text("Edit Admin")
+    $(".modal form").attr('action', `{{ route("admin_panel.process_editAdmin") }}`)
+    let fields = `<div class="col-lg mb-3">
+                        <label for="name" class="form-label mb-1">Enter Name</label>
+                        <input type="text" name="name" id="name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Name" value="{{ old('name') }}">
+                        <div class="text-danger">@error('name') {{ $message }} @enderror</div>
+                    </div>
+                    <div class="col-lg mb-3">
+                        <label for="email" class="form-label mb-1">Enter Email</label>
+                        <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('email') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Email" value="{{ old('email') }}">
+                        <div class="text-danger">@error('email') {{ $message }} @enderror</div>
+                    </div>`;
+    $('.variable-row').html(fields)
+
+    
+    let src = profile_pic == "0" ? "{{ asset('img/static/default_image-removebg-preview.png') }}" : "{{ asset('storage') }}" + "/" + profile_pic;
+    $('.modal input#admin-id').val(admin_id)
+    $("#preview_image").attr('src', src)
+    $("#name").val(name)
+    $("#father-name").val(father_name)
+    $("#cnic-bform-no").val(cnic_bform_no)
+    $("#dob").val(dob)
+    $("#email").val(email)
+    $("#mobile-no").val(mobile_no)
+    $("#address").val(address)
+    $("#select-role").val(role)
+    
+
+})    
+
+// Delete data method
+$(document).on("click", ".del-btn", function() {
+    let admin_id = $(this).data("admin-id")
+
+
+    fetch('/admin/admins/process_destroyAdmin/'+admin_id, {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }).then(function (response) {
+        return response.json();
+    }).then(function (result) {
+        if (result.success) {
+            $('button[data-admin-id="' + admin_id + '"]').closest('tr').remove();
         } else {
-            $(this).prev().attr("type", "password")
-            $(this).attr("name", "eye-outline")
+            console.log(result);
         }
     })
 
-    // On hiding modal resetting form
-    $('#admin-modal').on('hidden.bs.modal', function (e) {
-        $(".modal form").trigger("reset");
-        $("#preview_image").attr('src', "{{ asset('img/static/default_image-removebg-preview.png') }}")
-    });
+})
 
-    // Modifying Modal for adding admin
-    $("#add-admin-btn").click(function() {
-        $(".modal-title").text("Add Admin")
-        $(".modal button[type=submit]").text("Add Admin")
-        $(".modal form").attr('action', '{{ route("admin_panel.process_addAdmin") }}')
-
-        let fields = `<div class="col-lg mb-3">
-                            <label for="first-name" class="form-label mb-1">Enter First Name</label>
-                            <input type="text" name="first_name" id="first-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('first_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter First Name" value="{{ old('first_name') }}">
-                            <div class="text-danger">@error('first_name') {{ $message }} @enderror</div>
-                        </div>
-                        <div class="col-lg mb-3">
-                            <label for="last-name" class="form-label mb-1">Enter Last Name</label>
-                            <input type="text" name="last_name" id="last-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('last_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Last Name" value="{{ old('last_name') }}">
-                            <div class="text-danger">@error('last_name') {{ $message }} @enderror</div>
-                        </div>`
-        $('.variable-row').html(fields)
-
-    })
-
-    // Modifying Modal for editting admin
-    $(document).on('click', ".edit-btn", function() {
-        // Fetching and assigning
-        let admin_id = $(this).data("admin-id")
-        let profile_pic = $(this).data("admin-profile_pic")
-        let name = $(this).data("admin-name")
-        let father_name = $(this).data("admin-father_name")
-        let cnic_bform_no = $(this).data("admin-cnic_bform_no")
-        let dob = $(this).data("admin-date_of_birth")
-        let email = $(this).data("admin-email")
-        let mobile_no = $(this).data("admin-mobile_no")
-        let address = $(this).data("admin-address")
-        let role = $(this).data("admin-role")
-
-        // Change modal for editting
-        $(".modal-title").text("Edit Admin")
-        $(".modal button[type=submit]").text("Edit Admin")
-        $(".modal form").attr('action', `{{ route("admin_panel.process_editAdmin") }}`)
-        let fields = `<div class="col-lg mb-3">
-                            <label for="name" class="form-label mb-1">Enter Name</label>
-                            <input type="text" name="name" id="name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Name" value="{{ old('name') }}">
-                            <div class="text-danger">@error('name') {{ $message }} @enderror</div>
-                        </div>
-                        <div class="col-lg mb-3">
-                            <label for="email" class="form-label mb-1">Enter Email</label>
-                            <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('email') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Email" value="{{ old('email') }}">
-                            <div class="text-danger">@error('email') {{ $message }} @enderror</div>
-                        </div>`;
-        $('.variable-row').html(fields)
-
-        
-
-        $('.modal input#admin-id').val(admin_id)
-        $("#preview_image").attr('src', "{{ asset('storage') }}" + "/" + profile_pic)
-        $("#name").val(name)
-        $("#father-name").val(father_name)
-        $("#cnic-bform-no").val(cnic_bform_no)
-        $("#dob").val(dob)
-        $("#email").val(email)
-        $("#mobile-no").val(mobile_no)
-        $("#address").val(address)
-        $("#select-role").val(role)
-        
-
-    })    
-
-    // Delete data method
-    $(document).on("click", ".del-btn", function() {
-        let admin_id = $(this).data("admin-id")
-
-
-        fetch('/admin/admins/process_destroyAdmin/'+admin_id, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(function (result) {
-            if (result.success) {
-                $('button[data-admin-id="' + admin_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
-
-    })
-
-    // Show admin roster
-    $(document).on("dblclick", "table tr", function(evt){
-        if($(evt.target).closest('.action-btns').length) {
-            return;             
-        }
-        let admin_id = $(this).data("admin-id");
-        if (admin_id != undefined) {
-            window.open(`/admin/rosters/${admin_id}`, '_blank');
-        }
-    });
+// Show admin roster
+$(document).on("dblclick", "table tr", function(evt){
+    if($(evt.target).closest('.action-btns').length) {
+        return;             
+    }
+    let admin_id = $(this).data("admin-id");
+    if (admin_id != undefined) {
+        window.open(`/admin/rosters/${admin_id}`, '_blank');
+    }
+});
 </script>
 @endsection

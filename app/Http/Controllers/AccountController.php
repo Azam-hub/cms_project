@@ -23,7 +23,7 @@ class AccountController extends Controller
     function process_superAdminSignup(Request $req) {
         // Validating Information
         $req->validate([
-            "profile_pic" => "required|image|max:5000",
+            "profile_pic" => "image|max:5000",
             "first_name" => "required",
             "last_name" => "required",
             "father_name" => "required",
@@ -34,8 +34,13 @@ class AccountController extends Controller
             "password" => "required|confirmed",
             "password_confirmation" => "required",
         ]);
+
         // Uploading profile pic
-        $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+        $profile_pic = "0";
+        
+        if (isset($req->profile_pic)) {
+            $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+        }
 
 
         $email = strtolower(str_replace(' ', '', $req->first_name)) . "." . strtolower(str_replace(' ', '', $req->last_name)) . "@simsatedu.com";
