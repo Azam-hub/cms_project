@@ -110,7 +110,7 @@
                         <label for="password" class="form-label mb-1">Enter Password</label>
                         <div class="position-relative">
                             <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('password') is-invalid @enderror" placeholder="Enter Password">
-                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-4"></ion-icon>
+                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
                             <div class="text-danger error-msg">@error('password') {{ $message }} @enderror</div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         <label for="confirm-password" class="form-label mb-1">Enter Confirm Password</label>
                         <div class="position-relative">
                             <input type="password" name="password_confirmation" id="confirm-password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('password_confirmation') is-invalid @enderror" placeholder="Enter Confirm Password">
-                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-4"></ion-icon>
+                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
                             <div class="text-danger error-msg">@error('password_confirmation') {{ $message }} @enderror</div>
                         </div>
                     </div>

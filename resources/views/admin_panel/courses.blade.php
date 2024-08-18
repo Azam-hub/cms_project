@@ -22,26 +22,26 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="course-name" class="form-label mb-1">Enter Course Name</label>
+                            <label for="course-name" class="form-label mb-1 required-label">Enter Course Name</label>
                             <input type="text" name="course_name" id="course-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('course_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Course Name" value="{{ old('course_name') }}">
-                            <span class="text-danger">@error('course_name') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('course_name') {{ $message }} @enderror</span>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="questions-to-ask" class="form-label mb-1">Enter number of Questions to ask</label>
+                            <label for="questions-to-ask" class="form-label mb-1 required-label">Enter number of Questions to ask</label>
                             <input type="number" name="questions_to_ask" id="questions-to-ask" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('questions_to_ask') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter number" value="{{ old('questions_to_ask') }}">
-                            <span class="text-danger">@error('questions_to_ask') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('questions_to_ask') {{ $message }} @enderror</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="fees" class="form-label mb-1">Enter Course Monthly Fees</label>
+                            <label for="fees" class="form-label mb-1 required-label">Enter Course Monthly Fees</label>
                             <input type="number" name="fees" id="fees" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('fees') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Fees" value="{{ old('fees') }}">
-                            <span class="text-danger">@error('fees') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('fees') {{ $message }} @enderror</span>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="duration" class="form-label mb-1">Enter Duration (in Months)</label>
+                            <label for="duration" class="form-label mb-1 required-label">Enter Duration (in Months)</label>
                             <input type="number" name="duration" id="duration" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('duration') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter duration" value="{{ old('duration') }}">
-                            <span class="text-danger">@error('duration') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('duration') {{ $message }} @enderror</span>
                         </div>
                     </div>
                     <div class="row justify-content-end my-2">
@@ -54,12 +54,10 @@
                         <div class="col-lg-6 col-12 mb-3">
                             <label for="module-1" class="form-label mb-1">Enter Module 1 Name</label>
                             <input type="text" name="modules[]" id="module-1" class="module w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('modules.0') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Module Name" value="{{ old('modules.0') }}">
-                            <span class="text-danger">@error('modules.0') {{ $message }} @enderror</span>
                         </div>
                         <div class="col-lg-6 col-12 mb-3">
                             <label for="module-2" class="form-label mb-1">Enter Module 2 Name</label>
                             <input type="text" name="modules[]" id="module-2" class="module w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('modules.1') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Module Name" value="{{ old('modules.1') }}">
-                            <span class="text-danger">@error('modules.1') {{ $message }} @enderror</span>
                         </div>
                     </div>
                 </div>
@@ -185,9 +183,29 @@
     
     });
 
+    $(".modal form").submit(function (e) {
+        let prevent = false;
+        
+        $(".error-msg").html("")
+        
+        $(".modal form input:not([type='hidden']):not([name='modules[]'])").each(function(i, element) {
+            if ($(element).val() == "") {
+                prevent = true;
+                $(element).next().html("This field is required.")
+            }
+        });
+
+        if (prevent) {
+            console.log("rukh");
+            
+            e.preventDefault()
+        }
+    })
+    
     $('#course-modal').on('hidden.bs.modal', function () {
         $(".modal form").trigger("reset");
         $(".modal .row input").val("");
+        $(".error-msg").html("")
     });
 
     $("#add-course-btn").click(function () {

@@ -21,14 +21,14 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="room-name" class="form-label mb-1">Enter Room Name</label>
+                            <label for="room-name" class="form-label mb-1 required-label">Enter Room Name</label>
                             <input type="text" name="room_name" id="room-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('room_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Room Name" value="{{ old('room_name') }}">
-                            <div class="text-danger">@error('room_name') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('room_name') {{ $message }} @enderror</div>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="seats" class="form-label mb-1">Enter number of Seats</label>
+                            <label for="seats" class="form-label mb-1 required-label">Enter number of Seats</label>
                             <input type="number" name="seats" id="seats" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('seats') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter number of Seats" value="{{ old('seats') }}">
-                            <div class="text-danger">@error('seats') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('seats') {{ $message }} @enderror</div>
                         </div>
                     </div>
                 </div>
@@ -130,10 +130,28 @@
 
     });
 
+    $(".modal form").submit(function (e) {
+        let prevent = false;
+        
+        $(".error-msg").html("")
+        
+        $(".modal form input:not([type='hidden'])").each(function(i, element) {
+            if ($(element).val() == "") {
+                prevent = true;
+                $(element).next().html("This field is required.")
+            }
+        });
+        
+        if (prevent) {
+            e.preventDefault()
+        }
+    })
+    
     // On hiding modal resetting form
     $('#room-modal').on('hidden.bs.modal', function (e) {
         $(".modal form").trigger("reset");
         $("#preview_image").attr('src', "{{ asset('img/static/default_image-removebg-preview.png') }}")
+        $(".error-msg").html("")
     });
 
     // Modifying Modal for adding room

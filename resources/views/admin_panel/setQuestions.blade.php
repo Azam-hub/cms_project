@@ -25,31 +25,31 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="question" class="form-label mb-1">Enter Question</label>
+                            <label for="question" class="form-label mb-1 required-label">Enter Question</label>
                             <input type="text" name="question" id="question" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('question') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Question" value="{{ old('question') }}">
-                            <span class="text-danger">@error('question') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('question') {{ $message }} @enderror</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col mb-3">
-                            <label for="correct-option" class="form-label mb-1">Enter Correct Option</label>
+                            <label for="correct-option" class="form-label mb-1 required-label">Enter Correct Option</label>
                             <input type="text" name="correct_option" id="correct-option" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('correct_option') ? 'is-invalid' : 'border-success' }}" placeholder="Enter Correct Option" value="{{ old('correct_option') }}">
-                            <span class="text-danger">@error('correct_option') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('correct_option') {{ $message }} @enderror</span>
                         </div>
                     </div>
                     <div class="row flex-column">
-                        <label for="other-options" class="col form-label mb-2">Enter Other Options</label>
+                        <label for="other-options" class="col form-label mb-2 required-label">Enter Other Options</label>
                         <div class="col-lg-6 col mb-2">
                             <input type="text" name="option_1" id="other-option-1" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('option_1') ? 'is-invalid' : 'border-danger' }}" placeholder="Enter Other Option 1" value="{{ old('option_1') }}">
-                            <span class="text-danger">@error('option_1') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('option_1') {{ $message }} @enderror</span>
                         </div>
                         <div class="col-lg-6 col mb-2">
                             <input type="text" name="option_2" id="other-option-2" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('option_2') ? 'is-invalid' : 'border-danger' }}" placeholder="Enter Other Option 2" value="{{ old('option_2') }}">
-                            <span class="text-danger">@error('option_2') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('option_2') {{ $message }} @enderror</span>
                         </div>
                         <div class="col-lg-6 col mb-2">
                             <input type="text" name="option_3" id="other-option-3" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('option_3') ? 'is-invalid' : 'border-danger' }}" placeholder="Enter Other Option 3" value="{{ old('option_3') }}">
-                            <span class="text-danger">@error('option_3') {{ $message }} @enderror</span>
+                            <span class="text-danger error-msg">@error('option_3') {{ $message }} @enderror</span>
                         </div>
                     </div>
                 </div>
@@ -171,8 +171,26 @@ $('#question-table').DataTable({
 
 });
 
+$(".modal form").submit(function (e) {
+    let prevent = false;
+    
+    $(".error-msg").html("")
+    
+    $(".modal form input:not([type='hidden'])").each(function(i, element) {
+        if ($(element).val() == "") {
+            prevent = true;
+            $(element).next().html("This field is required.")
+        }
+    });
+
+    if (prevent) {
+        e.preventDefault()
+    }
+})
+
 $('#question-modal').on('hidden.bs.modal', function (e) {
     $(".modal form").trigger("reset");
+    $(".error-msg").html("")
 });
 
 

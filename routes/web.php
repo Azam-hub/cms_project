@@ -46,45 +46,46 @@ Route::middleware([ValidUser::class . ":student"])->group(function () {
 
 Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->group(function () {
 
-    
+    /* Home */
     Route::view('/', 'admin_panel.home')->name('admin_panel.home');
 
 
     Route::middleware([ValidAdmin::class])->group(function () {
 
+        /* Admins */
         Route::get('/admins', [AdminController::class, "index"])->name("admin_panel.admins");
         Route::post('/admins/process_addAdmin', [AdminController::class, "process_addAdmin"])->name("admin_panel.process_addAdmin");
         Route::post('/admins/process_editAdmin', [AdminController::class, "process_editAdmin"])->name("admin_panel.process_editAdmin");
         Route::get('/admins/process_destroyAdmin/{id}', [AdminController::class, "process_destroyAdmin"])->name("admin_panel.process_destroyAdmin");
         
-
+        /* Rosters */
         Route::get('/rosters', [RosterController::class, "rosters"])->name("admin_panel.rosters");
         Route::get('/rosters/{id}', [RosterController::class, "single_admin_roster"])->name("admin_panel.single_admin_roster");
         Route::post('/rosters/process_addRoster', [RosterController::class, 'process_addRoster'])->name("admin_panel.process_addRoster");
         Route::post('/rosters/process_editRoster', [RosterController::class, 'process_editRoster'])->name("admin_panel.process_editRoster");
         Route::get('/rosters/process_destroyRoster/{id}', [RosterController::class, 'process_destroyRoster'])->name("admin_panel.process_destroyRoster");
 
-    
+        /* Rooms */
         Route::get('/rooms', [RoomController::class, 'index'])->name('admin_panel.rooms');
         Route::post('/rooms/process_addRoom', [RoomController::class, 'process_addRoom'])->name("admin_panel.process_addRoom");
         Route::post('/rooms/process_editRoom', [RoomController::class, 'process_editRoom'])->name("admin_panel.process_editRoom");
         Route::get('/rooms/process_destroyRoom/{id}', [RoomController::class, 'process_destroyRoom'])->name("admin_panel.process_destroyRoom");
         
-        
+        /* Courses */
         Route::get('/courses', [CourseController::class, 'index'])->name('admin_panel.courses');
         Route::post('/courses/process_addCourse', [CourseController::class, 'process_addCourse'])->name("admin_panel.process_addCourse");
         Route::post('/courses/process_editCourse', [CourseController::class, 'process_editCourse'])->name("admin_panel.process_editCourse");
         Route::get('/courses/process_destroyCourse/{id}', [CourseController::class, 'process_destroyCourse'])->name("admin_panel.process_destroyCourse");
         Route::get('/courses/process_statusChangeCourse/{id}/{action}', [CourseController::class, 'process_statusChangeCourse'])->name("admin_panel.process_statusChangeCourse");
     
-    
+        /* Students */
         Route::get('/students', [StudentController::class, 'index'])->name('admin_panel.students');
         Route::post('/students/process_addStudent', [StudentController::class, 'process_addStudent'])->name('admin_panel.process_addStudent');
         Route::post('/students/process_editStudent', [StudentController::class, 'process_editStudent'])->name('admin_panel.process_editStudent');
         Route::get('/students/process_destroyStudent/{id}', [StudentController::class, 'process_destroyStudent'])->name('admin_panel.process_destroyStudent');
         Route::get('/students/process_statusChangeStudent/{id}/{action}', [StudentController::class, 'process_statusChangeStudent'])->name('admin_panel.process_statusChangeStudent');
         
-
+        /* Fees */
         Route::get('/fees', [FeesController::class, 'index'])->name('admin_panel.fees');
         Route::get('/fees/fetch_students/{room}/{timing}', [FeesController::class, 'fetch_students'])->name('admin_panel.fetch_students');
         Route::get('/fees/fetch_student_fee_record/{id}', [FeesController::class, 'fetch_student_fee_record'])->name('admin_panel.fetch_student_fee_record');
@@ -93,10 +94,19 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
         Route::get('/fees/process_destroyRecord/{id}', [FeesController::class, 'process_destroyRecord'])->name('admin_panel.process_destroyRecord');
         Route::get('/fees/process_excludeIncludeStudent/{id}/{action}', [FeesController::class, 'process_excludeIncludeStudent'])->name('admin_panel.process_excludeIncludeStudent');
 
-    
+        /* Result */
         Route::get('/results', [ResultController::class, 'index'])->name('admin_panel.results');
         Route::get('/results/process_destroyResult/{id}', [ResultController::class, 'process_destroyResult'])->name('admin_panel.process_destroyResult');
 
+        /* Attendance */
+        Route::get('/attendance/past', [AttendanceController::class, 'fetch_room_record'])->name('admin_panel.attendancePast');
+        Route::get('/attendance/past/fetch_students/{room}/{timing}/{date}', [AttendanceController::class, 'fetch_students'])->name('admin_panel.fetch_students');
+
+        /* Questions */
+        Route::get('/set_questions/{course_id}', [QuestionController::class, 'index'])->name('admin_panel.setQuestions');
+        Route::post('/set_questions/process_addQuestion', [QuestionController::class, 'process_addQuestion'])->name('admin_panel.process_addQuestion');
+        Route::post('/set_questions/process_editQuestion', [QuestionController::class, 'process_editQuestion'])->name('admin_panel.process_editQuestion');
+        Route::get('/set_questions/process_destroyQuestion/{id}', [QuestionController::class, 'process_destroyQuestion'])->name('admin_panel.process_destroyQuestion');
     });
 
 
@@ -108,18 +118,9 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
     
     Route::get('/attendance/today', [AttendanceController::class, 'today_students'])->name('admin_panel.attendanceToday');
 
-    Route::get('/attendance/past', [AttendanceController::class, 'fetch_room_record'])->name('admin_panel.attendancePast');
-    Route::get('/attendance/past/fetch_students/{room}/{timing}/{date}', [AttendanceController::class, 'fetch_students'])->name('admin_panel.fetch_students');
-
     Route::get('/attendance/report', [AttendanceController::class, 'fetch_room_record'])->name('admin_panel.attendanceReport');
     Route::get('/attendance/report/fetch_students/{room}/{timing}/{startDate}/{endDate}', [AttendanceController::class, 'attendance_report']);
     
-    
-    Route::get('/set_questions/{course_id}', [QuestionController::class, 'index'])->name('admin_panel.setQuestions');
-    Route::post('/set_questions/process_addQuestion', [QuestionController::class, 'process_addQuestion'])->name('admin_panel.process_addQuestion');
-    Route::post('/set_questions/process_editQuestion', [QuestionController::class, 'process_editQuestion'])->name('admin_panel.process_editQuestion');
-    Route::get('/set_questions/process_destroyQuestion/{id}', [QuestionController::class, 'process_destroyQuestion'])->name('admin_panel.process_destroyQuestion');
-
 });
 
 

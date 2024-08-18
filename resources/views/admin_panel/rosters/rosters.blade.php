@@ -23,7 +23,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="select-teacher" class="form-label mb-1">Select Teacher</label>
+                            <label for="select-teacher" class="form-label mb-1 required-label">Select Teacher</label>
                             <select name="user_id" id="select-teacher" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('teacher') ? 'is-invalid' : 'border-dark-subtle' }}">
                                 <option value="">-- Select Teacher --</option>
                                 @forelse ($users as $user)
@@ -32,12 +32,12 @@
                                     <option value="">No teacher added</option>                                        
                                 @endforelse
                             </select>
-                            <div class="text-danger">@error('room') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('room') {{ $message }} @enderror</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="select-room" class="form-label mb-1">Select Room</label>
+                            <label for="select-room" class="form-label mb-1 required-label">Select Room</label>
                             <select name="room" id="select-room" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('room') ? 'is-invalid' : 'border-dark-subtle' }}">
                                 <option value="">-- Select Room --</option>
                                 @forelse ($rooms as $room)
@@ -46,10 +46,10 @@
                                     <option value="">No room added</option>                                        
                                 @endforelse
                             </select>
-                            <div class="text-danger">@error('room') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('room') {{ $message }} @enderror</div>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="select-timing" class="form-label mb-1">Select Timing</label>
+                            <label for="select-timing" class="form-label mb-1 required-label">Select Timing</label>
                             <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('timing') ? 'is-invalid' : 'border-dark-subtle' }}">
                                 <option value="">-- Select Timing --</option>
                                 <option value="11-12">11:00 am to 12:00 am</option>
@@ -65,7 +65,7 @@
                                 <option value="21-22">09:00 pm to 10:00 pm</option>
                                 
                             </select>
-                            <div class="text-danger">@error('timing') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('timing') {{ $message }} @enderror</div>
                         </div>
                     </div>
                 </div>
@@ -205,10 +205,27 @@ $('#roster-table').DataTable({
 
 });
 
+$(".modal form").submit(function (e) {
+    let prevent = false;
+    
+    $(".error-msg").html("")
+    
+    $(".modal form select").each(function(i, element) {
+        if ($(element).val() == "") {
+            prevent = true;
+            $(element).next().html("This field is required.")
+        }
+    });
+    
+    if (prevent) {
+        e.preventDefault()
+    }
+})
 
 // On hiding modal resetting form
 $('#roster-modal').on('hidden.bs.modal', function (e) {
     $(".modal form").trigger("reset");
+    $(".error-msg").html("")
 });
 
 // Modifying Modal for adding roster

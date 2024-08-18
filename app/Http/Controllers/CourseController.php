@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     function index() {
-        $courses = Course::with('modules')->where('is_deleted', '0')->orderBy('id', "desc")->get();
+        $courses = Course::with(['modules' => function ($q) {
+            $q->where("is_deleted", "0");
+        }])->where('is_deleted', '0')->orderBy('id', "desc")->get();
         $count = $courses->count();
         return view("admin_panel.courses", compact('courses', "count"));
     }
@@ -18,6 +20,8 @@ class CourseController extends Controller
         $req->validate([
             "course_name" => "required",
             "questions_to_ask" => "required",
+            "fees" => "required",
+            "duration" => "required",
             'modules' => 'required|array',
         ]);
 
@@ -72,7 +76,8 @@ class CourseController extends Controller
                 $module = Module::find($id);
                 
                 if ($req->modules[$i] == "") {
-                    $module->delete();
+                    $module->is_deleted = "1";
+                    $module->save();
                 } else {
                     $module->name = $req->modules[$i];
                     $module->save();

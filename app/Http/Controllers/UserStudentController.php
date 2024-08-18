@@ -16,7 +16,17 @@ class UserStudentController extends Controller
     function fetch_single_student() {
         $id = Auth::user()->id;
 
-        $user = User::with('studentData')->with('studentData.room_row')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
+        $user = User::
+        with([
+            'studentData',
+            'studentData.room_row',
+            'studentData.course', 
+            'studentData.course.modules' => function ($q) {
+                $q->where("is_deleted", "0");
+            }
+        ])
+        ->where("id", $id)
+        ->first();
 
         // dd($student);
         return view('student.home', compact('user'));

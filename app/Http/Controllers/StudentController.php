@@ -18,7 +18,7 @@ use function PHPUnit\Framework\fileExists;
 class StudentController extends Controller
 {
     function index() {
-        $students = User::with('studentData')->with("studentData.course")->where('role', 'student')->where('is_deleted', '0')->orderBy('id', 'desc')->get();
+        $students = User::with('studentData')->with("studentData.course")->with("studentData.room_row")->where('role', 'student')->where('is_deleted', '0')->orderBy('id', 'desc')->get();
         $courses = Course::where('deactive', '0')->where('is_deleted', '0')->orderBy('id', 'desc')->get();
         $rooms = Room::where('is_deleted', '0')->orderBy('id', 'desc')->get();
 
@@ -321,35 +321,23 @@ class StudentController extends Controller
 
 
     function fetch_single_student(int $id) {
-        $user = User::with('studentData')->with('studentData.room_row')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
+        // $user = User::with('studentData')->with('studentData.room_row')->with('studentData.course')->with('studentData.course.modules')->where("id", $id)->first();
+
+        $user = User::
+        with([
+            'studentData',
+            'studentData.room_row',
+            'studentData.course', 
+            'studentData.course.modules' => function ($q) {
+                $q->where("is_deleted", "0");
+            }
+        ])
+        ->where("id", $id)
+        ->first();
         $attendance_rows = Attendance::where('student_id', $user->studentData->id)->orderBy('date', 'desc')->get();
         $fees = Fee::where("student_id", $user->studentData->id)->where("is_deleted", "0")->orderBy('id', 'desc')->get();
         $total_paid_fees = Fee::where("student_id", $user->studentData->id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
 
-        // $month_attendances = [];
-        // foreach ($attendance_rows as $i => $attendance_row) {
-        //     $date = $attendance_row->date;
-        //     $date = substr($date, 0, 7);
-        //     $status = $attendance_row->status;
-            
-        //     if (array_key_exists($date, $month_attendances)) {
-        //         $presents = $month_attendances[$date]["present"];
-        //         $absents = $month_attendances[$date]["absent"];
-
-        //         if ($status == 'present') {
-        //             $month_attendances[$date]["present"] = $presents + 1;
-        //         } elseif ($status == 'absent') {
-        //             $month_attendances[$date]["absent"] = $absents + 1;
-        //         }
-
-        //     } else {
-        //         if ($status == 'present') {
-        //             $month_attendances[$date] = ["present" => 1, "absent" => 0];
-        //         } elseif ($status == 'absent') {
-        //             $month_attendances[$date] = ["present" => 0, "absent" => 1];
-        //         }
-        //     }            
-        // }
         $month_attendances = Attendance::selectRaw("
             DATE_FORMAT(date, '%Y-%m') as month,
             SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
@@ -365,7 +353,7 @@ class StudentController extends Controller
 
     function module_handler(int $userId, string $action, int $moduleId) {
         $_module = Module::find($moduleId);
-        $modules = Module::where('course_id', $_module->course_id)->get();
+        $modules = Module::where('course_id', $_module->course_id)->where('is_deleted', "0")->get();
 
         $total_modules = $modules->count();
         // return $total_modules;

@@ -30,6 +30,11 @@
     cursor: pointer;
 }
 
+.required-label::after {
+    content: " *";
+    color: red;
+}
+
 /* ---------------------- Table styling START ---------------------- */
 
 table th {

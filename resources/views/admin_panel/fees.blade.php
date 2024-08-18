@@ -72,12 +72,12 @@
                         </div>
                         <div class="row">
                             <div class="col-lg mb-3">
-                                <label for="amount" class="form-label mb-1">Enter Amount (Rs.)</label>
+                                <label for="amount" class="form-label mb-1 required-label">Enter Amount (Rs.)</label>
                                 <input type="number" name="amount" id="amount" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('amount') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Amount" value="{{ old('amount') }}">
-                                <div class="text-danger">@error('amount') {{ $message }} @enderror</div>
+                                <div class="text-danger error-msg">@error('amount') {{ $message }} @enderror</div>
                             </div>
                             <div class="col-lg mb-3">
-                                <label for="purpose" class="form-label mb-1">Select Purpose</label>
+                                <label for="purpose" class="form-label mb-1 required-label">Select Purpose</label>
                                 <select name="purpose" id="purpose" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('purpose') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     <option value="">-- Select Purpose --</option>
                                     <option {{ (old('purpose') == "monthly") ? "selected" : "" }} value="monthly">Monthly</option>
@@ -85,14 +85,14 @@
                                     <option {{ (old('purpose') == "examination") ? "selected" : "" }} value="examination">Examination</option>
                                     <option {{ (old('purpose') == "certificate") ? "selected" : "" }} value="certificate">Certificate</option>
                                 </select>
-                                <div class="text-danger">@error('purpose') {{ $message }} @enderror</div>
+                                <div class="text-danger error-msg">@error('purpose') {{ $message }} @enderror</div>
                             </div>
                         </div>
                         <div class="row month-year-select">
                             {{-- <div class="col current-month"></div>
                             <div class="col next-month"></div> --}}
                             <div class="col-lg mb-3">
-                                <label for="month" class="form-label mb-1">Select Month</label>
+                                <label for="month" class="form-label mb-1 required-label">Select Month</label>
                                 <select name="month" id="month" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('month') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     <option value="">-- Select month --</option>
                                     <option {{ (old('month') == "") ? "selected" : "1" }} value="1">January</option>
@@ -108,21 +108,21 @@
                                     <option {{ (old('month') == "") ? "selected" : "11" }} value="11">November</option>
                                     <option {{ (old('month') == "") ? "selected" : "12" }} value="12">December</option>
                                 </select>
-                                <div class="text-danger">@error('month') {{ $message }} @enderror</div>
+                                <div class="text-danger error-msg">@error('month') {{ $message }} @enderror</div>
                             </div>
                             <div class="col-lg mb-3">
-                                <label for="year" class="form-label mb-1">Select Year</label>
+                                <label for="year" class="form-label mb-1 required-label">Select Year</label>
                                 <select name="year" id="year" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('year') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     {{-- <option value="">-- Select Year --</option> --}}
                                 </select>
-                                <div class="text-danger">@error('year') {{ $message }} @enderror</div>
+                                <div class="text-danger error-msg">@error('year') {{ $message }} @enderror</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg mb-3">
-                                <label for="description" class="form-label mb-1">Enter Description</label>
+                                <label for="description" class="form-label mb-1 required-label">Enter Description</label>
                                 <textarea name="description" id="description" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('description') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Description">{{ old('description') }}</textarea>
-                                <div class="text-danger">@error('description') {{ $message }} @enderror</div>
+                                <div class="text-danger error-msg">@error('description') {{ $message }} @enderror</div>
                             </div>
                         </div>
                     </div>
@@ -293,10 +293,15 @@
             </div>
         </div>
     </div> --}}
+    <div class="row">
+        <div class="col-auto">
+            <h4 class="fw-semibold">Fees Tracking</h4>
+        </div>
+    </div>
     <div class="row mb-4">
         <div class="col-sm mb-3">
             <label for="select-room" class="form-label mb-1">Select Room</label>
-            <select name="room" id="select-room" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('room') ? 'is-invalid' : 'border-dark-subtle' }}">
+            <select name="room" id="select-room" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="">-- Select Room --</option>
                 @forelse ($rooms as $room)
                     <option value="{{ $room->id }}">{{ $room->name }}</option>                                        
@@ -304,11 +309,10 @@
                     <option value="">No room added</option>                                        
                 @endforelse
             </select>
-            <div class="text-danger">@error('room') {{ $message }} @enderror</div>
         </div>
         <div class="col-sm mb-3">
             <label for="select-timing" class="form-label mb-1">Select Timing</label>
-            <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('timing') ? 'is-invalid' : 'border-dark-subtle' }}">
+            <select name="timing" id="select-timing" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="">-- Select Timing --</option>
                 <option value="11-12">11:00 am to 12:00 am</option>
                 <option value="12-13">12:00 am to 01:00 pm</option>
@@ -323,14 +327,12 @@
                 <option value="21-22">09:00 pm to 10:00 pm</option>
                 
             </select>
-            <div class="text-danger">@error('timing') {{ $message }} @enderror</div>
         </div>
         <div class="col-sm mb-3">
             <label for="select-students" class="form-label mb-1">Select Student</label>
-            <select  disabled name="student_id" id="select-student" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('students') ? 'is-invalid' : 'border-dark-subtle' }}">
+            <select  disabled name="student_id" id="select-student" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 border-dark-subtle">
                 <option value="">-- Select Student --</option>
             </select>
-            <div class="text-danger">@error('students') {{ $message }} @enderror</div>
         </div>
     </div>
     <div class="row flex-column ">
@@ -831,9 +833,28 @@ $('#submitted-fees-table, #pending-fees-table, #not-started-fees-table, #exclude
 
 });
 
+$(".modal form").submit(function (e) {
+    let prevent = false;
+    
+    $(".error-msg").html("")
+    
+    $(".modal form input:not([type='hidden']), .modal form select, .modal form textarea").each(function(i, element) {
+        if ($(element).val() == "") {
+            prevent = true;
+            $(element).next().html("This field is required.")
+        }
+    });
+
+    if (prevent) {
+        e.preventDefault();
+    }
+    
+})
+
 // On hiding modal resetting form
 $('#fees-modal').on('hidden.bs.modal', function (e) {
     $(".modal form").trigger("reset");
+    $(".error-msg").html("")
 });
 
 

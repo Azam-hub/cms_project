@@ -27,7 +27,7 @@
                                 <span class="btn btn-secondary mt-2 position-relative start-50 translate-middle-x">Upload Image</span>
                             </label>
                             <input type="file" class="d-none" id="profile-pic" name="profile_pic" accept=".png, .jpg, .jpeg, .jfif">
-                            <div class="text-danger">@error('profile_pic') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('profile_pic') {{ $message }} @enderror</div>
                         </div>
                     </div>
                     <div class="row variable-row">
@@ -35,74 +35,74 @@
                     </div>
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="father-name" class="form-label mb-1">Enter Father Name</label>
+                            <label for="father-name" class="form-label mb-1 required-label">Enter Father Name</label>
                             <input type="text" name="father_name" id="father-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('father_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Father Name" value="{{ old('father_name') }}">
-                            <div class="text-danger">@error('father_name') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('father_name') {{ $message }} @enderror</div>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No (without <b>-</b>)</label>
+                            <label for="cnic-bform-no" class="form-label mb-1 required-label">Enter CNIC/B-Form No (without <b>-</b>)</label>
                             <input type="number" name="cnic_bform_no" id="cnic-bform-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('cnic_bform_no') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter CNIC/B-Form No." value="{{ old('cnic_bform_no') }}">
-                            <div class="text-danger">@error('cnic_bform_no') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('cnic_bform_no') {{ $message }} @enderror</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="dob" class="form-label mb-1">Enter Date of Birth</label>
+                            <label for="dob" class="form-label mb-1 required-label">Enter Date of Birth</label>
                             <input type="date" name="dob" id="dob" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('dob') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Date of Birth" value="{{ old('dob') }}">
-                            <div class="text-danger">@error('dob') {{ ($message == 'The dob field is required.' ? "The date of birth is required." : $message) }} @enderror</div>
+                            <div class="text-danger error-msg">@error('dob') {{ ($message == 'The dob field is required.' ? "The date of birth is required." : $message) }} @enderror</div>
                         </div>
                         {{-- <div class="col-lg mb-3">
-                            <label for="email" class="form-label mb-1">Enter Email ID</label>
+                            <label for="email" class="form-label mb-1 required-label">Enter Email ID</label>
                             <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle" placeholder="Enter Email ID">
                             @error('') {{ $message }} @enderror
                         </div> --}}
                         <div class="col-lg mb-3">
-                            <label for="mobile-no" class="form-label mb-1">Enter Mobile No</label>
+                            <label for="mobile-no" class="form-label mb-1 required-label">Enter Mobile No</label>
                             <input type="number" name="mobile_no" id="mobile-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('mobile_no') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Mobile No." value="{{ old('mobile_no') }}">
-                            <div class="text-danger">@error('mobile_no') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('mobile_no') {{ $message }} @enderror</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="select-role" class="form-label mb-1">Select Role</label>
+                            <label for="select-role" class="form-label mb-1 required-label">Select Role</label>
                                 <select name="role" id="select-role" class="w-100 form-select shadow-sm py-2 rounded-3 border-1 {{ $errors->has('role') ? 'is-invalid' : 'border-dark-subtle' }}">
                                     <option value="">-- Select role --</option>
                                     <option {{ (old('role') == "admin") ? "selected" : "" }} value="admin">Admin</option>
                                     <option {{ (old('role') == "super_admin") ? "selected" : "" }} value="super_admin">Super Admin</option>
                                     
                                 </select>
-                                <div class="text-danger">@error('role') {{ $message }} @enderror</div>
+                                <div class="text-danger error-msg">@error('role') {{ $message }} @enderror</div>
                         </div>
                         <div class="col-lg mb-3">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="address" class="form-label mb-1">Enter Address</label>
+                            <label for="address" class="form-label mb-1 required-label">Enter Address</label>
                             <textarea name="address" id="address" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('address') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Address">{{ old('address') }}</textarea>
-                            <div class="text-danger">@error('address') {{ $message }} @enderror</div>
+                            <div class="text-danger error-msg">@error('address') {{ $message }} @enderror</div>
                         </div>
                         <!-- <div class="col-lg mb-3">
-                        <label for="email" class="form-label mb-1"></label>
+                        <label for="email" class="form-label mb-1 required-label"></label>
                         <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle" placeholder="Enter your Email">
                     </div> -->
                     </div>
 
                     <div class="row">
                         <div class="col-lg mb-3">
-                            <label for="password" class="form-label mb-1">Enter Password</label>
+                            <label for="password" class="form-label mb-1 required-label">Enter Password</label>
                             <div class="position-relative">
                                 <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Password">
-                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-4"></ion-icon>
-                                <div class="text-danger">@error('password') {{ $message }} @enderror</div>
+                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                                <div class="text-danger error-msg">@error('password') {{ $message }} @enderror</div>
                             </div>
                         </div>
                         <div class="col-lg mb-3">
-                            <label for="confirm-password" class="form-label mb-1">Enter Confirm Password</label>
+                            <label for="confirm-password" class="form-label mb-1 required-label">Enter Confirm Password</label>
                             <div class="position-relative">
                                 <input type="password" name="password_confirmation" id="confirm-password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password_confirmation') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Confirm Password">
-                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-4"></ion-icon>
-                                <div class="text-danger">@error('password_confirmation') {{ $message }} @enderror</div>
+                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                                <div class="text-danger error-msg">@error('password_confirmation') {{ $message }} @enderror</div>
                             </div>
                         </div>
                     </div>
@@ -286,15 +286,50 @@ $(".eye").click(function () {
 })
 
 $(".modal form").submit(function (e) {
-    e.preventDefault()
+    let prevent = false;
     
+    $(".error-msg").html("")
+
+    $(".modal form input:not([type='hidden']):not([type='file']):not([type='password']), .modal form select, .modal form textarea").each(function(i, element) {
+        if ($(element).val() == "") {
+            prevent = true;
+            $(element).next().html("This field is required.")
+        }
+    });
     
+    if ($("#cnic-bform-no").val().length != 13) {
+        prevent = true;
+        $("#cnic-bform-no").next().html("The CNIC or B-Form number must be 13 digits.")
+    }
+    if ($("#mobile-no").val().length != 11) {
+        prevent = true;
+        $("#mobile-no").next().html("The mobile number must be 11 digits.")
+    }
+
+    if ($("#password").val() == "" && $("#admin-id").val() == "") {
+        prevent = true;
+        $("#password").next().next().html("This field is required.")        
+    } 
+    if ($("#confirm-password").val() == "" && $("#admin-id").val() == "") {
+        prevent = true;
+        $("#confirm-password").next().next().html("This field is required.")        
+    } 
+    if ($("#password").val() !== $("#confirm-password").val()) {
+        prevent = true;
+        $("#confirm-password").next().next().html("The confirm password doesnot match with password.")
+    }
+
+    if (prevent) {
+        e.preventDefault()
+    }
 })
 
 // On hiding modal resetting form
 $('#admin-modal').on('hidden.bs.modal', function (e) {
     $(".modal form").trigger("reset");
     $("#preview_image").attr('src', "{{ asset('img/static/default_image-removebg-preview.png') }}")
+    $(".modal .error-msg").html("")
+    $("#admin-id").val("")
 });
 
 // Modifying Modal for adding admin
@@ -303,14 +338,14 @@ $("#add-admin-btn").click(function() {
     $(".modal form").attr('action', '{{ route("admin_panel.process_addAdmin") }}')
 
     let fields = `<div class="col-lg mb-3">
-                        <label for="first-name" class="form-label mb-1">Enter First Name</label>
+                        <label for="first-name" class="form-label mb-1 required-label">Enter First Name</label>
                         <input type="text" name="first_name" id="first-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('first_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter First Name" value="{{ old('first_name') }}">
-                        <div class="text-danger">@error('first_name') {{ $message }} @enderror</div>
+                        <div class="text-danger error-msg">@error('first_name') {{ $message }} @enderror</div>
                     </div>
                     <div class="col-lg mb-3">
-                        <label for="last-name" class="form-label mb-1">Enter Last Name</label>
+                        <label for="last-name" class="form-label mb-1 required-label">Enter Last Name</label>
                         <input type="text" name="last_name" id="last-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('last_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Last Name" value="{{ old('last_name') }}">
-                        <div class="text-danger">@error('last_name') {{ $message }} @enderror</div>
+                        <div class="text-danger error-msg">@error('last_name') {{ $message }} @enderror</div>
                     </div>`
     $('.variable-row').html(fields)
 
@@ -334,14 +369,14 @@ $(document).on('click', ".edit-btn", function() {
     $(".modal-title").text("Edit Admin")
     $(".modal form").attr('action', `{{ route("admin_panel.process_editAdmin") }}`)
     let fields = `<div class="col-lg mb-3">
-                        <label for="name" class="form-label mb-1">Enter Name</label>
+                        <label for="name" class="form-label mb-1 required-label">Enter Name</label>
                         <input type="text" name="name" id="name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Name" value="{{ old('name') }}">
-                        <div class="text-danger">@error('name') {{ $message }} @enderror</div>
+                        <div class="text-danger error-msg">@error('name') {{ $message }} @enderror</div>
                     </div>
                     <div class="col-lg mb-3">
-                        <label for="email" class="form-label mb-1">Enter Email</label>
+                        <label for="email" class="form-label mb-1 required-label">Enter Email</label>
                         <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('email') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Email" value="{{ old('email') }}">
-                        <div class="text-danger">@error('email') {{ $message }} @enderror</div>
+                        <div class="text-danger error-msg">@error('email') {{ $message }} @enderror</div>
                     </div>`;
     $('.variable-row').html(fields)
 
