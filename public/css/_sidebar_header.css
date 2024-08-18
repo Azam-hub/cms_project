@@ -121,7 +121,7 @@
 
 .container-fluid .content {
     transition: .5s;
-    /* min-height: 100vh; */
+    min-height: 100vh;
 }
 
 .sidebar * {
@@ -216,12 +216,12 @@
     display: none;
 }
 
-/* .content {
+.content {
     width: calc(100vw - 17px - 253px);
-} */
+}
 
 /* .sidebar.close + .content {
-    width: ;
+    width: calc(100vw - 17px - 57px);
 } */
 
 /* ----------------------- Sidebar END ------------------------ */
