@@ -10,3 +10,11 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Ignore all files inside student_profiles_pics but keep the folder
+/public/storage/student_profiles_pics/*
+!/public/storage/student_profiles_pics/.gitignore
+
+# Ignore all files inside admin_profiles_pics but keep the folder
+/public/storage/admin_profiles_pics/*
+!/public/storage/admin_profiles_pics/.gitignore

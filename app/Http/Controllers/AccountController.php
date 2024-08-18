@@ -39,7 +39,9 @@ class AccountController extends Controller
         $profile_pic = "0";
         
         if (isset($req->profile_pic)) {
-            $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+            $name = $req->profile_pic->hashName();
+            $req->profile_pic->move(public_path('storage/admin_profile_pics/'), $name);
+            $profile_pic = "admin_profile_pics/".$name;
         }
 
 

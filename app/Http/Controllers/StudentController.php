@@ -63,7 +63,11 @@ class StudentController extends Controller
         $profile_pic = "0";
         
         if (isset($req->profile_pic)) {
-            $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+            // $profile_pic = $req->profile_pic->store('admin_profile_pics', 'public');
+
+            $name = $req->profile_pic->hashName();
+            $req->profile_pic->move(public_path('storage/student_profile_pics/'), $name);
+            $profile_pic = "student_profile_pics/".$name;
         }
 
         // Calculating Fees
@@ -220,12 +224,13 @@ class StudentController extends Controller
         }
 
         if (isset($req->profile_pic)) {
-            $image_path = storage_path('app/public/' . $user->profile_pic);
+            $name = $req->profile_pic->hashName();
+            $image_path = public_path('storage/' . $user->profile_pic);
             if (fileExists($image_path)) {
                 @unlink($image_path);                
             }
-            $profile_pic = $req->profile_pic->store('student_profile_pics', 'public');
-            $user->profile_pic = $profile_pic;
+            $req->profile_pic->move(public_path('storage/student_profile_pics/'), $name);
+            $user->profile_pic = "student_profile_pics/".$name;
         }
 
 
