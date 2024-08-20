@@ -36,7 +36,7 @@
 
             <div class="bg d-xl-none d-none"></div>
             
-            <div class="sidebar py-3 px-1 close" id="sidebar">
+            <div class="sidebar py-3 px-1" id="sidebar">
                 <div class="logo-row row align-items-center justify-content-center gap-2">
                     <div class="col-auto px-0">
                         {{-- <img src="{{ asset("img/static/logo.png") }}" class="logo" alt=""> --}}
@@ -50,7 +50,9 @@
                 <div class="row align-items-center px-1">
                     
                     <div class="left col-3 ps-0">
-                        <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class="user-pic rounded-circle" alt="">
+                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}"
+                        onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                        class="user-pic rounded-circle" alt="">
                     </div>
                     <div class="right col pe-2 ps-0 d-flex align-items-center text-center">
                         <p class="mb-0">{{ Auth::user()->name }}</p>
@@ -91,6 +93,20 @@
 
                 @if (Auth::user()->role == "super_admin")
                     
+                    <div class="link-section mb-1">
+                        <div class="head row justify-content-between cursor-pointer">
+                            <a href="{{ route("admin_panel.announcements") }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                                <div class="left col-auto px-0">
+                                    <i class="fa-solid fa-bullhorn"></i>
+                                </div>
+                                <div class="right row col px-0 justify-content-between">
+                                    <div class="col">
+                                        <span class="ms-1">Announcements</span>
+                                    </div>  
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                     <div class="link-section mb-1">
                         <div class="head row justify-content-between cursor-pointer">
                             <a href="{{ route("admin_panel.admins") }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
@@ -323,7 +339,10 @@
                             </div> -->
                             <div class="user-btn col-auto row column-gap-2 align-items-center px-0 cursor-pointer">
                                 <div class="col-auto px-0">
-                                    <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class=" rounded-circle user-pic" alt="User Pic">
+                                    <img 
+                                    src="{{ asset('storage/'.Auth::user()->profile_pic) }}" 
+                                    onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                                    class=" rounded-circle user-pic" alt="User Pic">
                                 </div>
                                 <div class="col-auto px-0 d-sm-block d-none">
                                     <p class="m-0">{{ Auth::user()->name }}</p>
@@ -334,7 +353,9 @@
                             <div class="user-details py-3 rounded-top-3">
                                 <div class="row justify-content-center">
                                     <div class="col-auto">
-                                        <img src="{{ Auth::user()->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.Auth::user()->profile_pic) }}" class="rounded-circle " width="80px" height="80px" alt="User Pic">
+                                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}"
+                                        onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                                        class="rounded-circle " width="80px" height="80px" alt="User Pic">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
@@ -407,52 +428,25 @@
         $(".links").hide()
     })
 
-    if ($(window).width() <= 1200) {
-        localStorage.setItem("show", "0")
-    }
-
-    function checkSidebar() {
-        let sidebarState = localStorage.getItem("show")
-        
-        if (sidebarState == 1) {
-            $(".sidebar").removeClass("close")
-
-            $('.bg').removeClass('d-none')
-            $('.bg').addClass('d-block')
-            localStorage.setItem("show", "1")
-        } else {
-            $(".sidebar").addClass("close")
-            localStorage.setItem("show", "0")
-        }
-    }
-    checkSidebar()
 
     $(document).on("click", ".fa-bars", function () {
         
-        // if ($('.sidebar').hasClass('close')) {
-        //     $(".sidebar").removeClass("close")
-
-        //     $('.bg').removeClass('d-none')
-        //     $('.bg').addClass('d-block')
-        //     localStorage.setItem("show", "1")
-        // } else {
-        //     localStorage.setItem("show", "0")
-        //     $(".sidebar").addClass("close")
-        // }
         if ($('.sidebar').hasClass('close')) {
-            localStorage.setItem("show", "1")
-            checkSidebar()
+            $(".sidebar").removeClass("close")
+
         } else {
-            localStorage.setItem("show", "0")
-            checkSidebar()
+            $(".sidebar").addClass("close")
+
+            $('.bg').removeClass('d-none')
+            $('.bg').addClass('d-block')
         }
 
     })
     
     $(".bg").click(function () {
         
-        $(".sidebar").addClass("close")
-        // $('.sidebar').hide("slide", { direction: "left" }, 200);
+        $(".sidebar").removeClass("close")
+
         $(this).removeClass('d-block')
         $(this).addClass('d-none')
     })

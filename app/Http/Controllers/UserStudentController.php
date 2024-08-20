@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Attendance;
 use App\Models\Fee;
+use App\Models\Module;
 use App\Models\Option;
 use App\Models\Result;
 use App\Models\Student;
@@ -20,16 +22,21 @@ class UserStudentController extends Controller
         with([
             'studentData',
             'studentData.room_row',
-            'studentData.course', 
-            'studentData.course.modules' => function ($q) {
-                $q->where("is_deleted", "0");
-            }
+            'studentData.course'
         ])
         ->where("id", $id)
         ->first();
+        
+        $remaining_modules_ids = json_decode($user->studentData->remaining_modules);
+        $modules = Module::whereIn('id', $remaining_modules_ids)->get(['id', 'name']);
 
         // dd($student);
         return view('student.home', compact('user'));
+    }
+
+    function announcement() {
+        $announcements = Announcement::where("is_deleted", "0")->orderBy("id", "desc")->get();
+        return view("student.announcements", compact("announcements"));
     }
 
     function attendance() {

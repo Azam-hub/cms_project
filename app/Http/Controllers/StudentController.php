@@ -12,6 +12,7 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use PhpParser\JsonDecoder;
 
 use function PHPUnit\Framework\fileExists;
 
@@ -102,26 +103,14 @@ class StudentController extends Controller
             }
         }
         
-        // Define validation rules
-        // $rules = [
-        //     'email' => 'required|email|unique:users,email'
-        // ];
-
-        // // Create a Validator instance
-        // $validator = Validator::make(['email' => $email], $rules);
-
-        // if ($validator->fails()) {
-        //     return redirect()->route('admin_panel.students')->with("error", "Email <b>$email</b> already exists!");
-            
-        // } else {}
         
-        $last_gr_no = Student::orderBy('id', 'desc')->first();
+        // $last_gr_no = Student::orderBy('id', 'desc')->first();
         
-        $number = 1;
-        if ($last_gr_no) {
-            $number = intval(explode("-", $last_gr_no->gr_no)[1]) + 1;
-        }
-        $gr_no = "SS-" . str_pad($number, 6, '0', STR_PAD_LEFT);
+        // $number = 1;
+        // if ($last_gr_no) {
+        //     $number = intval(explode("-", $last_gr_no->gr_no)[1]) + 1;
+        // }
+        // $gr_no = "SS-" . str_pad($number, 6, '0', STR_PAD_LEFT);
 
         // Save data in database
         $user = new User;
@@ -140,13 +129,17 @@ class StudentController extends Controller
         $user->token = "-1";
         $user->is_deleted = "0";
         
-        
         // Save the user first
         if ($user->save()) {
+            
+            $modules = Module::where('course_id', $req->course_id)->where("is_deleted", "0")->pluck('id')->toArray();
+            $gr_no = "SS-" . str_pad($user->id, 6, '0', STR_PAD_LEFT);
+
             $student->gr_no = $gr_no;
             $student->course_id = $req->course_id;
             $student->discount = $discount;
             $student->annual_fees = $annual_fees;
+            $student->remaining_modules = json_encode($modules);
             $student->completed_modules = json_encode([]);
             $student->status = 'running';
             $student->room = $req->room;
@@ -332,13 +325,14 @@ class StudentController extends Controller
         with([
             'studentData',
             'studentData.room_row',
-            'studentData.course', 
-            'studentData.course.modules' => function ($q) {
-                $q->where("is_deleted", "0");
-            }
+            'studentData.course'
         ])
         ->where("id", $id)
         ->first();
+
+        $remaining_modules_ids = json_decode($user->studentData->remaining_modules);
+        $modules = Module::whereIn('id', $remaining_modules_ids)->get(['id', 'name']);
+
         $attendance_rows = Attendance::where('student_id', $user->studentData->id)->orderBy('date', 'desc')->get();
         $fees = Fee::where("student_id", $user->studentData->id)->where("is_deleted", "0")->orderBy('id', 'desc')->get();
         $total_paid_fees = Fee::where("student_id", $user->studentData->id)->where("purpose", 'monthly')->where("is_deleted", '0')->sum("fees.amount");
@@ -353,18 +347,20 @@ class StudentController extends Controller
         ->orderBy('month', 'desc')
         ->get();
 
-        return view('admin_panel.singleStudent', compact('user', 'attendance_rows', 'month_attendances', 'fees', "total_paid_fees"));
+        return view('admin_panel.singleStudent', compact('user' , "modules", 'attendance_rows', 'month_attendances', 'fees', "total_paid_fees"));
     }
 
     function module_handler(int $userId, string $action, int $moduleId) {
-        $_module = Module::find($moduleId);
-        $modules = Module::where('course_id', $_module->course_id)->where('is_deleted', "0")->get();
+        // $_module = Module::find($moduleId);
+        // $modules = Module::where('course_id', $_module->course_id)->where('is_deleted', "0")->get();
 
-        $total_modules = $modules->count();
+        // $total_modules = $modules->count();
         // return $total_modules;
-
+        
         $student = Student::where("user_id", $userId)->first();
         $modules_arr = json_decode($student->completed_modules);
+
+        $total_modules = count(json_decode($student->remaining_modules));
 
         // return $modules_arr;
         if ($action == "add") {

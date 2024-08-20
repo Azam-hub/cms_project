@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\QuestionController;
@@ -31,6 +32,8 @@ Route::middleware([ValidUser::class . ":student"])->group(function () {
 
     Route::get('/', [UserStudentController::class, 'fetch_single_student'])->name('student.home');
 
+    Route::get('/announcement', [UserStudentController::class, 'announcement'])->name('student.announcement');
+
     Route::get('/attendance', [UserStudentController::class, 'attendance'])->name('student.attendance');
     
     Route::get('/fees', [UserStudentController::class, 'fees_record'])->name('student.fees_record');
@@ -58,6 +61,12 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
         Route::post('/admins/process_editAdmin', [AdminController::class, "process_editAdmin"])->name("admin_panel.process_editAdmin");
         Route::get('/admins/process_destroyAdmin/{id}', [AdminController::class, "process_destroyAdmin"])->name("admin_panel.process_destroyAdmin");
         
+        /* Announcement */
+        Route::get('/announcements', [AnnouncementController::class, 'index'])->name('admin_panel.announcements');
+        Route::post('/announcements/process_addAnnouncement', [AnnouncementController::class, 'process_addAnnouncement'])->name("admin_panel.process_addAnnouncement");
+        Route::post('/announcements/process_editAnnouncement', [AnnouncementController::class, 'process_editAnnouncement'])->name("admin_panel.process_editAnnouncement");
+        Route::get('/announcements/process_destroyAnnouncement/{id}', [AnnouncementController::class, 'process_destroyAnnouncement'])->name("admin_panel.process_destroyAnnouncement");
+
         /* Rosters */
         Route::get('/rosters', [RosterController::class, "rosters"])->name("admin_panel.rosters");
         Route::get('/rosters/{id}', [RosterController::class, "single_admin_roster"])->name("admin_panel.single_admin_roster");

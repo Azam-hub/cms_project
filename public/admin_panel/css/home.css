@@ -1,0 +1,30 @@
+.charts {
+    display: grid;
+    grid-template-columns: 49.5% 49.5%;
+    column-gap: 1%;
+    row-gap: 12px;
+}
+
+.charts .chart {
+    background-color: #fff;
+    border: 1px solid #b3b3b3;
+    border-radius: 5px;
+    padding: 15px 15px;
+    /* height: 360px; */
+    height: fit-content;
+}
+
+.chart.course-popularity-div {
+    height: 360px;
+
+}
+
+.charts .chart h5 {
+    margin-bottom: 15px;
+}
+
+.box {
+    width: 50px;
+    height: 50px;
+    background-color: #d9181f;
+}

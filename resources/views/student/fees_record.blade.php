@@ -7,7 +7,7 @@
 @endsection
 
 @section('title')
-Home
+Fees Record
 @endsection
 
 

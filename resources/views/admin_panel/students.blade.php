@@ -276,7 +276,10 @@
                                 <td>{{ $student->studentData->gr_no }}</td>
                                 <td class="profile-pic-td">
                                     <a href="{{ $student->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$student->profile_pic) }}" data-lightbox="profile-pic-{{ $studentsCount }}">
-                                        <img src="{{ $student->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$student->profile_pic) }}" class="w-100" alt="Profile Pic">
+                                        <img 
+                                        src="{{ asset('storage/'.$student->profile_pic) }}" 
+                                        onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                                        class="w-100" alt="Profile Pic">
                                     </a>
                                 </td>
                                 <td>{{ $student->name }}</td>

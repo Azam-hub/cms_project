@@ -162,7 +162,10 @@
                                     <a 
                                     href="${student.user.profile_pic == '0' ? `${window.location.origin}/img/static/user.png` : `${window.location.origin}/storage/${student.user.profile_pic}`}" 
                                     data-lightbox="profile-pic-${count}">
-                                        <img src="${student.user.profile_pic == '0' ? `${window.location.origin}/img/static/user.png` : `${window.location.origin}/storage/${student.user.profile_pic}`}" width="100px" alt="Profile Pic">
+                                        <img 
+                                        src="${window.location.origin}/storage/${student.user.profile_pic}" 
+                                        onerror="this.onerror=null;this.src='${window.location.origin}/img/static/user.png';"
+                                        width="100px" alt="Profile Pic">
                                     </a>
                                 </td>
                                 <td>${student.user.name}</td>

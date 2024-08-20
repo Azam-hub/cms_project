@@ -26,7 +26,10 @@ Home
             <div class="row justify-content-center mb-4">
                 <div class="col-auto">
                     <div class="profile-pic">
-                        <img src="{{ $user->profile_pic == "0" ? asset('img/static/user.png') : asset('storage/'.$user->profile_pic ) }}" class="rounded-circle" width="120px" height="120px" alt="">
+                        <img 
+                        src="{{ asset('storage/'.$user->profile_pic ) }}" 
+                        onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                        class="rounded-circle" width="120px" height="120px" alt="">
                     </div>
                 </div>
             </div>

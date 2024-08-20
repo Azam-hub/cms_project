@@ -21,7 +21,10 @@
             <div class="row justify-content-center mb-4">
                 <div class="col-auto">
                     <div class="profile-pic">
-                        <img src="{{ $user->profile_pic == "0" ? asset('img/static/user.png') : asset('storage/'.$user->profile_pic ) }}" class="rounded-circle" width="120px" height="120px" alt="">
+                        <img 
+                        src="{{ asset('storage/'.$user->profile_pic ) }}" 
+                        onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                        class="rounded-circle" width="120px" height="120px" alt="">
                     </div>
                 </div>
             </div>
@@ -282,8 +285,8 @@
             <div class="px-3 my-4 collapse" id="collapse-modules">
                 <h3 class="text-center"><q>{{ $user->studentData->course->name }}</q> Modules</h3>
                 <div class="modules my-3">
-                    @foreach ($user->studentData->course->modules as $module)
-                        {{-- {{ $module }} --}}
+                    @foreach ($modules as $module)
+                    
                         @if (in_array($module->id, json_decode($user->studentData->completed_modules)))
                             <label for="{{ $module->id }}" class="success-div row justify-content-between align-items-center px-3 py-4 border border-dark-subtle border-1 rounded-3 cursor-pointer">
                                 <div class="col-auto">{{ $module->name }}</div>

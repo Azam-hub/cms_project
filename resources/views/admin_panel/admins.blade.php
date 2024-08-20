@@ -183,7 +183,10 @@
                             <tr data-admin-id="{{ $admin->id }}" class="cursor-pointer">
                                 <td>{{ $count }}.</td>
                                 <td>
-                                    <img src="{{ $admin->profile_pic == '0' ? asset('img/static/user.png') : asset('storage/'.$admin->profile_pic) }}" class="w-100" alt="Profile Pic" >
+                                    <img 
+                                    src="{{ asset('storage/'.$admin->profile_pic) }}"
+                                    onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                                    class="w-100" alt="Profile Pic" >
                                 </td>
                                 <td>{{ $admin->name }}</td>
                                 <td>{{ $admin->father_name }}</td>
