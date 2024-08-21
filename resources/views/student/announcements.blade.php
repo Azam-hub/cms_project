@@ -26,15 +26,20 @@ Announcements
             <div class="col">
                 <div class="announcements">
                     @forelse ($announcements as $announcement)
-                        <div class="announcement bg-white my-3 p-3 border rounded-3 shadow">
-                            <div class="head row justify-content-between border-bottom border-dark-subtle">
-                                <div class="col-auto px-0">
-                                    <h4>{{ $announcement->title }}</h4>
+                        <div class="announcement bg-white my-3 p-3 border {{ $announcement->title == "Fee Reminder" ? "border-danger border-2" : "" }} rounded-3 shadow">
+                            <div class="head pb-2 row justify-content-between border-bottom border-dark-subtle">
+                                <div class="col-auto px-0 d-flex align-items-center">
+                                    <i class="fa-solid fa-bullhorn {{ $announcement->title == "Fee Reminder" ? "text-danger" : "" }}"></i>
+                                    <h4 class="mb-0 ms-3">{{ $announcement->title }}</h4>
                                 </div>
-                                <div class="col-auto px-0">
-                                    <i class="fa-regular fa-calendar-days"></i> 
-                                    <span class="ms-1">11 August, 2024</span>
-                                </div>
+                                @if ($announcement->created_at != "")
+                                    <div class="col-auto px-0">
+                                        <i class="fa-regular fa-calendar-days"></i> 
+                                        <span class="ms-1">
+                                            {!! date('h:i a <b>||</b> d M, Y', strtotime($announcement->created_at)) !!}
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
                             <div class="description mt-3 mb-1">
                                 {{ $announcement->description }}

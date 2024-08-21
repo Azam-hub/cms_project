@@ -112,7 +112,7 @@
         </div> --}}
     </div>
     <div class="row">
-        <div class="charts d-none">
+        <div class="charts">
             <div class="chart">
                 <h5>Enrollment Trend</h5>
                 <canvas id="enrollment-chart"></canvas>
@@ -139,13 +139,16 @@
 @section("script")
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+    let admissions_arr = @json($admissions_arr);
     const enrollment_chart = document.getElementById('enrollment-chart');
     const enrollment_data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [
             {
                 label: 'Last Year',
-                data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
+                // data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
+                data: admissions_arr["2023"],
                 borderColor: '#c5c5c5',
                 backgroundColor: '#dadada',
                 barThickness: 15,
@@ -153,7 +156,8 @@
             },
             {
                 label: 'This Year',
-                data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
+                // data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
+                data: admissions_arr["2024"],
                 borderColor: '#e30b13',
                 backgroundColor: '#ff1f27',
                 barThickness: 15,
@@ -179,60 +183,16 @@
         }
     });
 
-    let courses = [
-        {
-            name: "Web",
-            students: 30,
-        },
-        {
-            name: "Graphics",
-            students: 40,
-        },
-        {
-            name: "PCIT",
-            students: 70,
-        },
-    ]
-    const coursePopularity_chart = document.getElementById('course-popularity-chart');
-    const coursePopularity_data = {
-        labels: courses.map((x) => x.name),
-        datasets: [{
-            label: 'My First Dataset',
-            data: courses.map((x) => x.students),
-            // backgroundColor: [
-            //     'rgb(255, 99, 132)',
-            //     'rgb(54, 162, 235)',
-            //     'rgb(255, 205, 86)'
-            // ],
-            hoverOffset: 4
-        }]
-    };
-    new Chart(coursePopularity_chart, {
-        type: 'pie',
-        data: coursePopularity_data,
-        options: {
-            radius: '70%', // Reduce the radius to shrink the chart
-            responsive: true, // Ensures the chart adjusts based on canvas size
-            maintainAspectRatio: false, // Allows you to customize the aspect ratio
-            layout: {
-                padding: 0 // Reduces padding around the chart
-            },
-            plugins: {
-                legend: {
-                    position: 'left', // Positions: 'top', 'bottom', 'left', 'right'
-                    align: 'center', // Alignment: 'start', 'center', 'end'
-                }
-            }
-        }
-    });
 
+    let revenues_arr = @json($revenues_arr);
     const revenue_chart = document.getElementById('revenue-chart');
     const revenue_data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [
             {
                 label: 'Last Year',
-                data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
+                // data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
+                data: revenues_arr["2023"],
                 // borderColor: '#36A2EB',
                 // backgroundColor: '#9BD0F5',
                 borderColor: '#c5c5c5',
@@ -242,7 +202,8 @@
             },
             {
                 label: 'This Year',
-                data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
+                // data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
+                data: revenues_arr["2024"],
                 // borderColor: '#FF6384',
                 // backgroundColor: '#FFB1C1',
                 borderColor: '#e30b13',
@@ -270,12 +231,50 @@
         }
     });
 
+
+    let courses_arr = @json($courses_arr);    
+    const coursePopularity_chart = document.getElementById('course-popularity-chart');
+    const coursePopularity_data = {
+        labels: courses_arr.map((x) => x.name),
+        datasets: [{
+            // label: 'My First Dataset',
+            data: courses_arr.map((x) => x.students),
+            // backgroundColor: [
+            //     'rgb(255, 99, 132)',
+            //     'rgb(54, 162, 235)',
+            //     'rgb(255, 205, 86)'
+            // ],
+            hoverOffset: 4
+        }]
+    };
+    new Chart(coursePopularity_chart, {
+        type: 'pie',
+        data: coursePopularity_data,
+        options: {
+            radius: '70%', // Reduce the radius to shrink the chart
+            responsive: true, // Ensures the chart adjusts based on canvas size
+            maintainAspectRatio: false, // Allows you to customize the aspect ratio
+            layout: {
+                padding: 0 // Reduces padding around the chart
+            },
+            plugins: {
+                legend: {
+                    position: 'left', // Positions: 'top', 'bottom', 'left', 'right'
+                    align: 'center', // Alignment: 'start', 'center', 'end'
+                }
+            }
+        }
+    });
+
+    
+    let attendances_arr = @json($attendances_arr);
     const attendance_chart = document.getElementById('attendance-chart');
     const attendance_data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
-            label: 'My First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+            // label: 'My First Dataset',
+            // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+            data: attendances_arr,
             fill: false,
             borderColor: '#ff1f27',
             backgroundColor: '#ff1f27',

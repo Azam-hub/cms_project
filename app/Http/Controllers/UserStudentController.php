@@ -10,6 +10,7 @@ use App\Models\Option;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,7 +36,94 @@ class UserStudentController extends Controller
     }
 
     function announcement() {
+        $id = Auth::id();
+
+        // $pending_fees = Fee::join("students", "students.id", "=", "fees.student_id")
+        // ->where("students.user_id", $id)
+        // ->whereNotIn('students.id', function ($query) {
+        //     $query->select('fees.student_id')
+        //     ->from('fees')
+        //     ->where('fees.purpose', '=', 'monthly')
+        //     ->where('fees.is_deleted', '=', '0')
+        //     ->where('fees.created_at', '>', Carbon::now()->subMonth());
+        // })
+        // ->get();
+
+        $pending_fees = Fee::join("students", "students.id", "=", "fees.student_id")
+        ->selectRaw("fees.created_at AS fee_created_at, fees.month, students.status")
+        ->where("students.user_id", $id)
+        ->orderBy("fees.id", "desc")
+        ->first();
+
         $announcements = Announcement::where("is_deleted", "0")->orderBy("id", "desc")->get();
+        $announcements = collect($announcements);
+        $currentDate = Carbon::now();
+
+        $student = Student::where("user_id", $id)->first();
+
+        if ($student->status == "completed") {
+            $custom_announcement = [
+                "title" => "Examination Process",
+                "description" => "You are ready for exam. Please pay examination fees and concern your teacher.",
+                "created_at" => "",
+            ];
+            $announcements->prepend((object) $custom_announcement);
+        } elseif ($student->status == "pending") {
+            $custom_announcement = [
+                "title" => "Examination Reminder",
+                "description" => "You are allowed for exam. Please concern your teacher for exam.",
+                "created_at" => "",
+            ];
+            $announcements->prepend((object) $custom_announcement);
+        }
+        
+        if ($pending_fees->status == "running") {
+            if ($pending_fees) {
+                $lastPaymentDate = Carbon::parse($pending_fees->fee_created_at);
+                $nextDueDate = $lastPaymentDate->addMonth();
+            
+                $daysLeft = $currentDate->diffInDays($nextDueDate, false);
+            
+                if ($daysLeft <= 5 && $daysLeft > 0) {
+                    $custom_announcement = [
+                        "title" => "Fee Reminder",
+                        "description" => "Your current month is about to end after $daysLeft day(s).",
+                        "created_at" => "",
+                    ];
+                    $announcements->prepend((object) $custom_announcement);
+                } 
+                elseif ($daysLeft == 0) {
+                    $custom_announcement = [
+                        "title" => "Fee Reminder",
+                        "description" => "Your month is nearly to end.",
+                        "created_at" => "",
+                    ];
+                    $announcements->prepend((object) $custom_announcement);
+                }
+                elseif ($daysLeft < 0) {
+                    $last_month = Carbon::createFromFormat('n-Y', $pending_fees->month);
+                    $last_month = $last_month->format('F Y');
+
+                    $custom_announcement = [
+                        "title" => "Fee Reminder",
+                        "description" => "Your month ($last_month) has been ended. Please pay your fees.",
+                        "created_at" => "",
+                    ];
+                    $announcements->prepend((object) $custom_announcement);
+                }
+            } else {
+                $custom_announcement = [
+                    "title" => "Fee Reminder",
+                    "description" => "Please pay registration and monthly fees.",
+                    // "created_at" => $currentDate->format("Y-m-d H:i:s"),
+                    "created_at" => "",
+                ];
+                $announcements->prepend((object) $custom_announcement);
+            }
+        }
+        
+        
+
         return view("student.announcements", compact("announcements"));
     }
 

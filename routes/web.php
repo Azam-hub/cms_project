@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CourseController;
@@ -50,7 +51,7 @@ Route::middleware([ValidUser::class . ":student"])->group(function () {
 Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->group(function () {
 
     /* Home */
-    Route::view('/', 'admin_panel.home')->name('admin_panel.home');
+    Route::get('/', [AdminHomeController::class, "index"])->name('admin_panel.home');
 
 
     Route::middleware([ValidAdmin::class])->group(function () {

@@ -37,15 +37,14 @@
             <div class="bg d-xl-none d-none"></div>
             
             <div class="sidebar py-3 px-1" id="sidebar">
-                <div class="logo-row row align-items-center justify-content-center gap-2">
-                    <div class="col-auto px-0">
-                        {{-- <img src="{{ asset("img/static/logo.png") }}" class="logo" alt=""> --}}
-                        <img src="{{ asset("img/static/favicon.png") }}" width="50px" class="logo" alt="">
-                    </div>
-                    <div class="right col-auto d-flex align-items-center px-0">
-                        <h3 class="my-0">SIMSAT</h3>
-                    </div>
-                </div>
+                <a href="{{ route("admin_panel.home") }}" class="text-decoration-none logo-row row align-items-center justify-content-center gap-2">
+                        <div class="col-auto px-0">
+                            <img src="{{ asset("img/static/favicon.png") }}" width="50px" class="logo" alt="">
+                        </div>
+                        <div class="right col-auto d-flex align-items-center px-0">
+                            <h3 class="my-0">SIMSAT</h3>
+                        </div>
+                </a>
                 <hr class="border-2 border-white">
                 <div class="row align-items-center px-1">
                     
