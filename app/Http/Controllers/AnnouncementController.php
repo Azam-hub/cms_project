@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AnnouncementController extends Controller
 {
     function index() {
-        $announcements = Announcement::where("is_deleted", "0")->orderBy("id", "desc")->get();
+        $announcements = Announcement::where("is_deleted", "0")->where("student_id", "0")->orderBy("id", "desc")->get();
         $count = $announcements->count();
         return view("admin_panel.announcements", compact("announcements", "count"));
     }

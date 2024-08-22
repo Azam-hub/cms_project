@@ -32,7 +32,7 @@ class UserStudentController extends Controller
         $modules = Module::whereIn('id', $remaining_modules_ids)->get(['id', 'name']);
 
         // dd($student);
-        return view('student.home', compact('user'));
+        return view('student.profile', compact('user'));
     }
 
     function announcement() {
@@ -55,7 +55,16 @@ class UserStudentController extends Controller
         ->orderBy("fees.id", "desc")
         ->first();
 
-        $announcements = Announcement::where("is_deleted", "0")->orderBy("id", "desc")->get();
+        $announcements = Announcement::leftJoin("students", "students.id", "=", "announcements.student_id")
+        ->select("announcements.title", "announcements.description", "announcements.created_at")
+        ->where(function ($q) use ($id) {
+            $q->where("announcements.student_id", "0")
+            ->orWhere("students.user_id", $id);
+        })
+        ->where("announcements.is_deleted", "0")
+        ->orderBy("announcements.id", "desc")
+        ->get();
+
         $announcements = collect($announcements);
         $currentDate = Carbon::now();
 
@@ -77,14 +86,22 @@ class UserStudentController extends Controller
             $announcements->prepend((object) $custom_announcement);
         }
         
-        if ($pending_fees->status == "running") {
-            if ($pending_fees) {
+        if ($pending_fees) {
+            if ($pending_fees->status == "running") {
                 $lastPaymentDate = Carbon::parse($pending_fees->fee_created_at);
                 $nextDueDate = $lastPaymentDate->addMonth();
             
                 $daysLeft = $currentDate->diffInDays($nextDueDate, false);
             
-                if ($daysLeft <= 5 && $daysLeft > 0) {
+                if ($pending_fees->month == "-") {
+                    $custom_announcement = [
+                        "title" => "Fee Reminder",
+                        "description" => "Please pay monthly fees.",
+                        "created_at" => "",
+                    ];
+                    $announcements->prepend((object) $custom_announcement);
+                } 
+                elseif ($daysLeft <= 5 && $daysLeft > 0) {
                     $custom_announcement = [
                         "title" => "Fee Reminder",
                         "description" => "Your current month is about to end after $daysLeft day(s).",
@@ -95,7 +112,7 @@ class UserStudentController extends Controller
                 elseif ($daysLeft == 0) {
                     $custom_announcement = [
                         "title" => "Fee Reminder",
-                        "description" => "Your month is nearly to end.",
+                        "description" => "Your month is about to end tomorrow.",
                         "created_at" => "",
                     ];
                     $announcements->prepend((object) $custom_announcement);
@@ -111,19 +128,17 @@ class UserStudentController extends Controller
                     ];
                     $announcements->prepend((object) $custom_announcement);
                 }
-            } else {
-                $custom_announcement = [
-                    "title" => "Fee Reminder",
-                    "description" => "Please pay registration and monthly fees.",
-                    // "created_at" => $currentDate->format("Y-m-d H:i:s"),
-                    "created_at" => "",
-                ];
-                $announcements->prepend((object) $custom_announcement);
             }
+        } else {
+            $custom_announcement = [
+                "title" => "Fee Reminder",
+                "description" => "Please pay registration and monthly fees.",
+                // "created_at" => $currentDate->format("Y-m-d H:i:s"),
+                "created_at" => "",
+            ];
+            $announcements->prepend((object) $custom_announcement);
         }
         
-        
-
         return view("student.announcements", compact("announcements"));
     }
 

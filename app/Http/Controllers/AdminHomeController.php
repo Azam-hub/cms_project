@@ -85,25 +85,42 @@ class AdminHomeController extends Controller
         
         // **************** Courses Occupation ********************
 
-        $attendances = DB::table('attendances')
-        // ->join("users", "users.id", "=", "students.user_id")
-        ->selectRaw('MONTH(attendances.created_at) as month, COUNT(*) as presents')
-        ->where(DB::raw('YEAR(attendances.created_at)'), $currentYear)
-        ->where(function($query) use ($currentYear) {
-            $query->where(DB::raw('YEAR(attendances.created_at)'), $currentYear)
-            ->where(DB::raw('MONTH(attendances.created_at)'), '<=', Carbon::now()->month);
-        })
-        ->where("attendances.status", "present")
-        ->groupBy(DB::raw('MONTH(attendances.created_at)'))
-        ->orderBy('month', 'asc')
-        ->get();
+        // $attendances = DB::table('attendances')
+        // // ->join("users", "users.id", "=", "students.user_id")
+        // ->selectRaw('MONTH(attendances.date) as month, COUNT(*) as presents')
+        // ->where(DB::raw('YEAR(attendances.date)'), $currentYear)
+        // ->where(function($query) use ($currentYear) {
+        //     $query->where(DB::raw('YEAR(attendances.date)'), $currentYear)
+        //     ->where(DB::raw('MONTH(attendances.date)'), '<=', Carbon::now()->month);
+        // })
+        // ->where("attendances.status", "present")
+        // ->groupBy(DB::raw('MONTH(attendances.date)'))
+        // ->orderBy('month', 'asc')
+        // ->get();
 
-        // dd($attendances);
+        $month_attendances = DB::table('attendances')->selectRaw("
+                    DATE_FORMAT(date, '%m') as month,
+                    SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present,
+                    SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent
+                ")
+                ->where(DB::raw('YEAR(attendances.date)'), $currentYear)
 
-        $attendances_arr = array_fill(0, 12, 0);
+                // ->where('student_id', $user->studentData->id)
+                ->groupBy('month')
+                ->orderBy('month', 'desc')
+                ->get();
 
-        foreach ($attendances as $attendance) {
-            $attendances_arr[$attendance->month - 1] = $attendance->presents;
+        // dd( $month_attendances);
+
+        $attendances_arr = [
+            "presents" => array_fill(0, 12, 0),
+            "absents" => array_fill(0, 12, 0)
+        ];
+
+        foreach ($month_attendances as $attendance) {
+            $number_month = (int) $attendance->month;
+            $attendances_arr["presents"][$number_month - 1] = $attendance->present;
+            $attendances_arr["absents"][$number_month - 1] = $attendance->absent;
         }
 
         // dd($attendances_arr);

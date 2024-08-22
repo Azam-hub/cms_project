@@ -60,11 +60,11 @@
                     <div class="head row justify-content-between cursor-pointer">
                         <a href="{{ route('student.home') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
                             <div class="left col-auto px-0">
-                                <i class="fa-solid fa-house"></i>
+                                <i class="fa-solid fa-bullhorn"></i>
                             </div>
                             <div class="right row col px-0 justify-content-between">
                                 <div class="col">
-                                    <span class="ms-1">Home</span>
+                                    <span class="ms-1">Announcements</span>
                                 </div>  
                             </div>
                         </a>
@@ -72,13 +72,13 @@
                 </div>
                 <div class="link-section mb-1">
                     <div class="head row justify-content-between cursor-pointer">
-                        <a href="{{ route('student.announcement') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                        <a href="{{ route('student.profile') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
                             <div class="left col-auto px-0">
-                                <i class="fa-solid fa-bullhorn"></i>
+                                <i class="fa-solid fa-address-card"></i>
                             </div>
                             <div class="right row col px-0 justify-content-between">
                                 <div class="col">
-                                    <span class="ms-1">Announcements</span>
+                                    <span class="ms-1">Profile</span>
                                 </div>  
                             </div>
                         </a>

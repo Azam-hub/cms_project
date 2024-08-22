@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Fee;
 use Illuminate\Http\Request;
 use App\Models\Room;
@@ -178,6 +179,13 @@ class FeesController extends Controller
         }
 
         if ($fee->save()) {
+
+            $description = "We have received your $req->purpose fees".($req->purpose == "monthly" ? " of ".Carbon::createFromFormat('m-Y', $fee->month)->format('F Y') : "").".";
+            Announcement::create([
+                "title" => "Fee Submitted",
+                "description" => $description,
+                "student_id" => $req->student_id
+            ]);
 
             $fee_student = Fee::with(["student", "student.user", "student.course"])->where("id", $fee->id)->first();
             $total_paid_fees = Fee::where("student_id", $req->student_id)->where("purpose", 'monthly')->sum("fees.amount");

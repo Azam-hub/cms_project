@@ -31,9 +31,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([ValidUser::class . ":student"])->group(function () {
 
-    Route::get('/', [UserStudentController::class, 'fetch_single_student'])->name('student.home');
+    // Route::get('/', [UserStudentController::class, 'fetch_single_student'])->name('student.home');
 
-    Route::get('/announcement', [UserStudentController::class, 'announcement'])->name('student.announcement');
+    // Route::get('/announcement', [UserStudentController::class, 'announcement'])->name('student.announcement');
+
+    Route::get('/', [UserStudentController::class, 'announcement'])->name('student.home');
+
+    Route::get('/profile', [UserStudentController::class, 'fetch_single_student'])->name('student.profile');
 
     Route::get('/attendance', [UserStudentController::class, 'attendance'])->name('student.attendance');
     

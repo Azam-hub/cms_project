@@ -15,12 +15,17 @@ Attendance
 
 <section class="py-3">
 
-    <div class="row flex-column ">
-        <div class="section">
+    <div class="section">
+        <div class="row flex-column ">
             
             <div class="col">
                 <div class="col">
                     <h4 class="mb-3">Attendace Record</h4>
+                </div>
+            </div>
+            <div class="col-auto align-self-center" style="width: 70%">
+                <div>
+                    <canvas id="attendance-chart"></canvas>
                 </div>
             </div>
             <div class="col">
@@ -94,6 +99,7 @@ Attendance
 
 @section('script')
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
 $('#attendance-mode').click(function () {
@@ -117,7 +123,55 @@ $('#full-attendance-table, #month-attendance-table').DataTable({
 
 });
 
+let attendances_arr = @json($month_attendances);
+attendances_arr.reverse()
 
+const attendance_chart = document.getElementById('attendance-chart');
+const attendance_data = {
+    // labels: attendances_arr.map((element) => element.month),
+    labels: attendances_arr.map((element) => new Date(element.month).toLocaleString('en-US', { month: 'short', year: '2-digit' })),
+    datasets: [
+        {
+            label: 'Presents',
+            // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+            // data: attendances_arr,
+            data: attendances_arr.map((element) => element.present),
+            fill: false,
+            borderColor: '#08a85e',
+            backgroundColor: '#08a85e',
+
+            tension: 0.1
+        },
+        {
+            label: 'Absents',
+            // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+            // data: attendances_arr,
+            data: attendances_arr.map((element) => element.absent),
+            fill: false,
+            borderColor: '#ff1f27',
+            backgroundColor: '#ff1f27',
+
+            tension: 0.1
+        }
+    ]
+};
+new Chart(attendance_chart, {
+    type: 'line',
+    data: attendance_data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'bottom', // Positions: 'top', 'bottom', 'left', 'right'
+                align: 'center', // Alignment: 'start', 'center', 'end'
+            }
+        },
+    }
+});
 
 </script>
 

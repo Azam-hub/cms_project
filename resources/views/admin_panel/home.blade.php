@@ -268,19 +268,33 @@
 
     
     let attendances_arr = @json($attendances_arr);
+    console.log(attendances_arr);
+    
     const attendance_chart = document.getElementById('attendance-chart');
     const attendance_data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            // label: 'My First Dataset',
-            // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
-            data: attendances_arr,
-            fill: false,
-            borderColor: '#ff1f27',
-            backgroundColor: '#ff1f27',
+        datasets: [
+            {
+                label: 'Presents',
+                // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+                data: attendances_arr["presents"],
+                fill: false,
+                borderColor: '#08a85e',
+                backgroundColor: '#08a85e',
 
-            tension: 0.1
-        }]
+                tension: 0.1
+            },
+            {
+                label: 'Absents',
+                // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+                data: attendances_arr["absents"],
+                fill: false,
+                borderColor: '#ff1f27',
+                backgroundColor: '#ff1f27',
+
+                tension: 0.1
+            }
+        ]
     };
     new Chart(attendance_chart, {
         type: 'line',
