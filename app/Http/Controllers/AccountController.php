@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,6 +91,16 @@ class AccountController extends Controller
                     Auth::login($user);
                     $login = "student";
                 }
+                // if ($credentials['email'] === $user->email && $credentials['password'] === $user->password) {
+                //     // Auth::login($user);
+                //     // $login = "student";
+                //     $fee = Fee::join("students", "students.id", "=", "fees.student_id")
+                    
+                //     ->get()
+                //     ;
+                //     dd($fee);
+
+                // }
             }
         }
         

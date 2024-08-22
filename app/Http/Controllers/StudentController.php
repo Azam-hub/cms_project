@@ -139,7 +139,7 @@ class StudentController extends Controller
             $student->course_id = $req->course_id;
             $student->discount = $discount;
             $student->annual_fees = $annual_fees;
-            $student->remaining_modules = json_encode($modules);
+            $student->total_modules = json_encode($modules);
             $student->completed_modules = json_encode([]);
             $student->status = 'running';
             $student->room = $req->room;
@@ -330,8 +330,8 @@ class StudentController extends Controller
         ->where("id", $id)
         ->first();
 
-        $remaining_modules_ids = json_decode($user->studentData->remaining_modules);
-        $modules = Module::whereIn('id', $remaining_modules_ids)->get(['id', 'name']);
+        $total_modules_ids = json_decode($user->studentData->total_modules);
+        $modules = Module::whereIn('id', $total_modules_ids)->get(['id', 'name']);
 
         $attendance_rows = Attendance::where('student_id', $user->studentData->id)->orderBy('date', 'desc')->get();
         $fees = Fee::where("student_id", $user->studentData->id)->where("is_deleted", "0")->orderBy('id', 'desc')->get();
@@ -360,7 +360,7 @@ class StudentController extends Controller
         $student = Student::where("user_id", $userId)->first();
         $modules_arr = json_decode($student->completed_modules);
 
-        $total_modules = count(json_decode($student->remaining_modules));
+        $total_modules = count(json_decode($student->total_modules));
 
         // return $modules_arr;
         if ($action == "add") {

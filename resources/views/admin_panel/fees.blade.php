@@ -888,12 +888,12 @@ $("#select-student").on('change', function () {
     fetch_student_fee_record(student_id)    
 })
 
-$(".submit-fee-btn").click(function () {
+$(document).on("click", ".submit-fee-btn", function () {
     let student_id = $(this).data("student-id");
     fetch_student_fee_record(student_id)
 })
 
-$(".exclude-btn, .include-btn").click(function () {
+$(document).on("click", ".exclude-btn, .include-btn", function () {
     let student_id = $(this).data("student-id");
     let action = $(this).text();
     

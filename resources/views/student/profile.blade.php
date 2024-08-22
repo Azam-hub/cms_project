@@ -146,9 +146,26 @@ Home
             </div>
             <div class="px-3 my-4 collapse" id="collapse-modules">
                 <h3 class="text-center"><q>{{ $user->studentData->course->name }}</q> Modules</h3>
+                <div class="row px-2 py-3 mt-3 border border-dark-subtle rounded-2 shadow">
+                    <div class="col ">
+                        <h5 class="fw-bold">Progress</h5>
+                        <div >
+                            <p class="m-0">Total Modules: <span id="total-modules" class="fw-semibold">8</span></p>
+                            <p class="m-0">Completed Modules: <span id="completed-modules" class="fw-semibold">2</span></p>
+                            <p class="m-0">Remaining Modules: <span id="remaining-modules" class="fw-semibold">6</span></p>
+                            <p class="m-0 fw-semibold"><span id="completed-modules-percentage">30</span>% Completed</p>
+                        </div>
+                    </div>
+                    <div class="col" >
+                        <h5 class="fw-bold">Progress Chart</h5>
+                        <div style="width: 400px; height: 200px">
+                            <canvas id="course-completion-chart" style="height: fit-content !important;"></canvas>
+                        </div>
+                    </div>
+                </div>
                 <div class="modules my-3">
 
-                    @foreach ($user->studentData->course->modules as $module)
+                    @foreach ($modules as $module)
                     
                         @if (in_array($module->id, json_decode($user->studentData->completed_modules)))
                             <label for="{{ $module->id }}" class="success-div row justify-content-between align-items-center px-3 py-4 border border-dark-subtle border-1 rounded-3">
@@ -178,6 +195,7 @@ Home
 
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
@@ -190,6 +208,50 @@ $(".collapse-head").click(function () {
     }
 })
 
+let totalModules = (JSON.parse(@json($user->studentData->total_modules))).length;
+let completedModules = (JSON.parse(@json($user->studentData->completed_modules))).length;
+let remainingModules = totalModules - completedModules;
+
+let completedPercentage = Math.round((completedModules/totalModules)*100);
+$("#total-modules").text(totalModules)
+$("#completed-modules").text(completedModules)
+$("#remaining-modules").text(remainingModules)
+$("#completed-modules-percentage").text(completedPercentage)
+// console.log(completedPercentage);
+
+const courseCompletion_chart = document.getElementById('course-completion-chart');
+const courseCompletion_data = {
+    labels: ["Remaining", "Completed"],
+    datasets: [{
+        // label: 'My First Dataset',
+        data: [remainingModules, completedModules],
+        // backgroundColor: [
+        //     'rgb(255, 99, 132)',
+        //     'rgb(54, 162, 235)',
+        //     'rgb(255, 205, 86)'
+        // ],
+        borderWidth: 0,
+        hoverOffset: 4
+    }]
+};
+new Chart(courseCompletion_chart, {
+    type: 'pie',
+    data: courseCompletion_data,
+    options: {
+        radius: '70%', // Reduce the radius to shrink the chart
+        responsive: true, // Ensures the chart adjusts based on canvas size
+        maintainAspectRatio: false, // Allows you to customize the aspect ratio
+        layout: {
+            padding: 0 // Reduces padding around the chart
+        },
+        plugins: {
+            legend: {
+                position: 'bottom', // Positions: 'top', 'bottom', 'left', 'right'
+                align: 'center', // Alignment: 'start', 'center', 'end'
+            }
+        }
+    }
+});
 
 </script>
 
