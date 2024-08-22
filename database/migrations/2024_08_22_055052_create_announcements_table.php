@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->text('title');
             $table->text('description');
+            $table->integer('student_id')->default(0);
             $table->integer('is_deleted')->default(0);
             $table->string('created_at', 50);
             $table->string('updated_at', 50);
