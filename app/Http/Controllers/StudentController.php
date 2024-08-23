@@ -104,13 +104,13 @@ class StudentController extends Controller
         }
         
         
-        // $last_gr_no = Student::orderBy('id', 'desc')->first();
+        $last_gr_no = Student::orderBy('id', 'desc')->first();
         
-        // $number = 1;
-        // if ($last_gr_no) {
-        //     $number = intval(explode("-", $last_gr_no->gr_no)[1]) + 1;
-        // }
-        // $gr_no = "SS-" . str_pad($number, 6, '0', STR_PAD_LEFT);
+        $number = 1;
+        if ($last_gr_no) {
+            $number = intval(explode("-", $last_gr_no->gr_no)[1]) + 1;
+        }
+        $gr_no = "SS-" . str_pad($number, 6, '0', STR_PAD_LEFT);
 
         // Save data in database
         $user = new User;
@@ -133,7 +133,7 @@ class StudentController extends Controller
         if ($user->save()) {
             
             $modules = Module::where('course_id', $req->course_id)->where("is_deleted", "0")->pluck('id')->toArray();
-            $gr_no = "SS-" . str_pad($user->id, 6, '0', STR_PAD_LEFT);
+            // $gr_no = "SS-" . str_pad($user->id, 6, '0', STR_PAD_LEFT);
 
             $student->gr_no = $gr_no;
             $student->course_id = $req->course_id;

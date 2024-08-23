@@ -218,7 +218,7 @@
                                     data-admin-role="{{ $admin->role }}" 
                                     >Edit</button>
 
-                                    <button class="btn btn-sm btn-danger del-btn" data-admin-id="{{ $admin->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-admin-id="{{ $admin->id }}" data-admin-name="{{ $admin->name }}">Delete</button>
 
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($admin->created_at)) !!}</td>
@@ -412,22 +412,26 @@ $(document).on('click', ".edit-btn", function() {
 
 // Delete data method
 $(document).on("click", ".del-btn", function() {
-    let admin_id = $(this).data("admin-id")
+    let admin_name = $(this).data("admin-name")
+    let confirm = window.confirm(`Are you sure you want to delete admin "${admin_name}"`)
 
-
-    fetch('/admin/admins/process_destroyAdmin/'+admin_id, {
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    }).then(function (response) {
-        return response.json();
-    }).then(function (result) {
-        if (result.success) {
-            $('button[data-admin-id="' + admin_id + '"]').closest('tr').remove();
-        } else {
-            console.log(result);
-        }
-    })
+    if (confirm) {
+        let admin_id = $(this).data("admin-id")
+    
+        fetch('/admin/admins/process_destroyAdmin/'+admin_id, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function (result) {
+            if (result.success) {
+                $('button[data-admin-id="' + admin_id + '"]').closest('tr').remove();
+            } else {
+                console.log(result);
+            }
+        })
+    }
 
 })
 

@@ -98,7 +98,7 @@
                                     data-room-seats="{{ $room->seats }}" 
                                     >Edit</button>
 
-                                    <button class="btn btn-sm btn-danger del-btn" data-room-id="{{ $room->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-room-id="{{ $room->id }}" data-room-name="{{ $room->name }}">Delete</button>
 
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($room->created_at)) !!}</td>
@@ -183,22 +183,22 @@
 
     // Delete data method
     $(document).on("click", ".del-btn", function() {
-        let room_id = $(this).data("room-id")
+        let room_name = $(this).data("room-name")
+        let confirm = window.confirm(`Are you sure you want to delete room "${room_name}"`)
 
-
-        fetch('/admin/rooms/process_destroyRoom/'+room_id, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            if (data.success) {
-                $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
-            } else {
-                console.log(data);
-            }
-        })
+        if (confirm) {
+            let room_id = $(this).data("room-id")
+    
+            fetch('/admin/rooms/process_destroyRoom/'+room_id).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data.success) {
+                    $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(data);
+                }
+            })
+        }
 
     })
 </script>

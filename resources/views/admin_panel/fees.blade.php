@@ -869,6 +869,13 @@ $(document).on("click", ".submit-fee-btn", function () {
 $(document).on("click", ".exclude-btn, .include-btn", function () {
     let student_id = $(this).data("student-id");
     let action = $(this).text();
+
+    if (action == "Exclude") {
+        let confirm = window.confirm(`Are you sure you want to exclude this student.`)
+        if (!confirm) {
+            return
+        }
+    }
     
     fetch("/admin/fees/process_excludeIncludeStudent/" + student_id + "/" + action).then((res) => {return res.json()}).then(function (data) {
         console.log(data);
@@ -945,18 +952,21 @@ $(document).on('click', ".edit-btn", function() {
 
 // // Delete data method
 $(document).on("click", ".del-btn", function() {
-    let submitted_fee_id = $(this).data("submitted_fee-id")
+    let confirm = window.confirm('Are you sure you want to delete this entry.')
 
-
-    fetch('/admin/fees/process_destroyRecord/'+submitted_fee_id).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        if (data.success) {
-            $('button[data-room-id="' + submitted_fee_id + '"]').closest('tr').remove();
-        } else {
-            console.log(data);
-        }
-    })
+    if (confirm) {
+        let submitted_fee_id = $(this).data("submitted_fee-id")
+    
+        fetch('/admin/fees/process_destroyRecord/'+submitted_fee_id).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            if (data.success) {
+                $('button[data-room-id="' + submitted_fee_id + '"]').closest('tr').remove();
+            } else {
+                console.log(data);
+            }
+        })
+    }
 
 })
 

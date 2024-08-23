@@ -100,7 +100,7 @@
                                     data-announcement-description="{{ $announcement->description }}" 
                                     >Edit</button>
 
-                                    <button class="btn btn-sm btn-danger del-btn" data-announcement-id="{{ $announcement->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-announcement-id="{{ $announcement->id }}" data-announcement-title="{{ $announcement->title }}" >Delete</button>
 
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($announcement->created_at)) !!}</td>
@@ -184,20 +184,24 @@
 
     // Delete data method
     $(document).on("click", ".del-btn", function() {
-        let announcement_id = $(this).data("announcement-id")
+        let announcement_title = $(this).data("announcement-title")
+        let confirm = window.confirm(`Are you sure you want to delete announcement "${announcement_title}"`)
 
-
-        fetch('/admin/announcements/process_destroyAnnouncement/'+announcement_id)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            if (data.success) {
-                $('button[data-announcement-id="' + announcement_id + '"]').closest('tr').remove();
-            } else {
-                console.log(data);
-            }
-        })
+        if (confirm) {
+            let announcement_id = $(this).data("announcement-id")
+    
+            fetch('/admin/announcements/process_destroyAnnouncement/'+announcement_id)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.success) {
+                    $('button[data-announcement-id="' + announcement_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(data);
+                }
+            })
+        }
 
     })
 </script>

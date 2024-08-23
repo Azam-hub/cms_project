@@ -51,6 +51,7 @@ class FeesController extends Controller
         })
         ->where('students.status', 'running')
         ->where('students.exclude', '0')
+        ->where('users.is_deleted', '0')
         // ->groupBy('students.id', 'students.gr_no', 'users.name', 'students.timing', 'rooms.name', 'fees.student_id')
         ->groupBy('students.id')
         ->orderBy('last_fee_date', 'asc')

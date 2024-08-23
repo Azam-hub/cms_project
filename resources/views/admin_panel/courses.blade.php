@@ -132,8 +132,8 @@
                                 <td>{{ $course->questions_to_ask }}</td>
                                 <td>
                                     {!! $course->deactive == "0" ?
-                                    '<button class="btn btn-sm btn-danger d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Deactive</button>' :
-                                    '<button class="btn btn-sm btn-primary d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'">Active</button>' !!}
+                                    '<button class="btn btn-sm btn-danger d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'" data-course-name="'.$course->name.'">Deactive</button>' :
+                                    '<button class="btn btn-sm btn-primary d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'" data-course-name="'.$course->name.'">Active</button>' !!}
                                     
 
                                     <button class="btn btn-sm btn-primary edit-btn" 
@@ -151,7 +151,7 @@
                                         data-course-module="{{ $module->name }}" 
                                     @endforeach --}}
                                     >Edit</button>
-                                    <button class="btn btn-sm btn-danger del-btn" data-course-id="{{ $course->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-course-id="{{ $course->id }}" data-course-name="{{ $course->name }}">Delete</button>
                                 </td>
                                 <td>{!! date('h:i a <b>||</b> d M, Y', strtotime($course->created_at)) !!}</td>
                             </tr>
@@ -269,37 +269,46 @@
     
     //  call to delete course
     $(document).on('click', ".del-btn", function () {
-        let course_id = $(this).data('course-id')
-    
-        fetch('/admin/courses/process_destroyCourse/'+course_id).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            if (result == 1) {
-                $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
+        let course_name = $(this).data("course-name")
+        let confirm = window.confirm(`Are you sure you want to delete course "${course_name}"`)
+
+        if (confirm) {
+            let course_id = $(this).data('course-id')
+        
+            fetch('/admin/courses/process_destroyCourse/'+course_id).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                if (result == 1) {
+                    $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(result);
+                }
+            })
+        }
     
     });
 
     //  call to change status of course
     $(document).on('click', ".active-deactive-btn", function () {
-        let course_id = $(this).data('course-id')
-        console.log(course_id);
-        
-        let action = $(this).text()
+        let course_name = $(this).data("course-name")
+        let confirm = window.confirm(`Are you sure you want to change status of course "${course_name}"`)
 
-        fetch('/admin/courses/process_statusChangeCourse/'+course_id+"/"+action).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            if (result == 1) {
-                // $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
-                location.reload()
-            } else {
-                console.log(result);
-            }
-        })
+        if (confirm) {
+            let course_id = $(this).data('course-id')
+            
+            let action = $(this).text()
+    
+            fetch('/admin/courses/process_statusChangeCourse/'+course_id+"/"+action).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                if (result == 1) {
+                    // $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
+                    location.reload()
+                } else {
+                    console.log(result);
+                }
+            })
+        }
     
     });
 

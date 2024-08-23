@@ -54,11 +54,10 @@ Route::middleware([ValidUser::class . ":student"])->group(function () {
 
 Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->group(function () {
 
-    /* Home */
-    Route::get('/', [AdminHomeController::class, "index"])->name('admin_panel.home');
-
-
+    
     Route::middleware([ValidAdmin::class])->group(function () {
+        /* Home */
+        Route::get('/', [AdminHomeController::class, "index"])->name('admin_panel.home');
 
         /* Admins */
         Route::get('/admins', [AdminController::class, "index"])->name("admin_panel.admins");

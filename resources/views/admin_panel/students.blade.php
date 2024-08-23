@@ -316,7 +316,7 @@
                                 {{-- <td>{{ $student->address }}</td> --}}
                                 <td>{{ $student->studentData->annual_fees }}</td>
                                 <td>{{ $student->studentData->discount }}%</td>
-                                <td class="action-btns text-center">
+                                <td class="action-btns text-center" data-student-name="{{ $student->name }}">
                                     @if ($student->studentData->status == "running")
                                         <div class="row justify-content-center column-gap-1">
                                             <div class="col-auto p-0">
@@ -401,7 +401,7 @@
                                             >Edit</button>
                                         </div>
                                         <div class="col-auto p-0">
-                                            <button class="btn btn-sm btn-danger del-btn" data-student-id="{{ $student->id }}">Delete</button>
+                                            <button class="btn btn-sm btn-danger del-btn" data-student-id="{{ $student->id }}" data-student-name="{{ $student->name }}">Delete</button>
                                         </div>
                                     </div>
                                 </td>
@@ -665,42 +665,52 @@ $(document).on('click', ".edit-btn", function () {
 
 // Delete data, method
 $(document).on("click", ".del-btn", function () {
-    let student_id = $(this).data("student-id")
-    
-    fetch('/admin/students/process_destroyStudent/' + student_id).then(function (response) {
-        return response.json()
-    }).then(function (result) {
+    let student_name = $(this).data("student-name")
+    let confirm = window.confirm(`Are you sure you want to delete student "${student_name}"`)
+
+    if (confirm) {
+        let student_id = $(this).data("student-id")
         
-        if (result.success) {
-            $('button[data-student-id="' + student_id + '"]').closest('tr').remove();
-        } else {
-            console.log(result);
-        }
-    })
+        fetch('/admin/students/process_destroyStudent/' + student_id).then(function (response) {
+            return response.json()
+        }).then(function (result) {
+            
+            if (result.success) {
+                $('button[data-student-id="' + student_id + '"]').closest('tr').remove();
+            } else {
+                console.log(result);
+            }
+        })
+    }
     
 })
 
 // Status change ajax
 $(document).on("click", ".status-change-btn", function () {
-    let student_id = $(this).data("student-id")
-    let action = $(this).text()
+    let student_name = $(this).parent().parent().parent().data("student-name")
+    let confirm = window.confirm(`Are you sure you want to change status of "${student_name}"`)
 
-    fetch('/admin/students/process_statusChangeStudent/' + student_id + '/' + action).then(function (response) {
-        return response.json()
-    }).then(function (result) {
-        console.log(result)
-        if (result == 1) {
-            location.reload()
-        } else if (result.status == "seat not available") {
-            let html = `<div class="alert alert-danger d-flex align-items-center column-gap-2" role="alert">
-                            <i class="fa-solid fa-circle-exclamation"></i>
-                            <div>You can't resume this student because position of this student has been reserved by <b>${result.name}</b> with GR No. <b>${result.gr_no}</b></div>
-                        </div>`
-            // $(html).insertBefore('section')
-            $("#msg").html(html)
-            $('html, body').animate({scrollTop: 0}, 'slow');
-        }
-    })
+    if (confirm) {
+        let student_id = $(this).data("student-id")
+        let action = $(this).text()
+    
+        fetch('/admin/students/process_statusChangeStudent/' + student_id + '/' + action).then(function (response) {
+            return response.json()
+        }).then(function (result) {
+            console.log(result)
+            if (result == 1) {
+                location.reload()
+            } else if (result.status == "seat not available") {
+                let html = `<div class="alert alert-danger d-flex align-items-center column-gap-2" role="alert">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <div>You can't resume this student because position of this student has been reserved by <b>${result.name}</b> with GR No. <b>${result.gr_no}</b></div>
+                            </div>`
+                // $(html).insertBefore('section')
+                $("#msg").html(html)
+                $('html, body').animate({scrollTop: 0}, 'slow');
+            }
+        })
+    }
 })
 
 // Show student data on index page

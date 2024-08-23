@@ -19,7 +19,7 @@ class ValidAdmin
         if (Auth::user()->role == 'super_admin') {
             return $next($request);
         } else {
-            return redirect()->route('admin_panel.home');
+            return redirect()->route('admin_panel.attendanceToday');
         }
     }
 }

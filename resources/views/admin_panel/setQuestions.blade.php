@@ -223,18 +223,22 @@ $(".edit-btn").click(function () {
     })
 
     $(".del-btn").click(function () {
-        let question_id = $(this).data("question-id")
-        
-        fetch('/admin/set_questions/process_destroyQuestion/' + question_id).then(function (response) {
-            return response.json()
-        }).then(function (result) {
+        let confirm = window.confirm(`Are you sure you want to delete this question.`)
+
+        if (confirm) {
+            let question_id = $(this).data("question-id")
             
-            if (result.success) {
-                $('button[data-question-id="' + question_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
+            fetch('/admin/set_questions/process_destroyQuestion/' + question_id).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                
+                if (result.success) {
+                    $('button[data-question-id="' + question_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(result);
+                }
+            })
+        }
 
     })
 

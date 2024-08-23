@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="{{ asset("fonts/fonts.css") }}" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset("bootstrap/css/bootstrap.min.css") }}">
@@ -208,9 +209,6 @@
 <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
 <script src="{{ asset("fontawesome-icons/js/all.min.js") }}" crossorigin="anonymous"></script>
-
-{{-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> --}}
 
 <script src="{{ asset('particle_js/particles.js') }}"></script>
 <script src="{{ asset('particle_js/app.js') }}"></script>

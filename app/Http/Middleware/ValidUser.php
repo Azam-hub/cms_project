@@ -50,6 +50,8 @@ class ValidUser
             } else {
                 if (Auth::user()->role == "student") {
                     return redirect()->route('student.home');                
+                } elseif (Auth::user()->role == "admin") {
+                    return redirect()->route('admin_panel.attendanceToday');
                 } else {
                     return redirect()->route('admin_panel.home');
                 }

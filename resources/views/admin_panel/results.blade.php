@@ -41,7 +41,7 @@
                                 <td>{{ $result->wrong_answers }}</td>
                                 <td>{{ $result->skipped_questions }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger del-btn" data-result-id="{{ $result->id }}">Delete</button>
+                                    <button class="btn btn-sm btn-danger del-btn" data-result-id="{{ $result->id }}" data-name="{{ $result->user->name }}" >Delete</button>
                                 </td>
                                 <td>{!! date ('h:i a <b>||</b> d M, Y', strtotime($result->created_at)) !!}</td>
                             </tr>    
@@ -75,18 +75,23 @@
 
     // Delete data method
     $(document).on("click", ".del-btn", function () {
-        let result_id = $(this).data("result-id")
+        let name = $(this).data("name")
+        let confirm = window.confirm(`Are you sure you want to delete result of "${name}"`)
 
-        fetch('/admin/results/process_destroyResult/' + result_id).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            
-            if (result.success) {
-                $('button[data-result-id="' + result_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
+        if (confirm) {
+            let result_id = $(this).data("result-id")
+    
+            fetch('/admin/results/process_destroyResult/' + result_id).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                
+                if (result.success) {
+                    $('button[data-result-id="' + result_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(result);
+                }
+            })
+        }
         
     })
 
