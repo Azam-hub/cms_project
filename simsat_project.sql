@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 22, 2024 at 03:28 PM
+-- Generation Time: Aug 23, 2024 at 12:25 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -312,7 +312,27 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (116, '2024_08_22_202758_add_foreign_keys_to_questions_table', 0),
 (117, '2024_08_22_202758_add_foreign_keys_to_results_table', 0),
 (118, '2024_08_22_202758_add_foreign_keys_to_rosters_table', 0),
-(119, '2024_08_22_202758_add_foreign_keys_to_students_table', 0);
+(119, '2024_08_22_202758_add_foreign_keys_to_students_table', 0),
+(120, '2024_08_23_052502_create_announcements_table', 0),
+(121, '2024_08_23_052502_create_attendances_table', 0),
+(122, '2024_08_23_052502_create_courses_table', 0),
+(123, '2024_08_23_052502_create_fees_table', 0),
+(124, '2024_08_23_052502_create_modules_table', 0),
+(125, '2024_08_23_052502_create_options_table', 0),
+(126, '2024_08_23_052502_create_questions_table', 0),
+(127, '2024_08_23_052502_create_results_table', 0),
+(128, '2024_08_23_052502_create_rooms_table', 0),
+(129, '2024_08_23_052502_create_rosters_table', 0),
+(130, '2024_08_23_052502_create_students_table', 0),
+(131, '2024_08_23_052502_create_users_table', 0),
+(132, '2024_08_23_052505_add_foreign_keys_to_attendances_table', 0),
+(133, '2024_08_23_052505_add_foreign_keys_to_fees_table', 0),
+(134, '2024_08_23_052505_add_foreign_keys_to_modules_table', 0),
+(135, '2024_08_23_052505_add_foreign_keys_to_options_table', 0),
+(136, '2024_08_23_052505_add_foreign_keys_to_questions_table', 0),
+(137, '2024_08_23_052505_add_foreign_keys_to_results_table', 0),
+(138, '2024_08_23_052505_add_foreign_keys_to_rosters_table', 0),
+(139, '2024_08_23_052505_add_foreign_keys_to_students_table', 0);
 
 -- --------------------------------------------------------
 
@@ -846,7 +866,7 @@ ALTER TABLE `fees`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `modules`

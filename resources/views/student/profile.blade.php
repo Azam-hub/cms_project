@@ -7,7 +7,7 @@
 @endsection
 
 @section('title')
-Home
+Profile
 @endsection
 
 
@@ -196,6 +196,7 @@ Home
 
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset("chartjs/chart.js") }}"></script>
 
 <script>
 
@@ -225,11 +226,11 @@ const courseCompletion_data = {
     datasets: [{
         // label: 'My First Dataset',
         data: [remainingModules, completedModules],
-        // backgroundColor: [
-        //     'rgb(255, 99, 132)',
-        //     'rgb(54, 162, 235)',
-        //     'rgb(255, 205, 86)'
-        // ],
+        backgroundColor: [
+            // "#ff1f27",
+            "rgb(220, 53, 69)",
+            "#08a85e",
+        ],
         borderWidth: 0,
         hoverOffset: 4
     }]

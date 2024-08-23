@@ -100,6 +100,8 @@ Attendance
 @section('script')
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset("chartjs/chart.js") }}"></script>
+
 <script>
 
 $('#attendance-mode').click(function () {

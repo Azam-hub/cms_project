@@ -138,6 +138,7 @@
 
 @section("script")
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset("chartjs/chart.js") }}"></script>
 <script>
 
     let admissions_arr = @json($admissions_arr);
@@ -149,8 +150,11 @@
                 label: 'Last Year',
                 // data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
                 data: admissions_arr["2023"],
-                borderColor: '#c5c5c5',
-                backgroundColor: '#dadada',
+                // borderColor: '#c5c5c5',
+                borderColor: '#b6bfc8',
+                // backgroundColor: '#dadada',
+                backgroundColor: '#ced4da',
+                hoverBackgroundColor: "#b6bfc8",
                 barThickness: 15,
                 borderWidth: 1, 
             },
@@ -158,8 +162,11 @@
                 label: 'This Year',
                 // data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
                 data: admissions_arr["2024"],
-                borderColor: '#e30b13',
-                backgroundColor: '#ff1f27',
+                // borderColor: '#e30b13',
+                borderColor: '#0063cc',
+                // backgroundColor: '#ff1f27',
+                backgroundColor: '#007bff',
+                hoverBackgroundColor: "#0063cc",
                 barThickness: 15,
                 borderWidth: 1, 
             },
@@ -193,10 +200,11 @@
                 label: 'Last Year',
                 // data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
                 data: revenues_arr["2023"],
-                // borderColor: '#36A2EB',
-                // backgroundColor: '#9BD0F5',
-                borderColor: '#c5c5c5',
-                backgroundColor: '#dadada',
+                // borderColor: '#c5c5c5',
+                borderColor: '#b6bfc8',
+                // backgroundColor: '#dadada',
+                backgroundColor: '#ced4da',
+                hoverBackgroundColor: "#b6bfc8",
                 barThickness: 15,
                 borderWidth: 1, 
             },
@@ -204,10 +212,11 @@
                 label: 'This Year',
                 // data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
                 data: revenues_arr["2024"],
-                // borderColor: '#FF6384',
-                // backgroundColor: '#FFB1C1',
-                borderColor: '#e30b13',
-                backgroundColor: '#ff1f27',
+                // borderColor: '#e30b13',
+                borderColor: '#0063cc',
+                // backgroundColor: '#ff1f27',
+                backgroundColor: '#007bff',
+                hoverBackgroundColor: "#0063cc",
                 barThickness: 15,
                 borderWidth: 1, 
             }

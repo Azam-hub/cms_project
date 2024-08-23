@@ -366,18 +366,6 @@
                     <h5 class="fw-semibold">Submitted Fees Records</h5>
                     <table id="submitted-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
-                            <tr class="search-row">
-                                <td class="search-row-1">Gr. No.</td>
-                                <td class="search-row-2">Student</td>
-                                <td class="search-row-3">Father</td>
-                                <td class="search-row-4">Room</td>
-                                <td class="search-row-5">Timing</td>
-                                <td class="search-row-6">Amount</td>
-                                <td class="search-row-7">Purpose</td>
-                                <td class="search-row-8">Description</td>
-                                <td class="search-row-9">Action</td>
-                                <td class="search-row-10">Added On</td>
-                            </tr>
                             <tr>
                                 <th class="text-center">Gr. No.</th>
                                 <th class="text-center">Student</th>
@@ -437,16 +425,6 @@
                     <h5 class="fw-semibold">Pending Fees Records</h5>
                     <table id="pending-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
-                            <tr class="search-row">
-                                <td class="search-row-1">Gr. No.</td>
-                                <td class="search-row-2">Student</td>
-                                <td class="search-row-3">Father</td>
-                                <td class="search-row-4">Room</td>
-                                <td class="search-row-5">Timing</td>
-                                <td class="search-row-6">Last Purpose</td>
-                                <td class="search-row-7">Action</td>
-                                <td class="search-row-8">Added On</td>
-                            </tr>
                             <tr>
                                 <th class="text-center">Gr. No.</th>
                                 <th class="text-center">Student</th>
@@ -471,7 +449,7 @@
                                         ($pending_fee->last_fee_purpose == "monthly") ?
                                         DateTime::createFromFormat('m-Y', $pending_fee->last_fee_month)->format('M Y') :
                                         (($pending_fee->last_fee_purpose == "") ?
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                        '<span class="badge text-bg-danger">Not started</span>' :
                                         $pending_fee->last_fee_purpose)
                                         !!}</td>
                                         <td class="w-25 text-center">
@@ -479,7 +457,7 @@
                                             <button class="btn btn-sm btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
                                         </td>
                                         <td>{!! ($pending_fee->last_fee_date == "") ? 
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        '<span class="badge text-bg-danger">Not started</span>' : 
                                         date('h:i a <b>||</b> d M, Y', strtotime($pending_fee->last_fee_date)) !!}</td>
                                     </tr>
                                     {{-- @php $pending_fees_count--; @endphp --}}
@@ -494,16 +472,6 @@
                     <h5 class="fw-semibold">Not Started Fees Records</h5>
                     <table id="not-started-fees-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
-                            <tr class="search-row">
-                                <td class="search-row-1">Gr. No.</td>
-                                <td class="search-row-2">Student</td>
-                                <td class="search-row-3">Father</td>
-                                <td class="search-row-4">Room</td>
-                                <td class="search-row-5">Timing</td>
-                                <td class="search-row-6">Last Purpose</td>
-                                <td class="search-row-7">Action</td>
-                                <td class="search-row-8">Added On</td>
-                            </tr>
                             <tr>
                                 <th class="text-center">Gr. No.</th>
                                 <th class="text-center">Student</th>
@@ -528,7 +496,7 @@
                                         ($pending_fee->last_fee_purpose == "monthly") ?
                                         DateTime::createFromFormat('m-Y', $pending_fee->last_fee_month)->format('M Y') :
                                         (($pending_fee->last_fee_purpose == "") ?
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                        '<span class="badge text-bg-danger">Not started</span>' :
                                         $pending_fee->last_fee_purpose)
                                         !!}</td>
                                         <td class="w-25 text-center">
@@ -536,7 +504,7 @@
                                             <button class="btn btn-sm btn-danger exclude-btn" style="font-size: 14px; !important" data-student-id="{{ $pending_fee->student_id }}">Exclude</button>
                                         </td>
                                         <td>{!! ($pending_fee->last_fee_date == "") ? 
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        '<span class="badge text-bg-danger">Not started</span>' : 
                                         date('h:i a <b>||</b> d M, Y', strtotime($pending_fee->last_fee_date)) !!}</td>
                                     </tr>
                                     {{-- @php $pending_fees_count--; @endphp --}}
@@ -551,17 +519,6 @@
                     <h5 class="fw-semibold">Exclude Students Fees Records</h5>
                     <table id="exclude-students-table" class="table table-striped table-bordered table-hover border-dark-subtle">
                         <thead>
-                            <tr class="search-row">
-                                <td class="search-row-1">Gr. No.</td>
-                                <td class="search-row-2">Student</td>
-                                <td class="search-row-3">Father</td>
-                                <td class="search-row-4">Room</td>
-                                <td class="search-row-5">Timing</td>
-                                <td class="search-row-6">Last Amount</td>
-                                <td class="search-row-7">Last Purpose</td>
-                                <td class="search-row-8">Action</td>
-                                <td class="search-row-9">Last Added On</td>
-                            </tr>
                             <tr>
                                 <th class="text-center">Gr. No.</th>
                                 <th class="text-center">Student</th>
@@ -585,7 +542,7 @@
                                     <td class="text-center">
                                         {!!
                                         $exclude_student->last_fee_amount == "" ? 
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        '<span class="badge text-bg-danger">Not started</span>' : 
                                         $exclude_student->last_fee_amount 
                                         !!}
                                     </td>
@@ -595,7 +552,7 @@
                                         ($exclude_student->last_fee_purpose == "monthly") ?
                                         DateTime::createFromFormat('m-Y', $exclude_student->last_fee_month)->format('M Y') :
                                         (($exclude_student->last_fee_purpose == "") ?
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' :
+                                        '<span class="badge text-bg-danger">Not started</span>' :
                                         $exclude_student->last_fee_purpose)
                                         !!}
                                     </td>
@@ -605,7 +562,7 @@
                                     </td>
                                     <td>
                                         {!! ($exclude_student->last_fee_date == "") ? 
-                                        '<span class="px-2 py-1 rounded-2 text-light bg-danger" style="font-size: 12px; width: fit-content;">Not started</span>' : 
+                                        '<span class="badge text-bg-danger">Not started</span>' : 
                                         date('h:i a <b>||</b> d M, Y', strtotime($exclude_student->last_fee_date)) 
                                         !!}
                                     </td>
@@ -805,26 +762,6 @@ $(".mode-switch").click(function (e) {
 })
 
 $('#submitted-fees-table, #pending-fees-table, #not-started-fees-table, #exclude-students-table').DataTable({
-    initComplete: function () {
-        let i = 1;
-        this.api()
-            .columns()
-            .every(function () {
-                var column = this;
-                var title = column.header().textContent;
-
-                // Create input element and add event listener
-                $('<input type="text" placeholder="Search ' + title + '" />')
-                    .appendTo($(`.search-row-${i}`).empty())
-                    .on('keyup change clear', function () {
-                        if (column.search() !== this.value) {
-                            column.search(this.value).draw();
-                        }
-                    });
-
-                i++;
-            });
-    },
     dom: 'lBfrtip',
     buttons: [
         'copy', 'csv', 'excel', 'pdf', 'print'
@@ -832,6 +769,42 @@ $('#submitted-fees-table, #pending-fees-table, #not-started-fees-table, #exclude
     "aaSorting": []
 
 });
+
+// function dataTable(table) {
+//     $(table).DataTable({
+//         initComplete: function () {
+//             let i = 1;
+//             this.api()
+//                 .columns()
+//                 .every(function () {
+//                     var column = this;
+//                     var title = column.header().textContent;
+    
+//                     // Create input element and add event listener
+//                     $('<input type="text" placeholder="Search ' + title + '" />')
+//                         .appendTo($(`.search-row-${i}`).empty())
+//                         .on('keyup change clear', function () {
+//                             if (column.search() !== this.value) {
+//                                 column.search(this.value).draw();
+//                             }
+//                         });
+    
+//                     i++;
+//                 });
+//         },
+//         dom: 'lBfrtip',
+//         buttons: [
+//             'copy', 'csv', 'excel', 'pdf', 'print'
+//         ],
+//         "aaSorting": []
+    
+//     });
+// }
+
+// dataTable('#submitted-fees-table');
+// dataTable("#pending-fees-table");
+// dataTable("#not-started-fees-table");
+// dataTable("#exclude-students-table");
 
 $(".modal form").submit(function (e) {
     let prevent = false;
