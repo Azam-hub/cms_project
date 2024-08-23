@@ -110,7 +110,7 @@
                         <label for="password" class="form-label mb-1">Enter Password</label>
                         <div class="position-relative">
                             <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('password') is-invalid @enderror" placeholder="Enter Password">
-                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                            <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                             <div class="text-danger error-msg">@error('password') {{ $message }} @enderror</div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         <label for="confirm-password" class="form-label mb-1">Enter Confirm Password</label>
                         <div class="position-relative">
                             <input type="password" name="password_confirmation" id="confirm-password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('password_confirmation') is-invalid @enderror" placeholder="Enter Confirm Password">
-                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                            <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                             <div class="text-danger error-msg">@error('password_confirmation') {{ $message }} @enderror</div>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
                         <label for="password" class="form-label mb-1">Password</label>
                         <div class="position-relative">
                             <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter your Password">
-                            <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-4"></ion-icon>
+                            <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                             <span class="text-danger">@error('password') {{ $message }} @enderror</span>
                         </div>
                     </div>
@@ -209,8 +209,8 @@
 
 <script src="{{ asset("fontawesome-icons/js/all.min.js") }}" crossorigin="anonymous"></script>
 
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+{{-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> --}}
 
 <script src="{{ asset('particle_js/particles.js') }}"></script>
 <script src="{{ asset('particle_js/app.js') }}"></script>
@@ -227,14 +227,17 @@
 
     })
 
-    $(".eye").click(function () {
-        let name = $(this).attr('name')
-        if (name == "eye-outline") {
+    $(document).on("click", ".eye", function () {
+        $(this).addClass("fa-regular")
+        
+        if ($(this).hasClass('fa-eye')) {
             $(this).prev().attr("type", "text")
-            $(this).attr("name", "eye-off-outline")
+            $(this).removeClass("fa-eye")
+            $(this).addClass("fa-eye-slash")
         } else {
             $(this).prev().attr("type", "password")
-            $(this).attr("name", "eye-outline")
+            $(this).removeClass("fa-eye-slash")
+            $(this).addClass("fa-eye")
         }
     })
 

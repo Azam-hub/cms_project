@@ -93,7 +93,8 @@
                             <label for="password" class="form-label mb-1 required-label">Enter Password</label>
                             <div class="position-relative">
                                 <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Password">
-                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                                <!-- <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon> -->
+                                <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                                 <div class="text-danger error-msg">@error('password') {{ $message }} @enderror</div>
                             </div>
                         </div>
@@ -101,7 +102,8 @@
                             <label for="confirm-password" class="form-label mb-1 required-label">Enter Confirm Password</label>
                             <div class="position-relative">
                                 <input type="password" name="password_confirmation" id="confirm-password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password_confirmation') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Confirm Password">
-                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                                <!-- <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon> -->
+                                <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                                 <div class="text-danger error-msg">@error('password_confirmation') {{ $message }} @enderror</div>
                             </div>
                         </div>
@@ -138,7 +140,8 @@
     <div class="row mb-4">
         <div class="col">
             <h5 class="fw-semibold">Add Admin</h5>
-            <button class="btn btn-secondary" id="add-admin-btn" data-bs-toggle="modal" data-bs-target="#admin-modal">Add</button>
+            <!-- <button class="btn btn-secondary" id="add-admin-btn" data-bs-toggle="modal" data-bs-target="#admin-modal">Add</button> -->
+            <button class="btn btn-secondary" id="add-admin-btn">Add</button>
         </div>
     </div>
     <div class="row flex-column ">
@@ -277,14 +280,17 @@ $('#profile-pic').change(function (e) {
 })
 
 // Password show/hide
-$(".eye").click(function () {
-    let name = $(this).attr('name')
-    if (name == "eye-outline") {
+$(document).on("click", ".eye", function () {
+    $(this).addClass("fa-regular")
+    
+    if ($(this).hasClass('fa-eye')) {
         $(this).prev().attr("type", "text")
-        $(this).attr("name", "eye-off-outline")
+        $(this).removeClass("fa-eye")
+        $(this).addClass("fa-eye-slash")
     } else {
         $(this).prev().attr("type", "password")
-        $(this).attr("name", "eye-outline")
+        $(this).removeClass("fa-eye-slash")
+        $(this).addClass("fa-eye")
     }
 })
 
@@ -351,6 +357,11 @@ $("#add-admin-btn").click(function() {
                         <div class="text-danger error-msg">@error('last_name') {{ $message }} @enderror</div>
                     </div>`
     $('.variable-row').html(fields)
+
+    // Opening modal from here so that html content can be load before opening
+    const myModal = new bootstrap.Modal('#admin-modal')
+    const modalToggle = document.getElementById('admin-modal');
+    myModal.show(modalToggle)
 
 })
 

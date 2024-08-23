@@ -116,7 +116,7 @@
                             <label for="password" class="form-label mb-1 required-label">Enter Password</label>
                             <div class="position-relative">
                                 <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Password">
-                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                                <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                                 <div class="text-danger error-msg">@error('password') {{ $message }} @enderror</div>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                             <label for="confirm-password" class="form-label mb-1 required-label">Enter Confirm Password</label>
                             <div class="position-relative">
                                 <input type="password" name="password_confirmation" id="confirm-password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('password_confirmation') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Confirm Password">
-                                <ion-icon name="eye-outline" class="eye cursor-pointer position-absolute end-0 translate-middle fs-4" style="top: 21px;"></ion-icon>
+                                <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
                                 <div class="text-danger error-msg">@error('password_confirmation') {{ $message }} @enderror</div>
                             </div>
                         </div>
@@ -215,7 +215,8 @@
     <div class="row mb-4">
         <div class="col">
             <h5 class="fw-semibold">Add Student</h5>
-            <button class="btn btn-secondary" id="add-student-btn" data-bs-toggle="modal" data-bs-target="#student-modal">Add</button>
+            <!-- <button class="btn btn-secondary" id="add-student-btn" data-bs-toggle="modal" data-bs-target="#student-modal">Add</button> -->
+            <button class="btn btn-secondary" id="add-student-btn" >Add</button>
         </div>
         <div class="col">
             <h5 class="fw-semibold">Import Data</h5>
@@ -428,284 +429,292 @@
 
 <script>
 
-    // Showing image after select
-    var preview_image = document.getElementById('preview_image')
-    $('#profile-pic').change(function (e) {
-        var image_type = URL.createObjectURL(e.target.files[0]);
-        console.log(image_type)
-        preview_image.setAttribute('src', image_type)
+// Showing image after select
+var preview_image = document.getElementById('preview_image')
+$('#profile-pic').change(function (e) {
+    var image_type = URL.createObjectURL(e.target.files[0]);
+    console.log(image_type)
+    preview_image.setAttribute('src', image_type)
 
-    })
+})
 
-    // Datatable plugin
-    $('#student-table').DataTable({
-        initComplete: function () {
-            let i = 1;
-            this.api()
-                .columns()
-                .every(function () {
-                    var column = this;
-                    var title = column.header().textContent;
+// Datatable plugin
+$('#student-table').DataTable({
+    initComplete: function () {
+        let i = 1;
+        this.api()
+            .columns()
+            .every(function () {
+                var column = this;
+                var title = column.header().textContent;
+
+                // Create input element and add event listener
+                $('<input type="text" placeholder="Search ' + title + '" />')
+                    .appendTo($(`.search-row-${i}`).empty())
+                    .on('keyup change clear', function () {
+                        if (column.search() !== this.value) {
+                            column.search(this.value).draw();
+                        }
+                    });
+
+                i++;
+            });
+    },
+    dom: 'lBfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
+    "aaSorting": []
+
+});
+
+// Password eye
+$(document).on("click", ".eye", function () {
+    $(this).addClass("fa-regular")
     
-                    // Create input element and add event listener
-                    $('<input type="text" placeholder="Search ' + title + '" />')
-                        .appendTo($(`.search-row-${i}`).empty())
-                        .on('keyup change clear', function () {
-                            if (column.search() !== this.value) {
-                                column.search(this.value).draw();
-                            }
-                        });
-
-                    i++;
-                });
-        },
-        dom: 'lBfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        "aaSorting": []
-
-    });
-
-    // Password eye
-    $(".eye").click(function() {
-        let name = $(this).attr('name')
-        if (name == "eye-outline") {
-            $(this).prev().attr("type", "text")
-            $(this).attr("name", "eye-off-outline")
-        } else {
-            $(this).prev().attr("type", "password")
-            $(this).attr("name", "eye-outline")
-        }
-    })
-
-    $(".modal form").submit(function (e) {
-        let prevent = false;
-        
-        $(".error-msg").html("")
-
-        $(".modal form input:not([type='hidden']):not([type='file']):not([type='password']):not([name='discount']), .modal form select, .modal form textarea").each(function(i, element) {
-            if ($(element).val() == "") {
-                prevent = true;
-                $(element).next().html("This field is required.")
-            }
-        });
-        
-        if ($("#cnic-bform-no").val().length != 13) {
-            prevent = true;
-            $("#cnic-bform-no").next().html("The CNIC or B-Form number must be 13 digits.")
-        }
-        if ($("#mobile-no").val().length != 11) {
-            prevent = true;
-            $("#mobile-no").next().html("The mobile number must be 11 digits.")
-        }
-
-        if ($("#password").val() == "" && $("#student-id").val() == "") {
-            prevent = true;
-            $("#password").next().next().html("This field is required.")        
-        } 
-        if ($("#confirm-password").val() == "" && $("#student-id").val() == "") {
-            prevent = true;
-            $("#confirm-password").next().next().html("This field is required.")        
-        } 
-        if ($("#password").val() !== $("#confirm-password").val()) {
-            prevent = true;
-            $("#confirm-password").next().next().html("The confirm password doesnot match with password.")
-        }
-
-        if (prevent) {
-            e.preventDefault()
-        }
-    })
-
-
-    // On hiding modal resetting form
-    $('#student-modal').on('hidden.bs.modal', function (e) {
-        $(".modal form").trigger("reset");
-        $("#preview_image").attr('src', "{{ asset('img/static/default_image-removebg-preview.png') }}")
-        $(".error-msg").html("")
-    });
-
-    // Manage rooms, seats and timing
-    var students = @json($students);
-    var rooms = @json($rooms);
-    
-    function seats(room, timing, callback) {
-
-        let total_seats;
-        rooms.forEach(element => {
-            if (element.id == room) {
-                total_seats = parseInt(element.seats);
-            }
-        });
-
-        let reserved_seats = []
-        students.forEach(student => {
-            if (student.student_data.room == room && student.student_data.timing == timing && student.student_data.status == "running") {
-                reserved_seats.push(parseInt(student.student_data.seat))
-            }
-        });
-
-
-        let option = '<option value="">-- Select Seat --</option>';
-        for (let i = 1; i <= total_seats; i++) {
-
-            if ($.inArray(i, reserved_seats) != -1) {
-                continue;
-            }
-            option += "<option value="+i+">"+i+"</option>"
-        }
-
-        $("#select-seat").html(option)
-
+    if ($(this).hasClass('fa-eye')) {
+        $(this).prev().attr("type", "text")
+        $(this).removeClass("fa-eye")
+        $(this).addClass("fa-eye-slash")
+    } else {
+        $(this).prev().attr("type", "password")
+        $(this).removeClass("fa-eye-slash")
+        $(this).addClass("fa-eye")
     }
-    $('#select-room, #select-timing').on('change', function () {
-        if ($('#select-timing').val() == "" || $("#select-room").val() == "") {
-            $("#select-seat").attr('disabled', 'disabled')
-        } else {
-            $("#select-seat").removeAttr('disabled')
-            seats($("#select-room").val(), $('#select-timing').val())
-        }
-    })
+})
 
-    // readying modal for add student
-    $("#add-student-btn").click(function() {
-        $(".modal-title").text("Add Student")
-        $(".modal form").attr('action', '{{ route("admin_panel.process_addStudent") }}')
-
-        let fields = `<div class="col-lg mb-3">
-                            <label for="first-name" class="form-label mb-1 required-label">Enter First Name</label>
-                            <input type="text" name="first_name" id="first-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('first_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter First Name" value="{{ old('first_name') }}">
-                            <div class="text-danger error-msg">@error('first_name') {{ $message }} @enderror</div>
-                        </div>
-                        <div class="col-lg mb-3">
-                            <label for="last-name" class="form-label mb-1 required-label">Enter Last Name</label>
-                            <input type="text" name="last_name" id="last-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('last_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Last Name" value="{{ old('last_name') }}">
-                            <div class="text-danger error-msg">@error('last_name') {{ $message }} @enderror</div>
-                        </div>`
-        $('.variable-row').html(fields)
-
-        $("#discount").prev().show()
-        $("#discount").show()
-    })
-
-    // Edit data, method
-    $(document).on('click', ".edit-btn", function () {
-        let student_id = $(this).data("student-id")
+$(".modal form").submit(function (e) {
+    let prevent = false;
     
-        
-        let profile_pic = $(this).data('student-profile_pic')
-        let name = $(this).data('student-name')
-        let father_name = $(this).data('student-father_name')
-        let course = $(this).data('student-course')
-        let cnic_bform_no = $(this).data('student-cnic_bform_no')
-        let date_of_birth = $(this).data('student-date_of_birth')
-        let email = $(this).data('student-email')
-        let mobile_no = $(this).data('student-mobile_no')
-        let address = $(this).data('student-address')
-        let password = $(this).data('student-password')
-        let room = $(this).data('student-room')
-        let timing = $(this).data('student-timing')
-        let seat = $(this).data('student-seat')
-        let shift = $(this).data('student-shift')
-        let exclude = $(this).data('student-exclude')
-        // let img_src = $(img_td_tag[0].children[0].children[0]).attr("src");
+    $(".error-msg").html("")
 
-        // Change modal for editting
-        $(".modal-title").text("Edit Student")
-        $(".modal form").attr('action', `{{ route("admin_panel.process_editStudent") }}`)
-        let fields = `<div class="col-lg mb-3">
-                            <label for="name" class="form-label mb-1 required-label">Enter Name</label>
-                            <input type="text" name="name" id="name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Name" value="{{ old('name') }}">
-                            <div class="text-danger error-msg">@error('name') {{ $message }} @enderror</div>
-                        </div>
-                        <div class="col-lg mb-3">
-                            <label for="email" class="form-label mb-1 required-label">Enter Email</label>
-                            <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('email') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Email" value="{{ old('email') }}">
-                            <div class="text-danger error-msg">@error('email') {{ $message }} @enderror</div>
-                        </div>`;
-        $('.variable-row').html(fields)
-
-        $('#student-id').val(student_id)
-
-        let src = profile_pic == "0" ? "{{ asset('img/static/default_image-removebg-preview.png') }}" : "{{ asset('storage') }}" + "/" + profile_pic;
-        $("#preview_image").attr('src', src)
-        $("#name").val(name)
-        $("#email").val(email)
-        $("#father-name").val(father_name)
-        $("#select-course").val(course)
-        $("#cnic-bform-no").val(cnic_bform_no)
-        $("#dob").val(date_of_birth)
-        $("#mobile-no").val(mobile_no)
-        $("#address").val(address)
-        $("#password").val(password)
-        $("#confirm-password").val(password)
-        $("#select-room").val(room)
-        $("#select-timing").val(timing)
-        $("#select-shift").val(shift)
-        exclude == "1" ? $("#exclude").prop("checked", true) : "";
-
-        $("#discount").prev().hide()
-        $("#discount").hide()
-
-        $("#select-seat").removeAttr('disabled')
-        seats(room, timing)
-        $("#select-seat").prepend("<option value='" + seat + "' selected>" + seat + "</option>");
-
-    })
-
-    // Delete data, method
-    $(document).on("click", ".del-btn", function () {
-        let student_id = $(this).data("student-id")
-        
-        fetch('/admin/students/process_destroyStudent/' + student_id).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            
-            if (result.success) {
-                $('button[data-student-id="' + student_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
-        
-    })
-
-    // Status change ajax
-    $(document).on("click", ".status-change-btn", function () {
-        let student_id = $(this).data("student-id")
-        let action = $(this).text()
-
-        fetch('/admin/students/process_statusChangeStudent/' + student_id + '/' + action).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            console.log(result)
-            if (result == 1) {
-                location.reload()
-            } else if (result.status == "seat not available") {
-                let html = `<div class="alert alert-danger d-flex align-items-center column-gap-2" role="alert">
-                                <ion-icon class="icon fs-4 md hydrated" name="alert-circle-outline" role="img"></ion-icon>
-                                <div>You can't resume this student because position of this student has been reserved by <b>${result.name}</b> with GR No. <b>${result.gr_no}</b></div>
-                            </div>`
-                // $(html).insertBefore('section')
-                $("#msg").html(html)
-                $('html, body').animate({scrollTop: 0}, 'slow');
-            }
-        })
-    })
-
-    // Show student data on index page
-    $(document).on("dblclick", "table tr", function(evt){
-        console.log($(this).data("student-id"));
-        
-        if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
-            return;             
-        }
-        let student_id = $(this).data("student-id");
-        if (student_id != undefined) {
-            window.open(`/admin/single_student/${student_id}`, '_blank');
+    $(".modal form input:not([type='hidden']):not([type='file']):not([type='password']):not([name='discount']), .modal form select, .modal form textarea").each(function(i, element) {
+        if ($(element).val() == "") {
+            prevent = true;
+            $(element).next().html("This field is required.")
         }
     });
+    
+    if ($("#cnic-bform-no").val().length != 13) {
+        prevent = true;
+        $("#cnic-bform-no").next().html("The CNIC or B-Form number must be 13 digits.")
+    }
+    if ($("#mobile-no").val().length != 11) {
+        prevent = true;
+        $("#mobile-no").next().html("The mobile number must be 11 digits.")
+    }
+
+    if ($("#password").val() == "" && $("#student-id").val() == "") {
+        prevent = true;
+        $("#password").next().next().html("This field is required.")        
+    } 
+    if ($("#confirm-password").val() == "" && $("#student-id").val() == "") {
+        prevent = true;
+        $("#confirm-password").next().next().html("This field is required.")        
+    } 
+    if ($("#password").val() !== $("#confirm-password").val()) {
+        prevent = true;
+        $("#confirm-password").next().next().html("The confirm password doesnot match with password.")
+    }
+
+    if (prevent) {
+        e.preventDefault()
+    }
+})
+
+
+// On hiding modal resetting form
+$('#student-modal').on('hidden.bs.modal', function (e) {
+    $(".modal form").trigger("reset");
+    $("#preview_image").attr('src', "{{ asset('img/static/default_image-removebg-preview.png') }}")
+    $(".error-msg").html("")
+});
+
+// Manage rooms, seats and timing
+var students = @json($students);
+var rooms = @json($rooms);
+
+function seats(room, timing, callback) {
+
+    let total_seats;
+    rooms.forEach(element => {
+        if (element.id == room) {
+            total_seats = parseInt(element.seats);
+        }
+    });
+
+    let reserved_seats = []
+    students.forEach(student => {
+        if (student.student_data.room == room && student.student_data.timing == timing && student.student_data.status == "running") {
+            reserved_seats.push(parseInt(student.student_data.seat))
+        }
+    });
+
+
+    let option = '<option value="">-- Select Seat --</option>';
+    for (let i = 1; i <= total_seats; i++) {
+
+        if ($.inArray(i, reserved_seats) != -1) {
+            continue;
+        }
+        option += "<option value="+i+">"+i+"</option>"
+    }
+
+    $("#select-seat").html(option)
+
+}
+$('#select-room, #select-timing').on('change', function () {
+    if ($('#select-timing').val() == "" || $("#select-room").val() == "") {
+        $("#select-seat").attr('disabled', 'disabled')
+    } else {
+        $("#select-seat").removeAttr('disabled')
+        seats($("#select-room").val(), $('#select-timing').val())
+    }
+})
+
+// readying modal for add student
+$("#add-student-btn").click(function() {
+    $(".modal-title").text("Add Student")
+    $(".modal form").attr('action', '{{ route("admin_panel.process_addStudent") }}')
+
+    let fields = `<div class="col-lg mb-3">
+                        <label for="first-name" class="form-label mb-1 required-label">Enter First Name</label>
+                        <input type="text" name="first_name" id="first-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('first_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter First Name" value="{{ old('first_name') }}">
+                        <div class="text-danger error-msg">@error('first_name') {{ $message }} @enderror</div>
+                    </div>
+                    <div class="col-lg mb-3">
+                        <label for="last-name" class="form-label mb-1 required-label">Enter Last Name</label>
+                        <input type="text" name="last_name" id="last-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('last_name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Last Name" value="{{ old('last_name') }}">
+                        <div class="text-danger error-msg">@error('last_name') {{ $message }} @enderror</div>
+                    </div>`
+    $('.variable-row').html(fields)
+
+    $("#discount").prev().show()
+    $("#discount").show()
+
+    // Opening modal from here so that html content can be load before opening
+    const myModal = new bootstrap.Modal('#student-modal')
+    const modalToggle = document.getElementById('student-modal');
+    myModal.show(modalToggle)
+})
+
+// Edit data, method
+$(document).on('click', ".edit-btn", function () {
+    let student_id = $(this).data("student-id")
+
+    
+    let profile_pic = $(this).data('student-profile_pic')
+    let name = $(this).data('student-name')
+    let father_name = $(this).data('student-father_name')
+    let course = $(this).data('student-course')
+    let cnic_bform_no = $(this).data('student-cnic_bform_no')
+    let date_of_birth = $(this).data('student-date_of_birth')
+    let email = $(this).data('student-email')
+    let mobile_no = $(this).data('student-mobile_no')
+    let address = $(this).data('student-address')
+    let password = $(this).data('student-password')
+    let room = $(this).data('student-room')
+    let timing = $(this).data('student-timing')
+    let seat = $(this).data('student-seat')
+    let shift = $(this).data('student-shift')
+    let exclude = $(this).data('student-exclude')
+    // let img_src = $(img_td_tag[0].children[0].children[0]).attr("src");
+
+    // Change modal for editting
+    $(".modal-title").text("Edit Student")
+    $(".modal form").attr('action', `{{ route("admin_panel.process_editStudent") }}`)
+    let fields = `<div class="col-lg mb-3">
+                        <label for="name" class="form-label mb-1 required-label">Enter Name</label>
+                        <input type="text" name="name" id="name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('name') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Name" value="{{ old('name') }}">
+                        <div class="text-danger error-msg">@error('name') {{ $message }} @enderror</div>
+                    </div>
+                    <div class="col-lg mb-3">
+                        <label for="email" class="form-label mb-1 required-label">Enter Email</label>
+                        <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 {{ $errors->has('email') ? 'is-invalid' : 'border-dark-subtle' }}" placeholder="Enter Email" value="{{ old('email') }}">
+                        <div class="text-danger error-msg">@error('email') {{ $message }} @enderror</div>
+                    </div>`;
+    $('.variable-row').html(fields)
+
+    $('#student-id').val(student_id)
+
+    let src = profile_pic == "0" ? "{{ asset('img/static/default_image-removebg-preview.png') }}" : "{{ asset('storage') }}" + "/" + profile_pic;
+    $("#preview_image").attr('src', src)
+    $("#name").val(name)
+    $("#email").val(email)
+    $("#father-name").val(father_name)
+    $("#select-course").val(course)
+    $("#cnic-bform-no").val(cnic_bform_no)
+    $("#dob").val(date_of_birth)
+    $("#mobile-no").val(mobile_no)
+    $("#address").val(address)
+    $("#password").val(password)
+    $("#confirm-password").val(password)
+    $("#select-room").val(room)
+    $("#select-timing").val(timing)
+    $("#select-shift").val(shift)
+    exclude == "1" ? $("#exclude").prop("checked", true) : "";
+
+    $("#discount").prev().hide()
+    $("#discount").hide()
+
+    $("#select-seat").removeAttr('disabled')
+    seats(room, timing)
+    $("#select-seat").prepend("<option value='" + seat + "' selected>" + seat + "</option>");
+
+})
+
+// Delete data, method
+$(document).on("click", ".del-btn", function () {
+    let student_id = $(this).data("student-id")
+    
+    fetch('/admin/students/process_destroyStudent/' + student_id).then(function (response) {
+        return response.json()
+    }).then(function (result) {
+        
+        if (result.success) {
+            $('button[data-student-id="' + student_id + '"]').closest('tr').remove();
+        } else {
+            console.log(result);
+        }
+    })
+    
+})
+
+// Status change ajax
+$(document).on("click", ".status-change-btn", function () {
+    let student_id = $(this).data("student-id")
+    let action = $(this).text()
+
+    fetch('/admin/students/process_statusChangeStudent/' + student_id + '/' + action).then(function (response) {
+        return response.json()
+    }).then(function (result) {
+        console.log(result)
+        if (result == 1) {
+            location.reload()
+        } else if (result.status == "seat not available") {
+            let html = `<div class="alert alert-danger d-flex align-items-center column-gap-2" role="alert">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <div>You can't resume this student because position of this student has been reserved by <b>${result.name}</b> with GR No. <b>${result.gr_no}</b></div>
+                        </div>`
+            // $(html).insertBefore('section')
+            $("#msg").html(html)
+            $('html, body').animate({scrollTop: 0}, 'slow');
+        }
+    })
+})
+
+// Show student data on index page
+$(document).on("dblclick", "table tr", function(evt){
+    console.log($(this).data("student-id"));
+    
+    if($(evt.target).closest('.profile-pic-td, .action-btns, .before-action-btns').length) {
+        return;             
+    }
+    let student_id = $(this).data("student-id");
+    if (student_id != undefined) {
+        window.open(`/admin/single_student/${student_id}`, '_blank');
+    }
+});
 </script>
     
     
