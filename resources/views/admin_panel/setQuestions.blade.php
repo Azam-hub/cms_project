@@ -115,13 +115,12 @@
                             <tr>
                                 <td>{{ $questions_count }}.</td>
                                 <td>{{ $question->question }}</td>
-                                <td>{{ $question->options->correct_option }}</td>
+                                <td class="text-break">{{ $question->options->correct_option }}</td>
                                 <td>
                                     <ul>
-                                        <li>{{ json_decode($question->options->other_options)[0] }}</li>
-                                        <li>{{ json_decode($question->options->other_options)[1] }}</li>
-                                        <li>{{ json_decode($question->options->other_options)[2] }}</li>
-                                        {{-- <li>{{($question->options->other_options)}}</li> --}}
+                                        <li class="text-break">{{ json_decode($question->options->other_options)[0] }}</li>
+                                        <li class="text-break">{{ json_decode($question->options->other_options)[1] }}</li>
+                                        <li class="text-break">{{ json_decode($question->options->other_options)[2] }}</li>
                                     </ul>
                                 </td>
                                 <td class="text-center">
@@ -223,22 +222,22 @@ $(".edit-btn").click(function () {
     })
 
     $(".del-btn").click(function () {
-        let confirm = window.confirm(`Are you sure you want to delete this question.`)
+        let question_id = $(this).data("question-id")
 
-        if (confirm) {
-            let question_id = $(this).data("question-id")
-            
-            fetch('/admin/set_questions/process_destroyQuestion/' + question_id).then(function (response) {
-                return response.json()
-            }).then(function (result) {
-                
-                if (result.success) {
-                    $('button[data-question-id="' + question_id + '"]').closest('tr').remove();
-                } else {
-                    console.log(result);
-                }
-            })
-        }
+        custom_confirm(`Are you sure you want to delete this question?`, function(confirm) {
+            if (confirm) {
+                fetch('/admin/set_questions/process_destroyQuestion/' + question_id).then(function (response) {
+                    return response.json()
+                }).then(function (result) {
+                    
+                    if (result.success) {
+                        $('button[data-question-id="' + question_id + '"]').closest('tr').remove();
+                    } else {
+                        console.log(result);
+                    }
+                })
+            }
+        });
 
     })
 

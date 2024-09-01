@@ -1,112 +1,3 @@
-/* .main-container {
-    display: flex;
-    min-height: 100vh;
-}
-
-.sidebar {
-    flex-basis: 20vw;
-    background-color: rgb(189, 189, 189);
-    padding: 14px 12px;
-}
-
-.sidebar .head {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.sidebar .head img {
-    width: 56px;
-}
-
-.sidebar .head a {
-    color: #000;
-    text-decoration: none;
-}
-
-.sidebar .parts {
-    margin-top: 30px;
-}
-
-.sidebar .parts .part {
-    margin-top: 4px;
-}
-
-.sidebar .parts .part a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 6px;
-    color: #000;
-    transition: .2s;
-}
-.sidebar .parts .part a:hover {
-    color: #fff;
-    background-color: #000;
-}
-
-.sidebar .parts .part h3 {
-    margin-left: 10px;
-    margin-top: 7px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.sidebar .parts .part h3 i {
-    margin-right: 5px;
-    font-size: 16px;
-    transition: .25s;
-}
-.sidebar .parts .part h3 i.active {
-    transform: rotate(90deg);
-}
-
-.sidebar .parts .part .links {
-    margin: 6px 0 0 10px;
-    display: none;
-}
-
-
-
-
-.section {
-    height: 100%;
-    flex-basis: 80vw;
-    padding: 0 12px;
-}
-
-.section .head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 10px;
-    position: relative;
-}
-.section .head::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #000;
-
-}
-
-.section .head .left h1 {
-    letter-spacing: 1px;
-    font-size: 42px;
-    font-family: 'Abril Fatface', cursive;
-}
-
-.section .head .middle .name {
-    font-size: 19px;
-} */
-
-
-
-
 
 /* ----------------------- Sidebar START ------------------------ */
 
@@ -157,6 +48,7 @@
 
 .placeholder {
     background-color: #fff;
+    transition: .3s;
 }
 
 .sidebar + .placeholder {
@@ -206,6 +98,40 @@
 .link-section .links a:hover {
     color: #e4e4e4;
     background-color: #f43e3e;
+}
+
+.link-section .head.active {
+    background-color: #f8f9fa;
+    position: relative;
+}
+.link-section .head.active * {
+    color: #000 !important;
+
+}
+.link-section .head.active::before {
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    z-index: 100;
+    right: -4px;
+    top: -35px;
+    border-radius: 50%;
+    box-shadow: 24px 19px 0 4px #f8f9fa;
+    
+}
+.link-section .head.active::after {
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    z-index: 100;
+    right: -4px;
+    bottom: -35px;
+    border-radius: 50%;
+    box-shadow: 24px -19px 0 4px #f8f9fa;
 }
 
 .link-section .head .chevron {

@@ -2,7 +2,6 @@
 
 // Messages FUnctions
 
-use App\Models\User;
 
 function success_msg($msg) {
     $text = '<div class="alert alert-success d-flex align-items-center column-gap-2" role="alert">

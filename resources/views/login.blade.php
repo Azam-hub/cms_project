@@ -55,60 +55,60 @@
                 </div>
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label for="first-name" class="form-label mb-1">Enter First Name</label>
+                        <label for="first-name" class="form-label mb-1 required-label">Enter First Name</label>
                         <input type="text" name="first_name" id="first-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('first-name') is-invalid @enderror" placeholder="Enter First Name" value="{{ old('first_name') }}">
                         <div class="text-danger error-msg">@error('first_name') {{ $message }} @enderror</div>
                     </div>
                     <div class="col-md mb-3">
-                        <label for="last-name" class="form-label mb-1">Enter Last Name</label>
+                        <label for="last-name" class="form-label mb-1 required-label">Enter Last Name</label>
                         <input type="text" name="last_name" id="last-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('last-name') is-invalid @enderror" placeholder="Enter Last Name" value="{{ old('last_name') }}">
                         <div class="text-danger error-msg">@error('last_name') {{ $message }} @enderror</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label for="father-name" class="form-label mb-1">Enter Father Name</label>
+                        <label for="father-name" class="form-label mb-1 required-label">Enter Father Name</label>
                         <input type="text" name="father_name" id="father-name" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('father-name') is-invalid @enderror" placeholder="Enter Father Name" value="{{ old('father_name') }}">
                         <div class="text-danger error-msg">@error('father_name') {{ $message }} @enderror</div>
                     </div>
                     <div class="col-md mb-3">
-                        <label for="cnic-bform-no" class="form-label mb-1">Enter CNIC/B-Form No (without <b>-</b>)</label>
+                        <label for="cnic-bform-no" class="form-label mb-1 required-label">Enter CNIC/B-Form No (without <b>-</b>)</label>
                         <input type="number" name="cnic_bform_no" id="cnic-bform-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('cnic-bform-no') is-invalid @enderror" placeholder="Enter CNIC/B-Form No." value="{{ old('cnic_bform_no') }}">
                         <div class="text-danger error-msg">@error('cnic_bform_no') {{ $message }} @enderror</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label for="dob" class="form-label mb-1">Enter Date of Birth</label>
+                        <label for="dob" class="form-label mb-1 required-label">Enter Date of Birth</label>
                         <input type="date" name="dob" id="dob" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('dob') is-invalid @enderror" value="{{ old('dob') }}">
                         <div class="text-danger error-msg">@error('dob') {{ ($message == 'The dob field is required.' ? "The date of birth is required." : $message) }} @enderror</div>
                     </div>
                     {{-- <div class="col-md mb-3">
-                        <label for="email" class="form-label mb-1">Enter Email ID</label>
+                        <label for="email" class="form-label mb-1 required-label">Enter Email ID</label>
                         <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1" placeholder="Enter Email ID">
                     </div> --}}
 
                     <div class="col-md mb-3">
-                        <label for="mobile-no" class="form-label mb-1">Enter Mobile No</label>
+                        <label for="mobile-no" class="form-label mb-1 required-label">Enter Mobile No</label>
                         <input type="number" name="mobile_no" id="mobile-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('mobile-no') is-invalid @enderror" placeholder="Enter Mobile No." value="{{ old('mobile_no') }}">
                         <div class="text-danger error-msg">@error('mobile_no') {{ $message }} @enderror</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label for="address" class="form-label mb-1">Enter Address</label>
+                        <label for="address" class="form-label mb-1 required-label">Enter Address</label>
                         <textarea name="address" id="address" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('address') is-invalid @enderror" placeholder="Enter Address" >{{ old("address") }}</textarea>
                         <div class="text-danger error-msg">@error('address') {{ $message }} @enderror</div>
                     </div>
                     <!-- <div class="col-md mb-3">
-                        <label for="email" class="form-label mb-1"></label>
+                        <label for="email" class="form-label mb-1 required-label"></label>
                         <input type="email" name="email" id="email" class="w-100 form-control shadow-sm py-2 rounded-3 border-1" placeholder="Enter your Email">
                     </div> -->
                 </div>
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label for="password" class="form-label mb-1">Enter Password</label>
+                        <label for="password" class="form-label mb-1 required-label">Enter Password</label>
                         <div class="position-relative">
                             <input type="password" name="password" id="password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('password') is-invalid @enderror" placeholder="Enter Password">
                             <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="col-md mb-3">
-                        <label for="confirm-password" class="form-label mb-1">Enter Confirm Password</label>
+                        <label for="confirm-password" class="form-label mb-1 required-label">Enter Confirm Password</label>
                         <div class="position-relative">
                             <input type="password" name="password_confirmation" id="confirm-password" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 @error('password_confirmation') is-invalid @enderror" placeholder="Enter Confirm Password">
                             <i class="fa-regular fa-eye eye cursor-pointer position-absolute top-50 end-0 translate-middle fs-5"></i>
@@ -138,43 +138,11 @@
             <div class="row justify-content-center align-items-center mb-4">
                 <img src="img/static/logo.png" class="logo w-50" alt="">
             </div>
-            {{-- <div class="row mb-4 px-3">
-                <div class="switch d-flex rounded-4 px-0 position-relative border border-1 border-light">
-                    <div class="background w-50 h-100 rounded-4 z-n1 position-absolute"></div>
-                    <div class="col px-0">
-                        <div class="student-btn text-center py-2 cursor-pointer fw-semibold text-light">Student</div>
-                    </div>
-                    <div class="col px-0">
-                        <div class="admin-btn text-center py-2 cursor-pointer fw-semibold">Admin</div>
-                    </div>
-                </div>
-            </div> --}}
             <div class="row mb-3">
                 <h4 class="head ">Login</h4>
             </div>
 
-            <!-- Student Form -->
-            {{-- <form method="POST" id="student-form">
-                <div class="row mb-3">
-                    <div class="col">
-                        <label for="cnic" class="form-label mb-1">CNIC/B-Form No.</label>
-                        <input type="text" name="cnic-bform-no" id="cnic" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle" placeholder="Enter your CNIC/B-Form No.">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <label for="gr-no" class="form-label mb-1">G.R. No.</label>
-                        <input type="text" name="gr-no" id="gr-no" class="w-100 form-control shadow-sm py-2 rounded-3 border-1 border-dark-subtle" placeholder="Enter your G.R. No.">
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col ">
-                        <button type="submit" name="student-submit" class="btn btn-primary w-100 rounded-4">Login</button>
-                    </div>
-                </div>
-            </form> --}}
-
-            <!-- Admin Form -->
+            <!-- Login Form -->
             <form action="{{ route("account.process_login") }}" method="POST" id="admin-form">
                 @csrf
                 <div class="row mb-3">

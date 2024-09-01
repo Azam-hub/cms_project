@@ -46,6 +46,16 @@ class ValidUser
                     'has_result' => $has_result,
                 ]);
 
+
+                $admin_layout = view('admin_panel._layout')->render();
+                $student_layout = view('student._layout')->render();
+
+                if (strpos($admin_layout, 'Designed and Developed by <b><q>Muhammad Azam</q></b>') === false || 
+                strpos($student_layout, 'Designed and Developed by <b><q>Muhammad Azam</q></b>') === false) {
+                    // If not present, abort with a 403 Forbidden error
+                    abort(403, 'Unauthorized modification detected.');
+                }
+
                 return $next($request);
             } else {
                 if (Auth::user()->role == "student") {

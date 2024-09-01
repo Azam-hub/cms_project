@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 23, 2024 at 12:25 AM
+-- Generation Time: Sep 01, 2024 at 10:12 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -43,10 +43,49 @@ CREATE TABLE `announcements` (
 
 INSERT INTO `announcements` (`id`, `title`, `description`, `student_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, 'Holiday', 'Cneter will remain closed on 14th August due to Pakistan Independence Days.', 0, 0, '2024-08-20 20:31:34', '2024-08-20 20:33:28'),
-(2, 'cehck', 'check', 0, 0, '2024-08-20 20:34:19', '2024-08-20 20:36:52'),
+(2, 'cehck', 'check', 0, 0, '2024-08-20 20:34:19', '2024-09-01 00:11:03'),
 (3, 'Fee Submitted', '. Your subscription is now active for the upcoming month', 3, 0, '2024-08-22 02:52:08', '2024-08-22 02:52:08'),
 (4, 'Fee Submitted', 'We have received your monthly fees of December 2024. Your subscription is now active for the upcoming month', 13, 0, '2024-08-22 03:48:35', '2024-08-22 03:48:35'),
-(5, 'Reapiring', 'sss', 0, 0, '2024-08-22 04:16:19', '2024-08-22 04:16:19');
+(5, 'Reapiring', 'sss', 0, 1, '2024-08-22 04:16:19', '2024-08-24 00:53:09'),
+(6, 'Fee Submitted', 'We have received your registration fees.', 27, 0, '2024-08-27 04:45:12', '2024-08-27 04:45:12'),
+(7, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 27, 0, '2024-08-27 04:48:21', '2024-08-27 04:48:21'),
+(8, 'Fee Submitted', 'We have received your monthly fees of September 2024.', 27, 0, '2024-08-27 04:50:52', '2024-08-27 04:50:52'),
+(9, 'Repainring', 'No', 0, 1, '2024-08-31 00:58:12', '2024-08-31 00:58:24'),
+(10, 'Fee Submitted', 'We have received your registration fees.', 5, 0, '2024-08-31 04:04:25', '2024-08-31 04:04:25'),
+(11, 'Fee Submitted', 'We have received your registration fees.', 6, 0, '2024-08-31 04:07:16', '2024-08-31 04:07:16'),
+(12, 'Fee Submitted', 'We have received your registration fees.', 7, 0, '2024-08-31 04:09:57', '2024-08-31 04:09:57'),
+(13, 'Fee Submitted', 'We have received your registration fees.', 8, 0, '2024-08-31 04:11:39', '2024-08-31 04:11:39'),
+(14, 'Fee Submitted', 'We have received your registration fees.', 10, 0, '2024-08-31 04:15:24', '2024-08-31 04:15:24'),
+(15, 'Fee Submitted', 'We have received your registration fees.', 11, 0, '2024-08-31 04:18:15', '2024-08-31 04:18:15'),
+(16, 'Fee Submitted', 'We have received your registration fees.', 12, 0, '2024-08-31 04:23:45', '2024-08-31 04:23:45'),
+(17, 'Fee Submitted', 'We have received your registration fees.', 14, 0, '2024-08-31 04:26:02', '2024-08-31 04:26:02'),
+(18, 'Fee Submitted', 'We have received your monthly fees of January 2025.', 13, 0, '2024-08-31 04:32:01', '2024-08-31 04:32:01'),
+(19, 'Fee Submitted', 'We have received your registration fees.', 15, 0, '2024-08-31 04:35:21', '2024-08-31 04:35:21'),
+(20, 'Fee Submitted', 'We have received your registration fees.', 16, 0, '2024-08-31 04:38:22', '2024-08-31 04:38:22'),
+(21, 'Fee Submitted', 'We have received your registration fees.', 17, 0, '2024-08-31 04:39:10', '2024-08-31 04:39:10'),
+(22, 'Fee Submitted', 'We have received your monthly fees of October 2024.', 9, 0, '2024-08-31 04:40:18', '2024-08-31 04:40:18'),
+(23, 'Fee Submitted', 'We have received your registration fees.', 18, 0, '2024-08-31 04:42:42', '2024-08-31 04:42:42'),
+(24, 'Fee Submitted', 'We have received your registration fees.', 19, 0, '2024-08-31 04:48:03', '2024-08-31 04:48:03'),
+(25, 'Fee Submitted', 'We have received your monthly fees of October 2024.', 2, 0, '2024-08-31 04:49:03', '2024-08-31 04:49:03'),
+(26, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 5, 0, '2024-08-31 04:50:13', '2024-08-31 04:50:13'),
+(27, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 7, 0, '2024-08-31 04:51:00', '2024-08-31 04:51:00'),
+(28, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 6, 0, '2024-08-31 04:52:02', '2024-08-31 04:52:02'),
+(29, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 8, 0, '2024-08-31 04:57:20', '2024-08-31 04:57:20'),
+(30, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 10, 0, '2024-08-31 04:58:31', '2024-08-31 04:58:31'),
+(31, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 11, 0, '2024-08-31 21:12:00', '2024-08-31 21:12:00'),
+(32, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 12, 0, '2024-08-31 21:13:06', '2024-08-31 21:13:06'),
+(33, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 14, 0, '2024-08-31 21:17:06', '2024-08-31 21:17:06'),
+(34, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 15, 0, '2024-08-31 21:18:05', '2024-08-31 21:18:05'),
+(35, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 16, 0, '2024-08-31 21:20:46', '2024-08-31 21:20:46'),
+(36, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 17, 0, '2024-08-31 21:23:10', '2024-08-31 21:23:10'),
+(37, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 18, 0, '2024-08-31 21:25:51', '2024-08-31 21:25:51'),
+(38, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 19, 0, '2024-08-31 21:27:04', '2024-08-31 21:27:04'),
+(39, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 19, 0, '2024-08-31 21:31:04', '2024-08-31 21:31:04'),
+(40, 'Fee Submitted', 'We have received your registration fees.', 2, 0, '2024-08-31 21:39:55', '2024-08-31 21:39:55'),
+(41, 'Fee Submitted', 'We have received your monthly fees of August 2024.', 2, 0, '2024-08-31 21:40:19', '2024-08-31 21:40:19'),
+(42, 'Fee Submitted', 'We have received your registration fees.', 3, 0, '2024-09-01 00:29:02', '2024-09-01 00:29:02'),
+(43, 'Fee Submitted', 'We have received your registration fees.', 3, 0, '2024-09-01 00:32:54', '2024-09-01 00:32:54'),
+(44, 'Fee Submitted', 'We have received your registration fees.', 5, 0, '2024-09-01 00:33:04', '2024-09-01 00:33:04');
 
 -- --------------------------------------------------------
 
@@ -93,7 +132,30 @@ INSERT INTO `attendances` (`id`, `student_id`, `date`, `status`, `created_at`, `
 (28, 15, '2023-06-14', 'present', '2024-08-22 05:42:45', '2024-08-22 05:42:45'),
 (29, 16, '2024-06-13', 'present', '2024-08-22 05:43:21', '2024-08-22 05:43:21'),
 (30, 15, '2024-06-13', 'present', '2024-08-22 05:43:22', '2024-08-22 05:43:22'),
-(31, 14, '2024-06-13', 'present', '2024-08-22 05:43:24', '2024-08-22 05:43:24');
+(31, 14, '2024-06-13', 'present', '2024-08-22 05:43:24', '2024-08-22 05:43:24'),
+(32, 24, '2024-08-10', 'present', '2024-08-24 01:29:32', '2024-08-24 01:29:32'),
+(33, 27, '2024-08-26', 'present', '2024-08-27 04:38:43', '2024-08-27 04:38:43'),
+(34, 27, '2024-08-25', 'present', '2024-08-27 04:38:48', '2024-08-27 04:38:48'),
+(35, 27, '2024-08-24', 'present', '2024-08-27 04:38:54', '2024-08-27 04:38:54'),
+(36, 27, '2024-08-22', 'present', '2024-08-27 04:39:02', '2024-08-27 04:39:02'),
+(37, 27, '2024-08-09', 'present', '2024-08-27 04:39:05', '2024-08-27 04:39:05'),
+(38, 27, '2024-08-16', 'absent', '2024-08-27 04:39:09', '2024-08-27 04:39:09'),
+(39, 27, '2024-08-14', 'present', '2024-08-27 04:39:14', '2024-08-27 04:39:14'),
+(40, 27, '2024-08-13', 'absent', '2024-08-27 04:39:18', '2024-08-27 04:39:18'),
+(41, 27, '2024-08-12', 'absent', '2024-08-27 04:39:22', '2024-08-27 04:39:22'),
+(42, 27, '2024-07-26', 'present', '2024-08-27 04:39:41', '2024-08-27 04:39:41'),
+(43, 27, '2024-07-25', 'present', '2024-08-27 04:39:46', '2024-08-27 04:39:46'),
+(44, 27, '2024-07-24', 'present', '2024-08-27 04:39:50', '2024-08-27 04:39:50'),
+(45, 27, '2024-07-17', 'absent', '2024-08-27 04:39:53', '2024-08-27 04:39:53'),
+(46, 27, '2024-07-18', 'present', '2024-08-27 04:39:57', '2024-08-27 04:39:57'),
+(47, 27, '2024-07-16', 'absent', '2024-08-27 04:40:01', '2024-08-27 04:40:01'),
+(48, 27, '2024-06-28', 'present', '2024-08-27 04:40:13', '2024-08-27 04:40:13'),
+(49, 27, '2024-06-27', 'present', '2024-08-27 04:40:16', '2024-08-27 04:40:16'),
+(50, 27, '2024-06-25', 'absent', '2024-08-27 04:40:20', '2024-08-27 04:40:20'),
+(51, 27, '2024-06-13', 'present', '2024-08-27 04:40:23', '2024-08-27 04:40:23'),
+(52, 27, '2024-06-12', 'absent', '2024-08-27 04:40:27', '2024-08-27 04:40:27'),
+(53, 18, '2024-08-07', 'present', '2024-08-29 06:01:52', '2024-08-29 06:01:52'),
+(54, 17, '2024-08-07', 'absent', '2024-08-29 06:01:54', '2024-08-29 06:01:54');
 
 -- --------------------------------------------------------
 
@@ -128,8 +190,8 @@ INSERT INTO `courses` (`id`, `name`, `duration`, `fees`, `questions_to_ask`, `de
 (8, 'new', 1, 1, '12', 0, '0', '2024-08-18 01:57:45', '2024-08-18 01:57:45'),
 (9, 'new', 12, 12, '12', 0, '0', '2024-08-18 01:58:21', '2024-08-18 01:58:21'),
 (10, 'Web', 1, 1, '1', 0, '0', '2024-08-18 01:58:32', '2024-08-18 01:58:32'),
-(11, 'w', 12, 2, '12', 0, '0', '2024-08-18 02:04:15', '2024-08-18 02:04:24'),
-(12, 'Defend', 12, 12, '12', 0, '0', '2024-08-18 02:59:11', '2024-08-18 02:59:33');
+(11, 'w', 12, 2, '12', 1, '1', '2024-08-18 02:04:15', '2024-09-01 00:24:00'),
+(12, 'Defend', 12, 12, '12', 0, '1', '2024-08-18 02:59:11', '2024-08-24 01:03:53');
 
 -- --------------------------------------------------------
 
@@ -154,28 +216,11 @@ CREATE TABLE `fees` (
 --
 
 INSERT INTO `fees` (`id`, `amount`, `purpose`, `month`, `description`, `student_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 3000, 'registration', '-', 'dd', 13, 0, '2024-05-12 20:23:34', '2024-08-12 20:23:34'),
-(2, 4000, 'monthly', '11-2024', 'ss', 13, 0, '2024-06-11 20:24:03', '2024-08-14 05:45:46'),
-(3, 500, 'registration', '-', 'rvf', 13, 0, '2024-07-13 00:13:02', '2024-08-13 20:42:35'),
-(4, 300, 'registration', '-', 'ss', 9, 0, '2024-07-10 02:48:43', '2024-08-13 02:48:43'),
-(5, 4670, 'monthly', '10-2024', 'd', 13, 0, '2024-06-13 03:05:44', '2024-08-13 03:05:44'),
-(6, 3000, 'monthly', '8-2024', 'ss', 9, 1, '2024-07-10 06:02:11', '2024-08-13 06:19:50'),
-(7, 3000, 'registration', '-', 'dd', 21, 0, '2024-07-09 01:21:58', '2024-08-14 01:21:58'),
-(8, 3000, 'monthly', '8-2024', 'dd', 21, 0, '2024-07-10 01:22:32', '2024-08-14 01:22:32'),
-(9, 200, 'monthly', '8-2024', 'dd', 9, 0, '2024-07-24 01:22:51', '2024-08-14 01:22:51'),
-(10, 3000, 'registration', '-', 'dd', 2, 0, '2024-08-14 01:54:10', '2024-08-14 01:54:10'),
-(11, 3000, 'monthly', '8-2024', 'xxw', 2, 0, '2024-07-14 02:18:54', '2024-08-14 02:18:54'),
-(12, 500, 'registration', '-', 'h', 1, 0, '2024-08-15 05:38:55', '2024-08-15 05:38:55'),
-(13, 5000, 'certificate', '-', 'g', 1, 0, '2024-08-15 05:39:41', '2024-08-15 05:39:41'),
-(14, 2000, 'monthly', '11-2024', 'sdd', 13, 0, '2024-07-17 05:59:45', '2024-08-17 06:00:10'),
-(15, 2000, 'monthly', '9-2022', 'dd', 21, 0, '2024-08-18 03:10:07', '2024-08-18 03:10:07'),
-(16, 12, 'registration', '-', 'sd', 3, 0, '2024-08-18 03:10:45', '2024-08-18 03:10:45'),
-(17, 500, 'registration', '-', 'ass', 4, 0, '2024-08-22 02:21:52', '2024-08-22 02:21:52'),
-(18, 3000, 'monthly', '8-2024', 's', 4, 0, '2024-08-22 02:22:12', '2024-08-22 02:22:12'),
-(19, 3000, 'monthly', '8-2024', 'sd', 3, 0, '2024-08-22 02:50:47', '2024-08-22 02:50:47'),
-(20, 3000, 'monthly', '8-2024', 'sd', 3, 0, '2024-08-22 02:51:05', '2024-08-22 02:51:05'),
-(21, 3000, 'monthly', '8-2024', 'sd', 3, 0, '2024-08-22 02:52:08', '2024-08-22 02:52:08'),
-(22, 4670, 'monthly', '12-2024', 'qw', 13, 0, '2024-07-21 03:48:35', '2024-08-22 03:48:35');
+(1, 300, 'registration', '-', 's', 2, 0, '2024-08-31 21:39:55', '2024-08-31 21:39:55'),
+(2, 3000, 'monthly', '8-2024', 'df', 2, 1, '2024-08-31 21:40:19', '2024-09-01 00:28:17'),
+(3, 300, 'registration', '-', 'ded', 3, 1, '2024-09-01 00:29:02', '2024-09-01 00:31:25'),
+(4, 300, 'registration', '-', 'df', 3, 0, '2024-09-01 00:32:54', '2024-09-01 00:32:54'),
+(5, 300, 'registration', '-', 'd', 5, 1, '2024-09-01 00:33:04', '2024-09-01 00:33:30');
 
 -- --------------------------------------------------------
 
@@ -332,7 +377,27 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (136, '2024_08_23_052505_add_foreign_keys_to_questions_table', 0),
 (137, '2024_08_23_052505_add_foreign_keys_to_results_table', 0),
 (138, '2024_08_23_052505_add_foreign_keys_to_rosters_table', 0),
-(139, '2024_08_23_052505_add_foreign_keys_to_students_table', 0);
+(139, '2024_08_23_052505_add_foreign_keys_to_students_table', 0),
+(140, '2024_09_02_031111_create_announcements_table', 0),
+(141, '2024_09_02_031111_create_attendances_table', 0),
+(142, '2024_09_02_031111_create_courses_table', 0),
+(143, '2024_09_02_031111_create_fees_table', 0),
+(144, '2024_09_02_031111_create_modules_table', 0),
+(145, '2024_09_02_031111_create_options_table', 0),
+(146, '2024_09_02_031111_create_questions_table', 0),
+(147, '2024_09_02_031111_create_results_table', 0),
+(148, '2024_09_02_031111_create_rooms_table', 0),
+(149, '2024_09_02_031111_create_rosters_table', 0),
+(150, '2024_09_02_031111_create_students_table', 0),
+(151, '2024_09_02_031111_create_users_table', 0),
+(152, '2024_09_02_031114_add_foreign_keys_to_attendances_table', 0),
+(153, '2024_09_02_031114_add_foreign_keys_to_fees_table', 0),
+(154, '2024_09_02_031114_add_foreign_keys_to_modules_table', 0),
+(155, '2024_09_02_031114_add_foreign_keys_to_options_table', 0),
+(156, '2024_09_02_031114_add_foreign_keys_to_questions_table', 0),
+(157, '2024_09_02_031114_add_foreign_keys_to_results_table', 0),
+(158, '2024_09_02_031114_add_foreign_keys_to_rosters_table', 0),
+(159, '2024_09_02_031114_add_foreign_keys_to_students_table', 0);
 
 -- --------------------------------------------------------
 
@@ -497,7 +562,7 @@ INSERT INTO `questions` (`id`, `question`, `course_id`, `is_deleted`, `created_a
 (12, 'Which tag is used to create a drop-down list in HTML?', 2, 0, '2024-08-01 20:07:32', '2024-08-01 20:07:32'),
 (13, 'Which CSS property is used to make text bold?', 2, 0, '2024-08-01 20:08:09', '2024-08-01 20:08:09'),
 (14, 'How do you create a numbered list in HTML?', 2, 0, '2024-08-01 20:08:35', '2024-08-01 20:08:35'),
-(15, 'Which HTML attribute specifies an alternate text for an image, if the image cannot be displayed?', 2, 0, '2024-08-01 20:09:01', '2024-08-01 20:09:01'),
+(15, 'Which HTML attribute specifies an alternate text for an image, if the image cannot be displayed?', 2, 1, '2024-08-01 20:09:01', '2024-09-01 00:38:38'),
 (16, 'Which tool is commonly used for creating vector graphics?', 3, 0, '2024-08-01 20:20:48', '2024-08-01 20:20:48'),
 (17, 'What does RGB stand for in graphic design?', 3, 0, '2024-08-01 20:21:24', '2024-08-01 20:21:24'),
 (18, 'Which file format is typically used for high-quality print graphics?', 3, 0, '2024-08-01 20:21:45', '2024-08-01 20:21:45'),
@@ -554,7 +619,8 @@ CREATE TABLE `results` (
 --
 
 INSERT INTO `results` (`id`, `correct_answers`, `wrong_answers`, `skipped_questions`, `user_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, '2', '1', '2', 7, 0, '2024-08-15 05:27:18', '2024-08-15 05:27:18');
+(1, '2', '1', '2', 7, 0, '2024-08-15 05:27:18', '2024-08-15 05:27:18'),
+(2, '5', '6', '1', 40, 1, '2024-08-31 02:12:02', '2024-09-01 00:35:36');
 
 -- --------------------------------------------------------
 
@@ -579,7 +645,7 @@ INSERT INTO `rooms` (`id`, `name`, `seats`, `is_deleted`, `created_at`, `updated
 (1, 'A', '14', '0', '2024-07-31 05:32:50', '2024-07-31 05:32:50'),
 (2, 'B', '7', '0', '2024-07-31 05:32:59', '2024-07-31 05:35:45'),
 (3, 'C', '20', '0', '2024-07-31 05:35:55', '2024-07-31 05:36:54'),
-(4, 'D', '20', '0', '2024-07-31 05:36:03', '2024-07-31 05:36:03'),
+(4, 'D', '20', '1', '2024-07-31 05:36:03', '2024-09-01 00:37:22'),
 (5, 'E', '12', '0', '2024-08-18 01:47:15', '2024-08-18 01:47:15');
 
 -- --------------------------------------------------------
@@ -605,16 +671,16 @@ CREATE TABLE `rosters` (
 INSERT INTO `rosters` (`id`, `admin_id`, `room_id`, `timing`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, 2, 2, '8-9', 0, '2024-08-08 03:00:15', '2024-08-11 03:08:01'),
 (2, 27, 3, '6-7', 0, '2024-08-08 03:41:05', '2024-08-11 03:09:56'),
-(3, 1, 3, '1-2', 0, '2024-08-08 17:00:24', '2024-08-10 17:06:32'),
+(3, 1, 1, '4-5', 0, '2024-08-08 17:00:24', '2024-08-24 01:42:56'),
 (4, 1, 3, '2-3', 0, '2024-08-11 00:58:11', '2024-08-11 03:09:29'),
 (5, 25, 1, '6-7', 0, '2024-08-11 01:50:53', '2024-08-11 02:05:00'),
-(6, 2, 4, '2-3', 0, '2024-08-11 03:04:52', '2024-08-11 03:04:52'),
+(6, 2, 3, '1-2', 1, '2024-08-11 03:04:52', '2024-09-01 00:55:44'),
 (7, 2, 2, '15-16', 0, '2024-08-11 03:34:53', '2024-08-11 03:34:53'),
-(8, 1, 3, '17-18', 0, '2024-08-11 03:40:42', '2024-08-11 03:40:42'),
-(9, 32, 2, '14-15', 0, '2024-08-17 00:52:38', '2024-08-17 00:52:38'),
+(8, 1, 3, '17-18', 1, '2024-08-11 03:40:42', '2024-09-01 00:55:32'),
+(9, 32, 2, '14-15', 1, '2024-08-17 00:52:38', '2024-08-24 00:54:28'),
 (10, 25, 3, '14-15', 0, '2024-08-18 00:57:17', '2024-08-18 01:12:34'),
-(11, 32, 4, '13-14', 0, '2024-08-18 01:12:53', '2024-08-18 01:12:53'),
-(12, 32, 3, '12-13', 0, '2024-08-18 01:13:22', '2024-08-18 01:13:22');
+(11, 32, 4, '13-14', 1, '2024-08-18 01:12:53', '2024-09-01 00:55:31'),
+(12, 32, 3, '12-13', 1, '2024-08-18 01:13:22', '2024-08-24 00:54:09');
 
 -- --------------------------------------------------------
 
@@ -647,31 +713,32 @@ CREATE TABLE `students` (
 
 INSERT INTO `students` (`id`, `gr_no`, `course_id`, `discount`, `annual_fees`, `total_modules`, `completed_modules`, `room`, `seat`, `timing`, `shift`, `status`, `exclude`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 'SS-000001', 4, 0, 0, '[]', '[22, 23]', 3, '5', '15-16', 'weekend', 'pending', 0, 7, '2022-07-31 05:54:29', '2024-08-15 05:27:18'),
-(2, 'SS-000002', 4, 0, 0, '[]', '[]', 2, '2', '17-18', 'weekend', 'running', 0, 8, '2022-07-31 05:56:46', '2024-08-22 18:38:53'),
-(3, 'SS-000003', 2, 0, 0, '[]', '[]', 1, '7', '21-22', 'regular', 'running', 0, 9, '2022-07-31 05:59:31', '2024-07-31 05:59:31'),
+(2, 'SS-000002', 4, 0, 0, '[]', '[]', 2, '2', '17-18', 'weekend', 'running', 0, 8, '2022-07-31 05:56:46', '2024-09-01 00:33:51'),
+(3, 'SS-000003', 2, 0, 0, '[]', '[]', 1, '7', '4-5', 'regular', 'running', 0, 9, '2022-07-31 05:59:31', '2024-07-31 05:59:31'),
 (4, 'SS-000004', 3, 0, 0, '[]', '[]', 3, '5', '2-3', 'weekend', 'running', 0, 10, '2022-07-31 06:09:46', '2024-07-31 06:09:46'),
 (5, 'SS-000005', 4, 0, 0, '[]', '[]', 3, '4', '11-12', 'weekend', 'running', 0, 11, '2022-07-31 06:12:02', '2024-07-31 06:12:02'),
-(6, 'SS-000006', 1, 0, 0, '[]', '[]', 4, '3', '16-17', 'regular', 'running', 0, 12, '2023-07-31 06:14:15', '2024-07-31 06:14:15'),
+(6, 'SS-000006', 1, 0, 0, '[]', '[]', 1, '3', '4-5', 'regular', 'running', 0, 12, '2023-07-31 06:14:15', '2024-07-31 06:14:15'),
 (7, 'SS-000007', 3, 0, 0, '[]', '[]', 1, '5', '15-16', 'regular', 'running', 0, 13, '2023-07-31 06:15:41', '2024-08-13 06:01:39'),
-(8, 'SS-000008', 2, 0, 0, '[]', '[]', 1, '7', '15-16', 'regular', 'running', 0, 14, '2023-07-31 06:17:46', '2024-07-31 06:17:46'),
-(9, 'SS-000009', 1, 0, 0, '[]', '[]', 3, '19', '18-19', 'regular', 'running', 0, 15, '2023-07-31 06:20:23', '2024-07-31 06:20:23'),
+(8, 'SS-000008', 2, 0, 0, '[]', '[]', 1, '7', '4-5', 'regular', 'running', 0, 14, '2023-07-31 06:17:46', '2024-07-31 06:17:46'),
+(9, 'SS-000009', 1, 0, 0, '[]', '[]', 3, '19', '18-19', 'regular', 'running', 0, 15, '2023-07-31 06:20:23', '2024-08-28 02:16:38'),
 (10, 'SS-000010', 2, 0, 0, '[]', '[]', 3, '8', '15-16', 'regular', 'running', 0, 16, '2023-07-31 06:22:49', '2024-07-31 06:22:49'),
 (11, 'SS-000011', 3, 0, 0, '[]', '[]', 3, '12', '17-18', 'regular', 'running', 0, 17, '2023-07-31 06:26:15', '2024-07-31 06:26:15'),
 (12, 'SS-000012', 3, 0, 0, '[]', '[]', 3, '16', '15-16', 'regular', 'running', 0, 18, '2023-07-31 06:28:31', '2024-08-06 05:11:35'),
-(13, 'SS-000013', 2, 0, 56000, '[]', '[]', 3, '16', '17-18', 'regular', 'running', 0, 19, '2023-08-31 06:30:01', '2024-08-06 05:11:30'),
+(13, 'SS-000013', 2, 0, 56000, '[]', '[]', 3, '16', '17-18', 'regular', 'running', 0, 19, '2023-08-31 06:30:01', '2024-08-24 00:38:35'),
 (14, 'SS-000014', 2, 0, 0, '[]', '[]', 3, '18', '17-18', 'regular', 'running', 0, 20, '2024-07-31 06:31:30', '2024-07-31 06:31:30'),
 (15, 'SS-000015', 2, 0, 0, '[]', '[]', 3, '15', '17-18', 'regular', 'running', 0, 21, '2024-07-31 06:37:14', '2024-08-06 05:09:07'),
 (16, 'SS-000016', 4, 0, 0, '[]', '[]', 3, '7', '17-18', 'weekend', 'running', 0, 22, '2024-08-06 02:11:38', '2024-08-06 04:49:15'),
 (17, 'SS-000017', 2, 0, 0, '[]', '[]', 3, '3', '17-18', 'regular', 'running', 0, 23, '2024-08-06 02:13:15', '2024-08-06 02:13:15'),
 (18, 'SS-000018', 4, 0, 0, '[]', '[]', 3, '8', '17-18', 'weekend', 'running', 0, 24, '2024-08-06 02:15:41', '2024-08-08 16:58:00'),
 (19, 'SS-000019', 3, 0, 80000, '[]', '[]', 3, '14', '17-18', 'regular', 'running', 0, 26, '2024-08-06 03:14:32', '2024-08-06 05:09:00'),
-(20, 'SS-000020', 3, 12, 26400, '[]', '[]', 3, '9', '17-18', 'regular', 'running', 1, 28, '2024-08-07 01:39:14', '2024-08-22 18:35:16'),
-(21, 'SS-000021', 2, 0, 36000, '[]', '[8, 9, 11, 10, 14, 13, 15]', 3, '4', '17-18', 'weekend', 'running', 0, 30, '2024-08-11 04:47:39', '2024-08-12 18:31:44'),
+(20, 'SS-000020', 3, 12, 26400, '[]', '[]', 3, '9', '13-14', 'regular', 'running', 1, 28, '2024-08-07 01:39:14', '2024-08-27 04:32:33'),
+(21, 'SS-000021', 2, 0, 36000, '[]', '[8, 9, 11, 10, 14, 13, 15]', 3, '4', '17-18', 'weekend', 'done', 0, 30, '2024-08-11 04:47:39', '2024-08-12 18:31:44'),
 (22, 'SS-000022', 4, 0, 24000, '[]', '[]', 3, '16', '19-20', 'weekend', 'passed-out', 0, 31, '2024-08-17 00:47:45', '2024-08-17 02:22:29'),
 (23, 'SS-000023', 5, 0, 9000, '[]', '[25, 26, 37]', 4, '17', '19-20', 'regular', 'completed', 0, 35, '2024-08-18 01:39:11', '2024-08-18 02:57:44'),
-(24, 'SS-000024', 3, 0, 30000, '[]', '[]', 4, '1', '14-15', 'regular', 'running', 0, 36, '2024-08-18 22:21:10', '2024-08-18 22:24:05'),
+(24, 'SS-000024', 3, 0, 30000, '[]', '[]', 4, '1', '14-15', 'regular', 'pending', 0, 36, '2024-08-18 22:21:10', '2024-08-18 22:24:05'),
 (25, 'SS-000025', 6, 0, 12000, '[27,28]', '[27, 28]', 3, '2', '17-18', 'regular', 'completed', 0, 38, '2024-08-20 01:07:12', '2024-08-20 01:25:32'),
-(26, 'SS-000039', 2, 0, 36000, '[8,9,10,11,13,14,15,16]', '[8]', 3, '5', '17-18', 'regular', 'running', 0, 39, '2024-08-22 18:48:57', '2024-08-22 19:51:35');
+(26, 'SS-000026', 2, 0, 36000, '[8,9,10,11,13,14,15,16]', '[8]', 3, '5', '17-18', 'regular', 'freezed', 0, 39, '2024-08-22 18:48:57', '2024-09-01 00:43:23'),
+(27, 'SS-000027', 2, 0, 24660, '[8,9,10,11,13,14,15,16]', '[8, 9, 10, 15, 13, 11, 16, 14]', 3, '1', '13-14', 'weekend', 'done', 0, 40, '2024-08-24 01:36:42', '2024-08-31 02:12:02');
 
 -- --------------------------------------------------------
 
@@ -726,8 +793,8 @@ INSERT INTO `users` (`id`, `name`, `father_name`, `cnic_bform_no`, `date_of_birt
 (22, 'Abdul Qadir', 'Irfan', '1234567890123', '2222-02-11', 'abdul.qadir_1@simsatedu.com', '12', '12121212121', 'student_profile_pics/HefLOVaJU8nDPZu7rFRTUe1VMzeChLpzadAKQ98b.jpg', 'Karachi, Pakistan', 'student', '-1', '0', '2024-08-06 02:11:38', '2024-08-06 02:11:38'),
 (23, 'Abdul Qadir', 'Irfan', '1212121212121', '1111-11-12', 'abdul.qadir_2@simsatedu.com', '12', '12121212121', 'student_profile_pics/LjrH9IRDxVfTlOz8Zrozg957we2xUUts2iaLrbg1.jpg', 'Karachi', 'student', '-1', '0', '2024-08-06 02:13:15', '2024-08-06 02:13:15'),
 (24, 'Shakeel Ahmed', 'Saif', '1212121212125', '1111-11-11', 'shakeel.ahmed@simsatedu.com', '12', '12121212121', 'student_profile_pics/GmoFhcznha7TM4xEJIQFyqbx2uarPacxwIv4hq3C.jpg', 'Quaidabad', 'student', '-1', '0', '2024-08-06 02:15:41', '2024-08-06 04:51:37'),
-(25, 'Shaakir Ahmed', 'Sumair', '1212121212123', '2223-03-12', 'shaakir.ahmed@simsatedu.com', '$2y$12$oJ80HM/e0aQr.0vqNTfdvONlMkACF7NGekiufQOOMeKH5VGDM.gdW', '12121212121', 'admin_profile_pics/2bi185NU35ovAWxVZDTkwwGZYug3anKxHpzDfOl9.jpg', 'Lal qila\r\nNear Burj Khalifa', 'admin', '-1', '0', '2024-08-06 02:57:15', '2024-08-06 03:03:41'),
-(26, 'Wasim Sheikh', 'Danial', '1212121212122', '3444-02-22', 'wasim.sheikh@simsatedu.com', '12', '12121212121', 'student_profile_pics/bbkq9ifF6epoYKVOVsk1Ov4rImct0GcUOmGHe49t.jpg', 'Karachi', 'student', '-1', '0', '2024-08-06 03:14:32', '2024-08-06 03:14:32'),
+(25, 'Shaakir Ahmed', 'Sumair', '1212121212123', '2223-03-12', 'shaakir.ahmed@simsatedu.com', '$2y$12$oJ80HM/e0aQr.0vqNTfdvONlMkACF7NGekiufQOOMeKH5VGDM.gdW', '12121212121', 'admin_profile_pics/2bi185NU35ovAWxVZDTkwwGZYug3anKxHpzDfOl9.jpg', 'Lal qila\r\nNear Burj Khalifa', 'admin', '-1', '1', '2024-08-06 02:57:15', '2024-09-01 00:20:20'),
+(26, 'Wasim Sheikh', 'Danial', '1212121212122', '3444-02-22', 'wasim.sheikh@simsatedu.com', '12', '12121212121', 'student_profile_pics/bbkq9ifF6epoYKVOVsk1Ov4rImct0GcUOmGHe49t.jpg', 'Karachi', 'student', '-1', '1', '2024-08-06 03:14:32', '2024-09-01 00:43:24'),
 (27, 'Shaakir Ahmed', 'Saif', '1234561234561', '3333-11-22', 'shaakir.ahmed_1@simsatedu.com', '$2y$12$YRpo0x0yoNUi7fDLh2PDWunkbwVFrjaFKrd.nMfQkgjsyQRVFp6ie', '12121212121', 'admin_profile_pics/gNvtXvMym1hnPJs3PknQjNfaTqYu2zXasrQws55V.jpg', 'Karacxhi', 'admin', '-1', '0', '2024-08-06 05:18:11', '2024-08-17 01:35:51'),
 (28, 'Sameer Sheikh', 'Aslam', '1212121212345', '1112-03-23', 'sameer.sheikh@simsatedu.com', '12', '12121212121', 'student_profile_pics/QRS2pRlIQLqYiXhjGlWXcNlRLz4cFR32FC40GtyS.jpg', 'Lal qila\r\nNear Burj Khalifa', 'student', '-1', '0', '2024-08-07 01:39:14', '2024-08-07 01:39:14'),
 (30, 'Hussain Saad', 'Saad', '1212121212134', '0321-02-13', 'hussain.saad@simsatedu.com', '12', '12121212121', 'student_profile_pics/r4nYie8ByTr059YMwueFw4LrAAQBFw0FDZesqVR9.jpg', 'asd', 'student', '-1', '0', '2024-08-11 04:47:39', '2024-08-11 04:47:39'),
@@ -736,10 +803,12 @@ INSERT INTO `users` (`id`, `name`, `father_name`, `cnic_bform_no`, `date_of_birt
 (33, 'Muhammad Saif', 'Aleem', '1212121212121', '2024-08-02', 'muhammad.saif@simsatedu.com', '$2y$12$JPiWkGSiXPZXM/rrzwV1bO3/plKa8No8q3u/m/e9cUt60HhJ.9G7i', '03333333333', '0', 'Lal qila\r\nNear Burj Khalifa', 'admin', '-1', '0', '2024-08-18 00:16:51', '2024-08-18 00:16:51'),
 (34, 'Nehal Saif', 'Waqas', '1212121212121', '2024-08-08', 'nehal.saif@simsatedu.com', '$2y$12$NsmlqxUxmIOsajU0OVD5SuL6NNahm8N8Wyx5pMcAWutK6u6xfpQyq', '12121212121', 'admin_profile_pics/Umv9ToMBdxNoAAdihOzFK5oHxaQarbTgMky4FN9e.jpg', 'aas', 'admin', '-1', '0', '2024-08-18 00:49:58', '2024-08-18 00:53:53'),
 (35, 'Waqar Saad', 'Saad', '1212121212121', '0012-12-12', 'waqar.saad@simsatedu.com', '12', '12121212121', 'student_profile_pics/FtLhx3xwiis4Zyrk7xho9pd9uObuJm0FmQH1ZyJh.png', 's', 'student', '-1', '0', '2024-08-18 01:39:11', '2024-08-18 22:15:19'),
-(36, 'Muhammad Azam', 'a', '1212121212121', '23232-02-21', 'muhammad.azam_1@simsatedu.com', '12', '03333333333', 'student_profile_pics/cstCP7xwuutz270Y6UiV8OGRYYsyx2Cu8H4D5wc2.png', 'Lal qila\r\nNear Burj Khalifa', 'student', '-1', '0', '2024-08-18 22:21:10', '2024-08-18 22:26:10'),
-(37, 'Danil qw', 'qw', '1212121212121', '0012-12-12', 'danil.qw@simsatedu.com', '$2y$12$z7cUShrQK2r12HgiUuHC0ekuBI34hkyRc0hAPg/LRh4.349TsMoAK', '12121212121', 'admin_profile_pics/q0xuYPIlqGhzEwxzuXAVVcHNQVP3pEhkVKroNt5g.png', 'q', 'admin', '-1', '0', '2024-08-18 22:29:44', '2024-08-18 22:30:50'),
-(38, 'Sumain Abbas', 'Abbas', '1212121212121', '0012-12-12', 'sumain.abbas@simsatedu.com', '12', '12121212121', '0', 'qwewewe', 'student', '-1', '0', '2024-08-20 01:07:12', '2024-08-20 01:07:12'),
-(39, 'Ali Abbas', 'Abbas', '1212121212121', '0012-12-12', 'ali.abbas@simsatedu.com', '12', '12121212121', '0', 'qq', 'student', '-1', '0', '2024-08-22 18:48:56', '2024-08-22 18:48:56');
+(36, 'Muhammad Azam', 'a', '1212121212121', '23232-02-21', 'muhammad.azam_1@simsatedu.com', '12', '03333333333', 'student_profile_pics/cstCP7xwuutz270Y6UiV8OGRYYsyx2Cu8H4D5wc2.png', 'Lal qila\r\nNear Burj Khalifa', 'student', '-1', '0', '2024-08-18 22:21:10', '2024-08-24 01:14:39'),
+(37, 'Danil qw', 'qw', '1212121212121', '0012-12-12', 'danil.qw@simsatedu.com', '$2y$12$z7cUShrQK2r12HgiUuHC0ekuBI34hkyRc0hAPg/LRh4.349TsMoAK', '12121212121', 'admin_profile_pics/q0xuYPIlqGhzEwxzuXAVVcHNQVP3pEhkVKroNt5g.png', 'q', 'admin', '-1', '1', '2024-08-18 22:29:44', '2024-08-24 00:53:42'),
+(38, 'Sumain Abbas', 'Abbas', '1212121212121', '0012-12-12', 'sumain.abbas@simsatedu.com', '12', '12121212121', '0', 'qwewewe', 'student', '-1', '1', '2024-08-20 01:07:12', '2024-08-24 01:06:10'),
+(39, 'Ali Abbas', 'Abbas', '1212121212121', '0012-12-12', 'ali.abbas@simsatedu.com', '12', '12121212121', '0', 'qq', 'student', '-1', '1', '2024-08-22 18:48:56', '2024-09-01 00:43:23'),
+(40, 'Faraz Aslam', 'Aslam', '1212121212121', '2024-12-01', 'faraz.aslam@simsatedu.com', '12', '12121212121', 'student_profile_pics/x8O5PP6s7X3IClw9fMEBGNAWvbzU9qeF724ZQDjk.png', 's', 'student', '-1', '0', '2024-08-24 01:36:42', '2024-08-31 04:03:44'),
+(41, 'Saad Ali', 'Ali', '4220112345678', '2007-07-01', 'saad.ali_1@simsatedu.com', '$2y$12$WCux1x5d2X.exOTp.d4xtOxega7zr33TYUR8Rg7z.fpu5AqQtIoUu', '03112666802', 'admin_profile_pics/ScJF9bi0qBuiCJLHdQjl8EnZRPcNILLfu8yFWU7i.jpg', 'DHA Phase 6, Karachi, Pakistan', 'admin', '-1', '0', '2024-08-25 05:31:33', '2024-08-25 05:31:33');
 
 --
 -- Indexes for dumped tables
@@ -842,13 +911,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `attendances`
 --
 ALTER TABLE `attendances`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -860,13 +929,13 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `fees`
 --
 ALTER TABLE `fees`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
 
 --
 -- AUTO_INCREMENT for table `modules`
@@ -890,7 +959,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `results`
 --
 ALTER TABLE `results`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rooms`
@@ -908,13 +977,13 @@ ALTER TABLE `rosters`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- Constraints for dumped tables

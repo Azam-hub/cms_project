@@ -666,51 +666,52 @@ $(document).on('click', ".edit-btn", function () {
 // Delete data, method
 $(document).on("click", ".del-btn", function () {
     let student_name = $(this).data("student-name")
-    let confirm = window.confirm(`Are you sure you want to delete student "${student_name}"`)
+    let student_id = $(this).data("student-id")
 
-    if (confirm) {
-        let student_id = $(this).data("student-id")
-        
-        fetch('/admin/students/process_destroyStudent/' + student_id).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            
-            if (result.success) {
-                $('button[data-student-id="' + student_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
-    }
+    custom_confirm(`Are you sure you want to delete student <b><q>${student_name}</q></b>?`, function(confirm) {
+        if (confirm) {
+            fetch('/admin/students/process_destroyStudent/' + student_id).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                
+                if (result.success) {
+                    $('button[data-student-id="' + student_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(result);
+                }
+            })
+        }
+    });
     
 })
 
 // Status change ajax
 $(document).on("click", ".status-change-btn", function () {
     let student_name = $(this).parent().parent().parent().data("student-name")
-    let confirm = window.confirm(`Are you sure you want to change status of "${student_name}"`)
+    let student_id = $(this).data("student-id")
+    let action = $(this).text()
 
-    if (confirm) {
-        let student_id = $(this).data("student-id")
-        let action = $(this).text()
+    custom_confirm(`Are you sure you want to change status of <b><q>${student_name}</q></b>?`, function(confirm) {
+        if (confirm) {
+            fetch('/admin/students/process_statusChangeStudent/' + student_id + '/' + action).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                console.log(result)
+                if (result == 1) {
+                    location.reload()
+                } else if (result.status == "seat not available") {
+                    let html = `<div class="alert alert-danger d-flex align-items-center column-gap-2" role="alert">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <div>You can't resume this student because position of this student has been reserved by <b>${result.name}</b> with GR No. <b>${result.gr_no}</b></div>
+                                </div>`
+                    // $(html).insertBefore('section')
+                    $("#msg").html(html)
+                    $('html, body').animate({scrollTop: 0}, 'slow');
+                }
+            })
+        }
+    });
     
-        fetch('/admin/students/process_statusChangeStudent/' + student_id + '/' + action).then(function (response) {
-            return response.json()
-        }).then(function (result) {
-            console.log(result)
-            if (result == 1) {
-                location.reload()
-            } else if (result.status == "seat not available") {
-                let html = `<div class="alert alert-danger d-flex align-items-center column-gap-2" role="alert">
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <div>You can't resume this student because position of this student has been reserved by <b>${result.name}</b> with GR No. <b>${result.gr_no}</b></div>
-                            </div>`
-                // $(html).insertBefore('section')
-                $("#msg").html(html)
-                $('html, body').animate({scrollTop: 0}, 'slow');
-            }
-        })
-    }
 })
 
 // Show student data on index page

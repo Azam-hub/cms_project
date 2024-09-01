@@ -184,21 +184,21 @@
     // Delete data method
     $(document).on("click", ".del-btn", function() {
         let room_name = $(this).data("room-name")
-        let confirm = window.confirm(`Are you sure you want to delete room "${room_name}"`)
+        let room_id = $(this).data("room-id")
 
-        if (confirm) {
-            let room_id = $(this).data("room-id")
-    
-            fetch('/admin/rooms/process_destroyRoom/'+room_id).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                if (data.success) {
-                    $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
-                } else {
-                    console.log(data);
-                }
-            })
-        }
+        custom_confirm(`Are you sure you want to delete room <b><q>${room_name}</q></b>?`, function(confirm) {
+            if (confirm) {
+                fetch('/admin/rooms/process_destroyRoom/'+room_id).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    if (data.success) {
+                        $('button[data-room-id="' + room_id + '"]').closest('tr').remove();
+                    } else {
+                        console.log(data);
+                    }
+                })
+            }
+        })
 
     })
 </script>

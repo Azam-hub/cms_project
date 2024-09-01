@@ -212,21 +212,20 @@ $(document).on('click', ".edit-btn", function() {
 
 // Delete data method
 $(document).on("click", ".del-btn", function() {
-    let confirm = window.confirm(`Are you sure you want to delete this roster.`)
-
-    if (confirm) {
-        let roster_id = $(this).data("roster-id")
-    
-        fetch('/admin/rosters/process_destroyRoster/'+roster_id).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            if (data.success) {
-                $('button[data-roster-id="' + roster_id + '"]').closest('tr').remove();
-            } else {
-                console.log(data);
-            }
-        })
-    }
+    let roster_id = $(this).data("roster-id")
+    custom_confirm(`Are you sure you want to delete this roster?`, function(confirm) {
+        if (confirm) {
+            fetch('/admin/rosters/process_destroyRoster/'+roster_id).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data.success) {
+                    $('button[data-roster-id="' + roster_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(data);
+                }
+            })
+        }
+    });
 
 })
 </script>

@@ -270,45 +270,44 @@
     //  call to delete course
     $(document).on('click', ".del-btn", function () {
         let course_name = $(this).data("course-name")
-        let confirm = window.confirm(`Are you sure you want to delete course "${course_name}"`)
+        let course_id = $(this).data('course-id')
 
-        if (confirm) {
-            let course_id = $(this).data('course-id')
-        
-            fetch('/admin/courses/process_destroyCourse/'+course_id).then(function (response) {
-                return response.json()
-            }).then(function (result) {
-                if (result == 1) {
-                    $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
-                } else {
-                    console.log(result);
-                }
-            })
-        }
+        custom_confirm(`Are you sure you want to delete course <b><q>${course_name}</q></b>?`, function(confirm) {
+            if (confirm) {
+                fetch('/admin/courses/process_destroyCourse/'+course_id).then(function (response) {
+                    return response.json()
+                }).then(function (result) {
+                    if (result == 1) {
+                        $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
+                    } else {
+                        console.log(result);
+                    }
+                })
+            }
+        });
     
     });
 
     //  call to change status of course
     $(document).on('click', ".active-deactive-btn", function () {
         let course_name = $(this).data("course-name")
-        let confirm = window.confirm(`Are you sure you want to change status of course "${course_name}"`)
+        let course_id = $(this).data('course-id')
+        let action = $(this).text()
 
-        if (confirm) {
-            let course_id = $(this).data('course-id')
-            
-            let action = $(this).text()
-    
-            fetch('/admin/courses/process_statusChangeCourse/'+course_id+"/"+action).then(function (response) {
-                return response.json()
-            }).then(function (result) {
-                if (result == 1) {
-                    // $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
-                    location.reload()
-                } else {
-                    console.log(result);
-                }
-            })
-        }
+        custom_confirm(`Are you sure you want to change status of course <b><q>${course_name}</q></b>?`, function(confirm) {
+            if (confirm) {
+                fetch('/admin/courses/process_statusChangeCourse/'+course_id+"/"+action).then(function (response) {
+                    return response.json()
+                }).then(function (result) {
+                    if (result == 1) {
+                        // $('button[data-course-id="' + course_id + '"]').closest('tr').remove();
+                        location.reload()
+                    } else {
+                        console.log(result);
+                    }
+                })
+            }
+        });
     
     });
 

@@ -76,22 +76,22 @@
     // Delete data method
     $(document).on("click", ".del-btn", function () {
         let name = $(this).data("name")
-        let confirm = window.confirm(`Are you sure you want to delete result of "${name}"`)
+        let result_id = $(this).data("result-id")
 
-        if (confirm) {
-            let result_id = $(this).data("result-id")
-    
-            fetch('/admin/results/process_destroyResult/' + result_id).then(function (response) {
-                return response.json()
-            }).then(function (result) {
-                
-                if (result.success) {
-                    $('button[data-result-id="' + result_id + '"]').closest('tr').remove();
-                } else {
-                    console.log(result);
-                }
-            })
-        }
+        custom_confirm(`Are you sure you want to delete result of <b><q>${name}</q></b>?`, function(confirm) {
+            if (confirm) {
+                fetch('/admin/results/process_destroyResult/' + result_id).then(function (response) {
+                    return response.json()
+                }).then(function (result) {
+                    
+                    if (result.success) {
+                        $('button[data-result-id="' + result_id + '"]').closest('tr').remove();
+                    } else {
+                        console.log(result);
+                    }
+                })
+            }
+        });
         
     })
 

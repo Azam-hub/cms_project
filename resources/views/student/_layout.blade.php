@@ -35,118 +35,130 @@
         <div class="row flex-nowrap h-100">
 
             <div class="bg d-xl-none d-none"></div>
-            <div class="sidebar col-xl-2 py-3 px-1">
-                <div class="logo-row row align-items-center justify-content-center gap-2">
-                    <div class="col-auto px-0">
-                        <img src="{{ asset("img/static/favicon.png") }}" width="50px" class="logo" alt="">
+            <div class="sidebar col-xl-2 py-3 px-1 d-flex flex-column justify-content-between">
+                <div>
+                    <a href="{{ route("admin_panel.home") }}" class="text-decoration-none logo-row row align-items-center justify-content-center gap-2">
+                        <div class="col-auto px-0">
+                            <img src="{{ asset("img/static/favicon.png") }}" width="50px" class="logo" alt="">
+                        </div>
+                        <div class="right col-auto d-flex align-items-center px-0 position-relative">
+                            <h3 class="my-0">SIMSAT</h3>
+                            <span class="position-absolute badge rounded-2 bg-primary text-light fw-normal p-1" style="font-size: 10px; right: -29px; top: -7px;">
+                                BETA
+                            </span>
+                        </div>
+                    </a>
+                    <hr class="border-2 border-white">
+                    <div class="row align-items-center px-1">
+                        <div class="left col-3 ps-0">
+                            <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}"
+                            onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
+                            class="user-pic rounded-circle" alt="">
+                        </div>
+                        <div class="right col pe-2 ps-0 d-flex align-items-center text-center">
+                            <p class="mb-0">{{ Auth::user()->name }}</p>
+                        </div>
                     </div>
-                    <div class="right col-auto d-flex align-items-center px-0">
-                        <h3 class="my-0">SIMSAT</h3>
-                    </div>
-                </div>
-                <hr class="border-2 border-white">
-                <div class="row align-items-center px-1">
-                    <div class="left col-3 ps-0">
-                        <img src="{{ asset('storage/'.Auth::user()->profile_pic) }}"
-                        onerror="this.onerror=null;this.src='{{ asset('img/static/user.png') }}';"
-                        class="user-pic rounded-circle" alt="">
-                    </div>
-                    <div class="right col pe-2 ps-0 d-flex align-items-center text-center">
-                        <p class="mb-0">{{ Auth::user()->name }}</p>
-                    </div>
-                </div>
-                <hr class="border-2 border-white">
-                
-                <div class="link-section mb-1">
-                    <div class="head row justify-content-between cursor-pointer">
-                        <a href="{{ route('student.home') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
-                            <div class="left col-auto px-0">
-                                <i class="fa-solid fa-bullhorn"></i>
-                            </div>
-                            <div class="right row col px-0 justify-content-between">
-                                <div class="col">
-                                    <span class="ms-1">Announcements</span>
-                                </div>  
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="link-section mb-1">
-                    <div class="head row justify-content-between cursor-pointer">
-                        <a href="{{ route('student.profile') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
-                            <div class="left col-auto px-0">
-                                <i class="fa-solid fa-address-card"></i>
-                            </div>
-                            <div class="right row col px-0 justify-content-between">
-                                <div class="col">
-                                    <span class="ms-1">Profile</span>
-                                </div>  
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="link-section mb-1">
-                    <div class="head row justify-content-between cursor-pointer">
-                        <a href="{{ route('student.attendance') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
-                            <div class="left col-auto px-0">
-                                <i class="fa-solid fa-address-book"></i>
-                            </div>
-                            <div class="right row col px-0 justify-content-between">
-                                <div class="col">
-                                    <span class="ms-1">Attendance</span>
-                                </div>  
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="link-section mb-1">
-                    <div class="head row justify-content-between cursor-pointer">
-                        <a href="{{ route('student.fees_record') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
-                            <div class="left col-auto px-0">
-                                <i class="fa-solid fa-dollar-sign"></i>
-                            </div>
-                            <div class="right row col px-0 justify-content-between">
-                                <div class="col">
-                                    <span class="ms-1">Fees Record</span>
-                                </div>  
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
-                @if ($status == 'pending')
+                    <hr class="border-2 border-white">
+                    
                     <div class="link-section mb-1">
-                        <div class="head row justify-content-between cursor-pointer">
-                            <a href="{{ route('student.assessment') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                        <div class="head row justify-content-between cursor-pointer {{ Request::routeIs('student.home') ? 'active' : '' }}">
+                            <a href="{{ route('student.home') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
                                 <div class="left col-auto px-0">
-                                    <i class="fa-solid fa-file-circle-check"></i>
+                                    <i class="fa-solid fa-bullhorn"></i>
                                 </div>
                                 <div class="right row col px-0 justify-content-between">
                                     <div class="col">
-                                        <span class="ms-1">Assessment</span>
+                                        <span class="ms-1">Announcements</span>
                                     </div>  
                                 </div>
                             </a>
                         </div>
                     </div>
-                @endif
-                
-                @if ($has_result)
                     <div class="link-section mb-1">
-                        <div class="head row justify-content-between cursor-pointer">
-                            <a href="{{ route('student.results') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                        <div class="head row justify-content-between cursor-pointer {{ Request::routeIs('student.profile') ? 'active' : '' }}">
+                            <a href="{{ route('student.profile') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
                                 <div class="left col-auto px-0">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <i class="fa-solid fa-address-card"></i>
                                 </div>
                                 <div class="right row col px-0 justify-content-between">
                                     <div class="col">
-                                        <span class="ms-1">Results</span>
+                                        <span class="ms-1">Profile</span>
                                     </div>  
                                 </div>
                             </a>
                         </div>
                     </div>
-                @endif
+                    <div class="link-section mb-1">
+                        <div class="head row justify-content-between cursor-pointer  {{ Request::routeIs('student.attendance') ? 'active' : '' }}">
+                            <a href="{{ route('student.attendance') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                                <div class="left col-auto px-0">
+                                    <i class="fa-solid fa-address-book"></i>
+                                </div>
+                                <div class="right row col px-0 justify-content-between">
+                                    <div class="col">
+                                        <span class="ms-1">Attendance</span>
+                                    </div>  
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="link-section mb-1">
+                        <div class="head row justify-content-between cursor-pointer  {{ Request::routeIs('student.fees_record') ? 'active' : '' }}">
+                            <a href="{{ route('student.fees_record') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                                <div class="left col-auto px-0">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </div>
+                                <div class="right row col px-0 justify-content-between">
+                                    <div class="col">
+                                        <span class="ms-1">Fees Record</span>
+                                    </div>  
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    @if ($status == 'pending')
+                        <div class="link-section mb-1">
+                            <div class="head row justify-content-between cursor-pointer  {{ Request::routeIs('student.assessment') ? 'active' : '' }}">
+                                <a href="{{ route('student.assessment') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                                    <div class="left col-auto px-0">
+                                        <i class="fa-solid fa-file-circle-check"></i>
+                                    </div>
+                                    <div class="right row col px-0 justify-content-between">
+                                        <div class="col">
+                                            <span class="ms-1">Assessment</span>
+                                        </div>  
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                    
+                    @if ($has_result)
+                        <div class="link-section mb-1">
+                            <div class="head row justify-content-between cursor-pointer  {{ Request::routeIs('student.results') ? 'active' : '' }}">
+                                <a href="{{ route('student.results') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                                    <div class="left col-auto px-0">
+                                        <i class="fa-solid fa-square-poll-vertical"></i>
+                                    </div>
+                                    <div class="right row col px-0 justify-content-between">
+                                        <div class="col">
+                                            <span class="ms-1">Results</span>
+                                        </div>  
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="right">
+                    <div class="row mx-0 mb-0 mt-4">
+                        <hr class="border-2 border-white mb-2">
+                        <p class="m-0 text-center" style="font-size: 13px">Designed and Developed by <b><q>Muhammad Azam</q></b></p>
+                    </div>
+                </div>
 
             </div>
             <div class="placeholder"></div>

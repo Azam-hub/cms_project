@@ -413,25 +413,25 @@ $(document).on('click', ".edit-btn", function() {
 // Delete data method
 $(document).on("click", ".del-btn", function() {
     let admin_name = $(this).data("admin-name")
-    let confirm = window.confirm(`Are you sure you want to delete admin "${admin_name}"`)
+    let admin_id = $(this).data("admin-id")
 
-    if (confirm) {
-        let admin_id = $(this).data("admin-id")
-    
-        fetch('/admin/admins/process_destroyAdmin/'+admin_id, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(function (result) {
-            if (result.success) {
-                $('button[data-admin-id="' + admin_id + '"]').closest('tr').remove();
-            } else {
-                console.log(result);
-            }
-        })
-    }
+    custom_confirm(`Are you sure you want to delete admin <b><q>${admin_name}</q></b>?`, function(confirm) {
+        if (confirm) {
+            fetch('/admin/admins/process_destroyAdmin/'+admin_id, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (result) {
+                if (result.success) {
+                    $('button[data-admin-id="' + admin_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(result);
+                }
+            })
+        }
+    });
 
 })
 

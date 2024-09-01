@@ -123,6 +123,7 @@
 
 @section('script')
 <script>
+
     $('#announcement-table').DataTable({
         dom: 'lBfrtip',
         buttons: [
@@ -185,23 +186,23 @@
     // Delete data method
     $(document).on("click", ".del-btn", function() {
         let announcement_title = $(this).data("announcement-title")
-        let confirm = window.confirm(`Are you sure you want to delete announcement "${announcement_title}"`)
-
-        if (confirm) {
-            let announcement_id = $(this).data("announcement-id")
-    
-            fetch('/admin/announcements/process_destroyAnnouncement/'+announcement_id)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                if (data.success) {
-                    $('button[data-announcement-id="' + announcement_id + '"]').closest('tr').remove();
-                } else {
-                    console.log(data);
-                }
-            })
-        }
+        let announcement_id = $(this).data("announcement-id")
+        
+        custom_confirm(`Are you sure you want to delete announcement <b><q>${announcement_title}</q></b>?`, function(confirm) {
+            if (confirm) {
+                fetch('/admin/announcements/process_destroyAnnouncement/'+announcement_id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (data.success) {
+                        $('button[data-announcement-id="' + announcement_id + '"]').closest('tr').remove();
+                    } else {
+                        console.log(data);
+                    }
+                })
+            }
+        });
 
     })
 </script>

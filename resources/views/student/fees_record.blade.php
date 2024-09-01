@@ -32,7 +32,7 @@ Fees Record
                                 <th>Purpose</th>
                                 <th>Month</th>
                                 <th>Description</th>
-                                <th>Amount</th>
+                                <th>Amount (Rs.)</th>
                                 <th>Added on</th>
                             </tr>
                         </thead>

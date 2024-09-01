@@ -3,8 +3,6 @@
 
 @section('stylesheet')
     <link rel="stylesheet" href="{{ asset("css/fee_slip.css") }}">
-    <script src="{{ asset("js/jquery.js") }}"></script>
-    <script src="{{ asset("js/print_slip.js") }}"></script>
 @endsection
 
 @section('content')
@@ -52,7 +50,7 @@
                             <table class="record-table table table-striped table-hover table-bordered ">
                                 <thead>
                                     <tr>
-                                        <th class="border border-0 text-center">Total Annual Fees</th>
+                                        <th class="border border-0 text-center">Total Fees</th>
                                         <th class="border border-0 text-center">Paid Fees</th>
                                         <th class="border border-0 text-center">Remaining Fees</th>
                                         <th class="border border-0 text-center">Per Month Fees</th>
@@ -136,16 +134,17 @@
     </div>
 </div>
 
+<script>
+    let print = false
+    let data = false
+</script>
+
 @if (session('success'))
     {!! success_msg(session('success')) !!}
     
     <script>
-        let data = @json(session("data"));
-        let img_url = '{{ asset("img/static/slip_logo.png") }}';
-        // alert(data.gr_no);
-        printSlip(img_url, data.slip_no, data.gr_no, data.name, data.father_name, data.timing, 
-        data.course, data.purpose, data.fee_month, data.monthly_fee, data.balance, data.amount, data.date);
-        
+        print = true;
+        data = @json(session("data"));
     </script>
 @elseif (session('error'))
     {!! danger_msg(session('error')) !!}
@@ -372,7 +371,7 @@
                                 <th class="text-center">Father</th>
                                 <th class="text-center">Room</th>
                                 <th class="text-center">Timing</th>
-                                <th class="text-center">Amount</th>
+                                <th class="text-center">Amount (Rs.)</th>
                                 <th class="text-center">Purpose</th>
                                 <th class="text-center">Description</th>
                                 <th class="action-btns text-center">Action</th>
@@ -585,7 +584,19 @@
 
 
 @section('script')
+<script src="{{ asset("js/print_slip.js") }}"></script>
+
 <script>
+
+
+let img_url = "http://localhost:8000/slip_logo.png"
+
+if (print) {
+    // This function is defined in print_slip.js
+    printSlip(img_url, data.slip_no, data.gr_no, data.name, data.father_name, data.timing, 
+    data.course, data.purpose, data.fee_month, data.monthly_fee, data.balance, data.amount, data.date)
+}
+
 
 function formatDateTime(dateString) {
     // Create a new Date object from the dateString
@@ -870,20 +881,17 @@ $(document).on("click", ".exclude-btn, .include-btn", function () {
     let student_id = $(this).data("student-id");
     let action = $(this).text();
 
-    if (action == "Exclude") {
-        let confirm = window.confirm(`Are you sure you want to exclude this student.`)
-        if (!confirm) {
-            return
+    custom_confirm(`Are you sure you want to perform this action?`, function(confirm) {
+        if (confirm) {
+            fetch("/admin/fees/process_excludeIncludeStudent/" + student_id + "/" + action).then((res) => {return res.json()}).then(function (data) {
+                if (data == 1) {
+                    location.reload()
+                }
+                
+            })
         }
-    }
+    });
     
-    fetch("/admin/fees/process_excludeIncludeStudent/" + student_id + "/" + action).then((res) => {return res.json()}).then(function (data) {
-        console.log(data);
-        if (data == 1) {
-            location.reload()
-        }
-        
-    })
 })
 
 // Modifying Modal for editting admin
@@ -952,21 +960,22 @@ $(document).on('click', ".edit-btn", function() {
 
 // // Delete data method
 $(document).on("click", ".del-btn", function() {
-    let confirm = window.confirm('Are you sure you want to delete this entry.')
+    let submitted_fee_id = $(this).data("submitted_fee-id")
 
-    if (confirm) {
-        let submitted_fee_id = $(this).data("submitted_fee-id")
-    
-        fetch('/admin/fees/process_destroyRecord/'+submitted_fee_id).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            if (data.success) {
-                $('button[data-room-id="' + submitted_fee_id + '"]').closest('tr').remove();
-            } else {
-                console.log(data);
-            }
-        })
-    }
+    custom_confirm('Are you sure you want to delete this entry?', function(confirm) {
+        if (confirm) {
+            fetch('/admin/fees/process_destroyRecord/'+submitted_fee_id).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data == 1) {
+                    $('button[data-submitted_fee-id="' + submitted_fee_id + '"]').closest('tr').remove();
+                } else {
+                    console.log(data);
+                }
+            })
+        }
+    });
+
 
 })
 

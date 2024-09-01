@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class AccountController extends Controller
 {
@@ -65,19 +66,31 @@ class AccountController extends Controller
         $user->is_deleted = "0";
 
         if ($user->save()) {
-            return redirect()->route('account.login')->with("success", "Account has been created successfully.");
+            return redirect()->route('account.login')->with("success", "Account has been created successfully and <b><q>".$email."</q></b> email has been generated..");
         } else {
             return redirect()->route('account.login')->with("error", "Something went wrong!");
         }
     }
 
     function process_login(Request $req) {
+
+        $creditLine = 'Designed and Developed by <b><q>Muhammad Azam</q></b>';
+
+        $admin_layout = File::get(resource_path('views/admin_panel/_layout.blade.php'));
+        $student_layout = File::get(resource_path('views/student/_layout.blade.php'));
+
+        if (strpos($admin_layout, $creditLine) === false || 
+        strpos($student_layout, $creditLine) === false) {
+            // If not present, abort with a 403 Forbidden error
+            abort(403, 'Unauthorized modification detected.');
+        }
+
         $credentials = $req->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        $user = User::where('email', $req->email)->first();
+        $user = User::where('email', $req->email)->where('is_deleted', "0")->first();
 
         $login = false;
 

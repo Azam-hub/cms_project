@@ -1,12 +1,14 @@
 
 function printSlip(img_url, slip_no, gr_no, name, father_name, timing, course, purpose, fee_month, monthly_fee, balance, amount, date) {
+    // console.log(img_url);
+    
     let html = `
     <div class="slip-container">
         <div class="slip">
-            <div class="head">
+        <div class="head">
                 <div class="row align-items-center justify-content-evenly">
                     <div class="col-auto">
-                        <img src="${img_url}" alt="Slip Logo">
+                        <img src="${img_url}" alt="Slip Logo" onerror="this.onerror=null; this.src='http://localhost:8000/img/static/favicon.png';">
                     </div>
                     <div class="col-auto">
                         <h1 class="m-0">SIMSAT</h1>
@@ -174,6 +176,5 @@ function printSlip(img_url, slip_no, gr_no, name, father_name, timing, course, p
         window.frames["frame1"].print();
         frame1.remove();
     }, 500);
-
     
 }
