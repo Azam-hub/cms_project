@@ -134,7 +134,7 @@
 
     @else
 
-        <div class="login-box border border-1 rounded-4 p-3 p-sm-4">
+        <div class="login-box border border-1 rounded-4 p-3 px-sm-4 pt-sm-4 pb-sm-2">
             <div class="row justify-content-center align-items-center mb-4">
                 <img src="img/static/logo.png" class="logo w-50" alt="">
             </div>
@@ -168,6 +168,13 @@
                     </div>
                 </div>
             </form>
+
+            <div class="row">
+                <div class="row mx-0 mb-0 mt-4">
+                    <hr class="border-2 border-white mb-2">
+                    <p class="m-0 text-center" style="font-size: 13px">Designed and Developed by <b><q>Muhammad Azam</q></b></p>
+                </div>
+            </div>
         </div>
 
     @endif

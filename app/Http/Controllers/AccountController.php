@@ -74,15 +74,19 @@ class AccountController extends Controller
 
     function process_login(Request $req) {
 
+        $layouts = [
+            resource_path('views/admin_panel/_layout.blade.php'),
+            resource_path('views/student/_layout.blade.php'),
+            resource_path('views/login.blade.php')
+        ];
+
         $creditLine = 'Designed and Developed by <b><q>Muhammad Azam</q></b>';
 
-        $admin_layout = File::get(resource_path('views/admin_panel/_layout.blade.php'));
-        $student_layout = File::get(resource_path('views/student/_layout.blade.php'));
-
-        if (strpos($admin_layout, $creditLine) === false || 
-        strpos($student_layout, $creditLine) === false) {
-            // If not present, abort with a 403 Forbidden error
-            abort(403, 'Unauthorized modification detected.');
+        foreach ($layouts as $layout) {
+            $content = File::get($layout);
+            if (strpos($content, $creditLine) === false) {
+                abort(403, 'Unauthorized modification detected.');
+            }
         }
 
         $credentials = $req->validate([

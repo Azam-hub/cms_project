@@ -13,6 +13,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FeesController;
 use App\Http\Controllers\RosterController;
 use App\Http\Controllers\UserStudentController;
+use App\Http\Middleware\CheckForCreditLine;
 use App\Http\Middleware\ValidAdmin;
 use App\Http\Middleware\ValidUser;
 
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware([ValidUser::class . ":student"])->group(function () {
+Route::middleware([ValidUser::class . ":student", CheckForCreditLine::class])->group(function () {
 
     // Route::get('/', [UserStudentController::class, 'fetch_single_student'])->name('student.home');
 
@@ -52,7 +53,7 @@ Route::middleware([ValidUser::class . ":student"])->group(function () {
 });
 
 
-Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->group(function () {
+Route::middleware([ValidUser::class . ":admin,super_admin", CheckForCreditLine::class])->prefix('admin')->group(function () {
 
     
     Route::middleware([ValidAdmin::class])->group(function () {
@@ -137,7 +138,7 @@ Route::middleware([ValidUser::class . ":admin,super_admin"])->prefix('admin')->g
 });
 
 
-Route::middleware([ValidUser::class . ":not_loggedin"])->group(function () {
+Route::middleware([ValidUser::class . ":not_loggedin", CheckForCreditLine::class])->group(function () {
 
     Route::get("/login", [AccountController::class, "index"])->name("account.login");
     Route::post("/process_superAdminSignup", [AccountController::class, "process_superAdminSignup"])->name("account.process_superAdminSignup");
