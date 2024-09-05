@@ -21,11 +21,15 @@ class CheckForCreditLine
             // List of layouts to check
             $layouts = ['admin_panel._layout', 'student._layout', 'login'];
 
+            
+            // $creditLine = 'Designed and Developed by <b><q>Muhammad Azam</q></b>';
+            $creditLine = 'Designed and Developed by <b><q>Muhammad Azam</q></b>';
+
             // Loop through each layout and check for the credit line
             foreach ($layouts as $layout) {
                 $layoutContent = view($layout)->render(); // Render each layout
                 
-                if (strpos($layoutContent, 'Designed and Developed by <b><q>Muhammad Azam</q></b>') === false) {
+                if (strpos($layoutContent, $creditLine) === false) {
                     // If not present in any layout, abort with a 403 Forbidden error
                     abort(403, 'Unauthorized modification detected.');
                 }

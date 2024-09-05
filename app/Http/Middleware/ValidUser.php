@@ -47,23 +47,17 @@ class ValidUser
                 ]);
 
 
-                // $admin_layout = view('admin_panel._layout')->render();
-                // $student_layout = view('student._layout')->render();
-
-                // if (strpos($admin_layout, 'Designed and Developed by <b><q>Muhammad Azam</q></b>') === false || 
-                // strpos($student_layout, 'Designed and Developed by <b><q>Muhammad Azam</q></b>') === false) {
-                //     // If not present, abort with a 403 Forbidden error
-                //     abort(403, 'Unauthorized modification detected.');
-                // }
-
                 // List of layouts to check
                 $layouts = ['admin_panel._layout', 'student._layout', 'login'];
+
+                
+                $creditLine = 'Designed and Developed by <b><q>Muhammad Azam</q></b>';
 
                 // Loop through each layout and check for the credit line
                 foreach ($layouts as $layout) {
                     $layoutContent = view($layout)->render(); // Render each layout
                     
-                    if (strpos($layoutContent, 'Designed and Developed by <b><q>Muhammad Azam</q></b>') === false) {
+                    if (strpos($layoutContent, $creditLine) === false) {
                         // If not present in any layout, abort with a 403 Forbidden error
                         abort(403, 'Unauthorized modification detected.');
                     }

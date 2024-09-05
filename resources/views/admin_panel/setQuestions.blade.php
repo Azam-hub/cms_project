@@ -90,7 +90,8 @@
     <div class="row mb-4">
         <div class="col">
             <h5 class="fw-semibold">Add Question</h5>
-            <button class="btn btn-secondary" id="add-question-btn" data-bs-toggle="modal" data-bs-target="#question-modal">Add</button>
+            <!-- <button class="btn btn-secondary" id="add-question-btn" data-bs-toggle="modal" data-bs-target="#question-modal">Add</button> -->
+            <button class="btn btn-secondary" id="add-question-btn">Add</button>
         </div>
     </div>
     <div class="row flex-column ">
@@ -124,10 +125,10 @@
                                     </ul>
                                 </td>
                                 <td class="text-center">
+                                    <!-- data-bs-toggle="modal" 
+                                    data-bs-target="#question-modal" -->
                                     <button 
                                     class="btn btn-sm btn-primary edit-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#question-modal"
 
                                     data-question-id="{{ $question->id }}" 
                                     data-question="{{ $question->question }}" 
@@ -197,6 +198,9 @@ $("#add-question-btn").click(function() {
     $(".modal-title").text("Add Question")
     $(".modal form").attr('action', '{{ route("admin_panel.process_addQuestion") }}')
 
+    // Opening Modal
+    const questionModal = new bootstrap.Modal('#question-modal')
+    questionModal.show()
 })
 
 $(".edit-btn").click(function () {
@@ -219,6 +223,11 @@ $(".edit-btn").click(function () {
 
         $(".modal-title").text("Edit Question")
         $(".modal form").attr('action', '{{ route("admin_panel.process_editQuestion") }}')
+
+        // Opening Modal
+        const questionModal = new bootstrap.Modal('#question-modal')
+        questionModal.show()
+        
     })
 
     $(".del-btn").click(function () {

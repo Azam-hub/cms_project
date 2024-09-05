@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="{{ asset('admin_panel/css/students.css') }}">
 @endsection
 
+@php
+    
+    // $name = "Muhamamd";
+    $name_arr = explode(" ", "Muhamamd d", 2);
+    $first = $name_arr[0];
+    $last = array_key_exists(1, $name_arr) ? $name_arr[1] : "default";
+    
+    $email = strtolower(str_replace(' ', '', $first)) . "." . strtolower(str_replace(' ', '', $last)) . "@simsatedu.com";
+    // echo $email;
+
+    // echo rand(1000, 9999);
+
+@endphp
+
 
 @section('content')
 
@@ -220,7 +234,7 @@
         </div>
         <div class="col">
             <h5 class="fw-semibold">Import Data</h5>
-            <input type="file" id="excel-file" style="font-size: 14px;">
+            <input type="file" id="excel-file" style="font-size: 14px;" accept=".xls,.xlsx,.xlsm,.csv">
             <button class="btn btn-secondary d-block mt-2" id="import-data">Import</button>
         </div>
     </div>
@@ -378,10 +392,10 @@
                                 <td class="action-btns">
                                     <div class="row justify-content-center column-gap-1">
                                         <div class="col-auto p-0">
+                                            <!-- data-bs-toggle="modal" 
+                                            data-bs-target="#student-modal"  -->
                                             <button 
                                             class="btn btn-sm btn-primary edit-btn" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#student-modal" 
                                             data-student-id="{{ $student->id }}" 
                                             data-student-profile_pic="{{ $student->profile_pic }}" 
                                             data-student-name="{{ $student->name }}" 
@@ -594,8 +608,7 @@ $("#add-student-btn").click(function() {
 
     // Opening modal from here so that html content can be load before opening
     const myModal = new bootstrap.Modal('#student-modal')
-    const modalToggle = document.getElementById('student-modal');
-    myModal.show(modalToggle)
+    myModal.show()
 })
 
 // Edit data, method
@@ -660,6 +673,10 @@ $(document).on('click', ".edit-btn", function () {
     $("#select-seat").removeAttr('disabled')
     seats(room, timing)
     $("#select-seat").prepend("<option value='" + seat + "' selected>" + seat + "</option>");
+
+    // Opening modal from here so that html content can be load before opening
+    const myModal = new bootstrap.Modal('#student-modal')
+    myModal.show()
 
 })
 
@@ -733,14 +750,57 @@ $(document).on("dblclick", "table tr", function(evt){
 
 <script src="{{ asset('excel_reader/js_lib/read-excel-file.min.js')}}"></script>
 <script>
+    // function excelDateToJSDate(serial) {
+    //     var utc_days = Math.floor(serial - 25569);
+    //     var utc_value = utc_days * 86400; // seconds in a day
+    //     var date_info = new Date(utc_value * 1000);
+    //     return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate());
+    //     // return `${date_info.getFullYear()}-${date_info.getMonth()}-${date_info.getDate()}`;
+    // }
+
+    function excelDateToJSDate(serial) {
+        var utc_days = Math.floor(serial - 25569);
+        var utc_value = utc_days * 86400; // seconds in a day
+        var date_info = new Date(utc_value * 1000);
+
+        // Format it as 'YYYY-MM-DD'
+        var year = date_info.getFullYear();
+        var month = String(date_info.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        var day = String(date_info.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
     var excel_file = document.getElementById("excel-file")
     $("#import-data").click(function() {
-        readXlsxFile(excel_file.files[0]).then(function(rows) {
-            // `rows` is an array of rows
-            // each row being an array of cells.
-            console.log(rows);
+        readXlsxFile(excel_file.files[0], { sheet: 2 }).then(function(rows) {
+            
             rows.shift()
-            console.log(rows);
+            
+            rows = rows.filter(function (row) {
+                return row[1] !== null;
+            });
+
+            rows = rows.map(function (row) {
+                row[4] = excelDateToJSDate(row[4])
+                row[5] = excelDateToJSDate(row[5])
+                return row;
+            })
+
+            // console.log(rows);
+            fetch("/admin/students/import_students", {
+                method: "POST",
+                body: JSON.stringify(rows),
+                headers: {
+                    "Content-Type": "application/json",
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content'),
+                },
+            }).then(function (response) {
+                return response.json()
+            }).then(function (result) {
+                console.log(result);
+            })
+            
         })
     })
 </script>

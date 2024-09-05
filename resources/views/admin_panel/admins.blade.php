@@ -203,9 +203,9 @@
                                 '<span class="badge text-bg-success">Super Admin</span>' !!}</td>
                                 <td class="text-center">
 
+                                    <!-- data-bs-toggle="modal" 
+                                    data-bs-target="#admin-modal" -->
                                     <button class="btn btn-sm btn-primary edit-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#admin-modal"
                                     data-admin-id="{{ $admin->id }}" 
                                     data-admin-profile_pic="{{ $admin->profile_pic }}" 
                                     data-admin-name="{{ $admin->name }}" 
@@ -359,9 +359,8 @@ $("#add-admin-btn").click(function() {
     $('.variable-row').html(fields)
 
     // Opening modal from here so that html content can be load before opening
-    const myModal = new bootstrap.Modal('#admin-modal')
-    const modalToggle = document.getElementById('admin-modal');
-    myModal.show(modalToggle)
+    const adminModal = new bootstrap.Modal('#admin-modal')
+    adminModal.show()
 
 })
 
@@ -406,6 +405,10 @@ $(document).on('click', ".edit-btn", function() {
     $("#mobile-no").val(mobile_no)
     $("#address").val(address)
     $("#select-role").val(role)
+
+    // Opening modal from here so that html content can be load before opening
+    const adminModal = new bootstrap.Modal('#admin-modal')
+    adminModal.show()
     
 
 })    

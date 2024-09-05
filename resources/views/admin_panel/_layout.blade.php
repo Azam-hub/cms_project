@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="token" content="{{ csrf_token() }}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,7 +228,6 @@
                             </div>
                         </div>
                     @endif
-                    
                     <div class="link-section mb-1">
                         <div class="head row ps-3 pe-2 py-2 cursor-pointer {{ Request::routeIs('admin_panel.attendanceToday', 'admin_panel.attendancePast', 'admin_panel.attendanceReport', ) ? 'active' : '' }}">
                             <div class="left col-auto px-0">
@@ -260,83 +261,22 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="right">
                     <div class="row mx-0 mb-0 mt-4">
                         <hr class="border-2 border-white mb-2">
                         <p class="m-0 text-center" style="font-size: 13px">Designed and Developed by <b><q>Muhammad Azam</q></b></p>
                     </div>
                 </div>
-                
-                
-                {{-- <div class="link-section mb-1">
-                    <div class="head row justify-content-between cursor-pointer">
-                        <a href="{{ route("admin_panel.admins") }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
-                            <div class="left col-auto px-0">
-                                <i class="fa-regular fa-copy"></i>
-                            </div>
-                            <div class="right row col px-0 justify-content-between">
-                                <div class="col">
-                                    <span class="ms-1">Layout</span>
-                                </div>  
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="link-section mb-1">
-                    <div class="head row ps-3 pe-2 py-2 cursor-pointer">
-                        <div class="left col-auto px-0">
-                            <i class="fa-regular fa-copy"></i>
-                        </div>
-                        <div class="right row col px-0 justify-content-between">
-                            <div class="col">
-                                <span class="ms-1">Layout</span>
-                                
-                            </div>
-                            <div class="col-auto">
-                                <i class="chevron fa-solid fa-chevron-right"></i>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ps-3 links">
-                        <div class="row flex-column border-start border-2">
-                            <a href="#" class="col row mt-1 py-2 text-decoration-none">
-                                <div class="col-auto px-0">
-                                    <i class="fa-regular fa-copy"></i>
-                                </div>
-                                <div class="col-auto">Link 1</div>
-                            </a>
-                            <a href="#" class="col row mt-1 py-2 text-decoration-none">
-                                <div class="col-auto px-0">
-                                    <i class="fa-regular fa-copy"></i>
-                                </div>
-                                <div class="col-auto">Link 1</div>
-                            </a>
-                            <a href="#" class="col row mt-1 py-2 text-decoration-none">
-                                <div class="col-auto px-0">
-                                    <i class="fa-regular fa-copy"></i>
-                                </div>
-                                <div class="col-auto">Link 1</div>
-                            </a>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
             <div class="placeholder"></div>
 
             <div class="content col-xl bg-light">
-
                 <header class="border-bottom  py-2" id="header">
                     <div class="row align-items-center justify-content-between position-relative">
                         <div class="col-auto ">
                             <i class="fa-solid fa-bars fs-5 cursor-pointer"></i>
                         </div>
                         <div class="col-auto row column-gap-4 align-items-center">
-                            <!-- <div class="col-auto">
-                                <i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
-                            </div> -->
                             <div class="user-btn col-auto row column-gap-2 align-items-center px-0 cursor-pointer">
                                 <div class="col-auto px-0">
                                     <img 

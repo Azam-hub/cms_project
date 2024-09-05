@@ -63,7 +63,8 @@
     <div class="row mb-4">
         <div class="col">
             <h5 class="fw-semibold">Add Room</h5>
-            <button class="btn btn-secondary" id="add-room-btn" data-bs-toggle="modal" data-bs-target="#room-modal">Add</button>
+            <!-- <button class="btn btn-secondary" id="add-room-btn" data-bs-toggle="modal" data-bs-target="#room-modal">Add</button> -->
+            <button class="btn btn-secondary" id="add-room-btn">Add</button>
         </div>
     </div>
     <div class="row flex-column ">
@@ -90,9 +91,9 @@
                                 <td class="text-center">{{ $room->seats }}</td>
                                 <td class="text-center">
 
+                                    <!-- data-bs-toggle="modal" 
+                                    data-bs-target="#room-modal" -->
                                     <button class="btn btn-sm btn-primary edit-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#room-modal"
                                     data-room-id="{{ $room->id }}" 
                                     data-room-name="{{ $room->name }}" 
                                     data-room-seats="{{ $room->seats }}" 
@@ -159,6 +160,9 @@
         $(".modal-title").text("Add Room")
         $(".modal form").attr('action', '{{ route("admin_panel.process_addRoom") }}')
 
+        // Opening Modal
+        const roomModal = new bootstrap.Modal('#room-modal')
+        roomModal.show()
     })
 
     // Modifying Modal for editting admin
@@ -178,6 +182,9 @@
         $("#room-name").val(name)
         $("#seats").val(seats)
         
+        // Opening Modal
+        const roomModal = new bootstrap.Modal('#room-modal')
+        roomModal.show()
 
     })    
 

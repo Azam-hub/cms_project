@@ -9,6 +9,9 @@ class Student extends Model
 {
     use HasFactory;
 
+    protected $fillable = ["gr_no", "course_id", "discount", "annual_fees", "total_modules", "completed_modules", "status", "room", 
+    "seat", "timing", "shift", "user_id", "exclude", "created_at", "updated_at"];
+
     function user() {
         return $this->hasOne(User::class, "id", "user_id");
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('course_id')->index('course_id');
             $table->integer('discount');
             $table->integer('annual_fees');
-            $table->string('total_modules', 100);
+            $table->json('total_modules');
             $table->json('completed_modules');
             $table->integer('room')->index('room');
             $table->string('seat', 10);

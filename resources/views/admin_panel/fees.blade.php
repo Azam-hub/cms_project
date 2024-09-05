@@ -397,9 +397,9 @@
                                         {{-- {{ $submitted_fee->purpose == "registration" }} --}}
                                         @if ($submitted_fee->purpose != "registration")
                                             
+                                        <!-- data-bs-toggle="modal"
+                                        data-bs-target="#fees-modal" -->
                                             <button class="btn btn-sm btn-primary edit-btn"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#fees-modal"
                                             data-submitted_fee-id="{{ $submitted_fee->id }}"
                                             data-submitted_fee-student_id="{{ $submitted_fee->student_id }}"
                                             data-student-status="{{ $submitted_fee->student->status }}"
@@ -712,9 +712,8 @@ function fetch_student_fee_record(student_id) {
         // Work to do before opening modal
         $("#current-date").html(data['current_month_year'])
         // Opening Modal
-        const myModal = new bootstrap.Modal('#fees-modal')
-        const modalToggle = document.getElementById('fees-modal');
-        myModal.show(modalToggle)
+        const feesModal = new bootstrap.Modal('#fees-modal')
+        feesModal.show()
 
         $("#purpose").on('change', function () {
             if ($(this).val() == "monthly") {
@@ -954,7 +953,9 @@ $(document).on('click', ".edit-btn", function() {
     $("#purpose").val(submitted_fee_purpose)
     $("#description").val(submitted_fee_description)
     
-    
+    // Opening Modal
+    const feesModal = new bootstrap.Modal('#fees-modal')
+    feesModal.show()
 
 })
 

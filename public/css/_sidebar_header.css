@@ -108,29 +108,25 @@
     color: #000 !important;
 
 }
-.link-section .head.active::before {
+
+.link-section .head.active::before, .link-section .head.active::after {
     content: "";
     position: absolute;
     width: 35px;
     height: 35px;
     background-color: transparent;
-    z-index: 100;
+    z-index: -1;
+    border-radius: 50%;
+}
+.link-section .head.active::before {
     right: -4px;
     top: -35px;
-    border-radius: 50%;
     box-shadow: 24px 19px 0 4px #f8f9fa;
     
 }
 .link-section .head.active::after {
-    content: "";
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    background-color: transparent;
-    z-index: 100;
     right: -4px;
     bottom: -35px;
-    border-radius: 50%;
     box-shadow: 24px -19px 0 4px #f8f9fa;
 }
 

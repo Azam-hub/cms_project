@@ -94,6 +94,7 @@ Route::middleware([ValidUser::class . ":admin,super_admin", CheckForCreditLine::
     
         /* Students */
         Route::get('/students', [StudentController::class, 'index'])->name('admin_panel.students');
+        Route::post('/students/import_students', [StudentController::class, 'import_students'])->name('admin_panel.import_students');
         Route::post('/students/process_addStudent', [StudentController::class, 'process_addStudent'])->name('admin_panel.process_addStudent');
         Route::post('/students/process_editStudent', [StudentController::class, 'process_editStudent'])->name('admin_panel.process_editStudent');
         Route::get('/students/process_destroyStudent/{id}', [StudentController::class, 'process_destroyStudent'])->name('admin_panel.process_destroyStudent');

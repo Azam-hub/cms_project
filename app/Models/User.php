@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = ["gr_no", "name", "father_name", "course", "cnic_bform_no", "date_of_birth", 
-    "email", "password", "mobile_no", "profile_pic", "address", "assessment_status", "role", "token", "is_deleted"];
+    "email", "password", "mobile_no", "profile_pic", "address", "assessment_status", "role", "token", "is_deleted", "created_at", "updated_at"];
 
     // public function course() {
     //     return $this->hasOne(Course::class, 'id', 'course');

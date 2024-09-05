@@ -65,7 +65,8 @@
     <div class="row mb-4">
         <div class="col">
             <h5 class="fw-semibold">Add Announcement</h5>
-            <button class="btn btn-secondary" id="add-announcement-btn" data-bs-toggle="modal" data-bs-target="#announcement-modal">Add</button>
+            <!-- <button class="btn btn-secondary" id="add-announcement-btn" data-bs-toggle="modal" data-bs-target="#announcement-modal">Add</button> -->
+            <button class="btn btn-secondary" id="add-announcement-btn">Add</button>
         </div>
     </div>
     <div class="row flex-column ">
@@ -92,9 +93,9 @@
                                 <td class="text-center">{{ $announcement->description }}</td>
                                 <td class="text-center">
 
+                                    <!-- data-bs-toggle="modal" 
+                                    data-bs-target="#announcement-modal" -->
                                     <button class="btn btn-sm btn-primary edit-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#announcement-modal"
                                     data-announcement-id="{{ $announcement->id }}" 
                                     data-announcement-title="{{ $announcement->title }}" 
                                     data-announcement-description="{{ $announcement->description }}" 
@@ -161,6 +162,9 @@
         $(".modal-title").text("Add Announcement")
         $(".modal form").attr('action', '{{ route("admin_panel.process_addAnnouncement") }}')
 
+        // Opening modal from here so that html content can be load before opening
+        const announcementModal = new bootstrap.Modal('#announcement-modal')
+        announcementModal.show()
     })
 
     // Modifying Modal for editting admin
@@ -180,6 +184,9 @@
         $("#title").val(title)
         $("#description").val(description)
         
+        // Opening modal from here so that html content can be load before opening
+        const announcementModal = new bootstrap.Modal('#announcement-modal')
+        announcementModal.show()
 
     })    
 

@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Fee;
 use App\Models\Module;
 use App\Models\Room;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -26,6 +27,111 @@ class StudentController extends Controller
         $studentsCount = $students->count();
         // return dd($students);
         return view('admin_panel.students', compact("students", 'studentsCount', 'courses', 'rooms'));
+    }
+
+    function import_students(Request $req) {
+        // dd($req);
+        $students = $req->all();
+
+        $result = false;
+
+        // Loop through each student in the array
+        foreach ($students as $student) {
+            // You can access individual fields from each student
+            $serial_number = $student[0];
+            $name = $student[1];
+            // $email = strtolower(str_replace(' ', '', explode(" ", $name, 2)[0])) . "." . strtolower(str_replace(' ', '', explode(" ", $name, 2)[1])) . "@simsatedu.com";
+            $father_name = $student[2];
+            // $religion = $student[3];
+            $dob = $student[4];
+            $admission_date = $student[5];
+            // $course = $student[6];
+            $contact = $student[7];
+            // $batch = $student[8];
+            $fee = $student[9];
+            $status = $student[10];
+            $duration = $student[11];
+
+
+            $name_arr = explode(" ", $name, 2);
+            $first = $name_arr[0];
+            $last = array_key_exists(1, $name_arr) ? $name_arr[1] : "default";
+            $email = strtolower(str_replace(' ', '', $first)) . "." . strtolower(str_replace(' ', '', $last)) . "@simsatedu.com";
+
+            $password = rand(1000, 9999);
+
+            if ($status == "Active") {
+                $status = "running";
+            } elseif ($status == "Left") {
+                $status = "left";                
+            } elseif ($status == "Complete") {
+                $status = "passed-out";               
+            }
+
+            // Process each student here, for example, save to the database
+            $user = User::create([
+                "name" => $name,
+                "father_name" => $father_name,
+                "cnic_bform_no" => "",
+                "date_of_birth" => $dob,
+                "email" => $email,
+                "password" => $password,
+                "mobile_no" => $contact,
+                "profile_pic" => "0",
+                "address" => "",
+                "role" => "student",
+                "token" => "-1",
+                "is_deleted" => "0",
+                "created_at" => Carbon::parse($admission_date)->format('Y-m-d H:i:s'),
+                "updated_at" => Carbon::parse($admission_date)->format('Y-m-d H:i:s'),
+            ]);
+            if ($user) {
+
+                $last_gr_no = Student::orderBy('id', 'desc')->first();
+                $number = 1;
+                if ($last_gr_no) {
+                    $number = intval(explode("-", $last_gr_no->gr_no)[1]) + 1;
+                }
+                $gr_no = "SS-" . str_pad($number, 6, '0', STR_PAD_LEFT);
+    
+
+                $student = Student::create([
+                    "gr_no" => $gr_no,
+                    "course_id" => 1,
+                    /* ------------------------------------------ */
+                    "discount" => 0,
+                    "annual_fees" => ($fee * $duration),
+                    /* ------------------------------------------ */
+                    "total_modules" => json_encode([]),
+                    "completed_modules" => json_encode([]),
+                    "status" => $status,
+                    "room" => 1,
+                    "seat" => "",
+                    "timing" => "22-23",
+                    "shift" => "",
+                    "user_id" => $user->id,
+                    "exclude" => 0,
+                    "created_at" => Carbon::parse($admission_date)->format('Y-m-d H:i:s'),
+                    "updated_at" => Carbon::parse($admission_date)->format('Y-m-d H:i:s'),
+                ]);
+
+                if ($student) {
+                    if (count($students) == $serial_number) {
+                        $result = true;
+                    }
+                } else {
+                    return response()->json(["error student not create"]);
+                }
+                
+            } else {
+                return response()->json(["error user not create"]);
+            }
+        }
+        
+        if ($result) {
+            return response()->json(["import successfullt."]);
+            
+        }
     }
 
     function process_addStudent(Request $req) {
@@ -205,7 +311,11 @@ class StudentController extends Controller
         $user->address = $req->address;
         $user->password = $req->password;
 
+        $modules = Module::where('course_id', $req->course_id)->where("is_deleted", "0")->pluck('id')->toArray();
+
         $student->course_id = $req->course_id;
+        $student->total_modules = json_encode($modules);
+        $student->completed_modules = json_encode([]);
         $student->room = $req->room;
         $student->timing = $req->timing;
         $student->seat = $req->seat;
@@ -383,9 +493,3 @@ class StudentController extends Controller
         }
     }
 }
-
-// INSERT INTO `users`(`gr_no`, `name`, `father_name`, `course_id`, `cnic_bform_no`, `date_of_birth`, `email`, `password`, `mobile_no`, `profile_pic`, `address`, `assessment_status`, `role`, `token`, `is_deleted`, `created_at`, `updated_at`) VALUES ('SS-123455','Muhammad Azam','checks','4','42201','qqsxw','bb@fwdf.com','-1','03333333333','SS-123455.jpg','Lal qila','not-allowed','student','-1','1','2023-09-26 04:23:31', '')
-// ["A","4","11-12"]
-// ["C","3","5-6"]
-// ["C","7","7-8"]
-// ["B","4","5-6"]

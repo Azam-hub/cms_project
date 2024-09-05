@@ -92,7 +92,8 @@
     <div class="row mb-4">
         <div class="col">
             <h5 class="fw-semibold">Add Course</h5>
-            <button class="btn btn-secondary" id="add-course-btn" data-bs-toggle="modal" data-bs-target="#course-modal">Add</button>
+            <!-- <button class="btn btn-secondary" id="add-course-btn" data-bs-toggle="modal" data-bs-target="#course-modal">Add</button> -->
+            <button class="btn btn-secondary" id="add-course-btn">Add</button>
         </div>
     </div>
     <div class="row flex-column ">
@@ -136,9 +137,9 @@
                                     '<button class="btn btn-sm btn-primary d-block mb-1 active-deactive-btn" data-course-id="'.$course->id.'" data-course-name="'.$course->name.'">Active</button>' !!}
                                     
 
+                                    <!-- data-bs-toggle="modal" 
+                                    data-bs-target="#course-modal" -->
                                     <button class="btn btn-sm btn-primary edit-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#course-modal"
 
                                     data-course-id="{{ $course->id }}" 
                                     data-course-name="{{ $course->name }}" 
@@ -211,6 +212,10 @@
     $("#add-course-btn").click(function () {
         $(".modal-title").text("Add Course")
         $(".modal form").attr('action', '{{ route("admin_panel.process_addCourse") }}')
+
+        // Opening modal from here so that html content can be load before opening
+        const courseModal = new bootstrap.Modal('#course-modal')
+        courseModal.show()
     })
 
     $("#add-module-btn").click(function () {
@@ -264,7 +269,9 @@
 
         $(".modules-row").html(html);
 
-        // console.log(module_ids_arr);
+        // Opening modal from here so that html content can be load before opening
+        const courseModal = new bootstrap.Modal('#course-modal')
+        courseModal.show()
     })
     
     //  call to delete course
