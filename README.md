@@ -1,3 +1,6 @@
+> [!NOTE]
+> GitHub shows JavaScript as the main language due to frontend libraries, but this project is primarily built with Laravel (PHP) for backend functionality.
+
 ## After Clone
 
 We assumed that you have laragon installed on your computer.
