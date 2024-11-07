@@ -1,7 +1,7 @@
 ## After Clone
 
-We assumed that you have laragon installed on your computer. <br/>
-User Manual of this CMS is also included.
+User Manual of this CMS is also included named **"User Manual.pdf"**. <br/>
+We assumed that you have laragon installed on your computer.
 
 - Open laragon terminal.
 - Run "composer install".
