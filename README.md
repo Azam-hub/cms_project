@@ -1,6 +1,6 @@
 ## After Clone
 
-We assumed that you have laragon installed on your computer.
+We assumed that you have laragon installed on your computer. <br/>
 User Manual of this CMS is also included.
 
 - Open laragon terminal.
