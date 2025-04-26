@@ -53,7 +53,8 @@
             {
                 label: 'Last Year',
                 // data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
-                data: admissions_arr["2023"],
+                // data: admissions_arr["2023"],
+                data: admissions_arr[Object.keys(admissions_arr)[0]],
                 // borderColor: '#c5c5c5',
                 borderColor: '#b6bfc8',
                 // backgroundColor: '#dadada',
@@ -65,7 +66,8 @@
             {
                 label: 'This Year',
                 // data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
-                data: admissions_arr["2024"],
+                // data: admissions_arr["2024"],
+                data: admissions_arr[Object.keys(admissions_arr)[1]],
                 // borderColor: '#e30b13',
                 borderColor: '#0063cc',
                 // backgroundColor: '#ff1f27',
@@ -103,7 +105,8 @@
             {
                 label: 'Last Year',
                 // data: [5, 4, 6, 7, 6, 6, 7, 3, 6, 3, 6, 3],
-                data: revenues_arr["2023"],
+                // data: revenues_arr["2023"],
+                data: revenues_arr[Object.keys(revenues_arr)[0]],
                 // borderColor: '#c5c5c5',
                 borderColor: '#b6bfc8',
                 // backgroundColor: '#dadada',
@@ -115,7 +118,8 @@
             {
                 label: 'This Year',
                 // data: [2, 3, 9, 5, 7, 3, 7, 4, 2, 6, 2, 5],
-                data: revenues_arr["2024"],
+                // data: revenues_arr["2024"],
+                data: revenues_arr[Object.keys(revenues_arr)[1]],
                 // borderColor: '#e30b13',
                 borderColor: '#0063cc',
                 // backgroundColor: '#ff1f27',
