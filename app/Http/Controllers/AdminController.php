@@ -7,13 +7,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\fileExists;
 
 class AdminController extends Controller
 {
     function index() {
-        $admins = User::where("role", 'admin')->where('is_deleted', '0')->orWhere('role', "super_admin")->orderBy('id', 'desc')->get();
+        // $admins = User::where("role", 'admin')->where('is_deleted', '0')->orWhere('role', "super_admin")->orderBy('id', 'desc')->get();
+
+        if (Auth::user()->email == env('RECOVERY_EMAIL')) {
+            
+            $admins = User::where(function ($query) {
+                $query->where('role', 'admin')
+                ->orWhere('role', 'super_admin');
+            })
+            ->where('is_deleted', '0')
+            ->orderBy('id', 'desc')
+            ->get();
+        } else {
+            $admins = User::where(function ($query) {
+                $query->where('role', 'admin')
+                ->orWhere('role', 'super_admin');
+            })
+            ->where('is_deleted', '0')
+            ->where('email', '!=', env('RECOVERY_EMAIL'))
+            ->orderBy('id', 'desc')
+            ->get();
+            
+        }
+        
+
         $count = $admins->count();
         return view('admin_panel.admins', compact('admins', 'count'));
     }

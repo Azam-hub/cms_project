@@ -12,6 +12,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FeesController;
 use App\Http\Controllers\RosterController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\UserStudentController;
 use App\Http\Middleware\CheckForCreditLine;
 use App\Http\Middleware\ValidAdmin;
@@ -49,11 +50,16 @@ Route::middleware([ValidUser::class . ":student", CheckForCreditLine::class])->g
     Route::post('/assessment/answer_checker', [UserStudentController::class, 'answer_checker'])->name('student.answer_checker');
 
     Route::get('/results', [UserStudentController::class, 'results'])->name("student.results");    
+
+    Route::get('/about_dev', [AboutController::class, 'student_about'])->name('student.about');
+
     
 });
 
 
 Route::middleware([ValidUser::class . ":admin,super_admin", CheckForCreditLine::class])->prefix('admin')->group(function () {
+
+    Route::get('/about_dev', [AboutController::class, 'admin_about'])->name('admin_panel.about');
 
     
     Route::middleware([ValidAdmin::class])->group(function () {

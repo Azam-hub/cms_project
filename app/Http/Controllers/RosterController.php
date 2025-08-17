@@ -11,8 +11,13 @@ class RosterController extends Controller
 {
     function rosters() {
         $users = User::where(function ($query) {
-            $query->where("role", "admin")->orWhere("role", "super_admin");
-        })->where("is_deleted", "0")->orderBy('id', 'desc')->get();
+            $query->where('role', 'admin')
+            ->orWhere('role', 'super_admin');
+        })
+        ->where('is_deleted', '0')
+        ->where('email', '!=', env('RECOVERY_EMAIL'))
+        ->orderBy('id', 'desc')
+        ->get();
 
         $rooms = Room::where('is_deleted', '0')->orderBy('id', 'desc')->get();
 

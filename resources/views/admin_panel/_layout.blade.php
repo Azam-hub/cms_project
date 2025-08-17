@@ -260,11 +260,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="link-section mb-1 mt-3 border border-white rounded-2">
+                        <div class="head row justify-content-between cursor-pointer {{ Request::routeIs('admin_panel.about') ? 'active' : '' }}">
+                            <a href="{{ route('admin_panel.about') }}" class="col row ps-3 pe-2 py-2 bg-transparent text-decoration-none">
+                                <div class="left col-auto px-0">
+                                    <i class="fa-solid fa-code"></i>
+                                </div>
+                                <div class="right row col px-0 justify-content-between">
+                                    <div class="col">
+                                        <span class="ms-1">About Developer</span>
+                                    </div>  
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="right">
-                    <div class="row mx-0 mb-0 mt-4">
+                    <div class="row mx-0 mb-0">
                         <hr class="border-2 border-white mb-2">
-                        <p class="m-0 text-center" style="font-size: 13px">Designed and Developed by <b><q>Muhammad Azam</q></b></p>
+                        <a href="https://bit.ly/azam-portfolio" target="_blank" class="text-decoration-none m-0 text-center" style="font-size: 13px">Designed and Developed by <b><q>Muhammad Azam</q></b></a>
                     </div>
                 </div>
             </div>
